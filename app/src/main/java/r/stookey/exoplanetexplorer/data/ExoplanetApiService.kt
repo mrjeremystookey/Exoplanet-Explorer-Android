@@ -7,26 +7,26 @@ import android.util.Log
 import androidx.collection.LruCache
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.gson.JsonObject
 import org.json.JSONObject
 
 
 class ExoplanetApiService() {
 
     private val requestQueue = MySingleton.getInstance(Application())
+    private val allPlanetsUrl = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+*+from+ps&format=json"
 
 
-    fun makeJsonRequest(url: String): JSONObject {
+    fun getAllPlanets(): JSONObject {
         var returnedObject = JSONObject()
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, allPlanetsUrl, null,
             {
                 //Handle success
             Log.d("Exoplanet API Service", "number of objects found: ${it.length()}")
                 returnedObject = it
+
             },
             {
                 //Handle failure

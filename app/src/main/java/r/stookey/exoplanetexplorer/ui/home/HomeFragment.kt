@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import r.stookey.exoplanetexplorer.R
+import r.stookey.exoplanetexplorer.data.ExoplanetApiService
 import r.stookey.exoplanetexplorer.databinding.FragmentHomeBinding
+import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 
 class HomeFragment : Fragment() {
 
@@ -35,8 +37,16 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+
+
+
+
+
         return root
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

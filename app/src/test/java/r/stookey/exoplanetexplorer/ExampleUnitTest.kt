@@ -1,9 +1,11 @@
 package r.stookey.exoplanetexplorer
 
+import org.json.JSONObject
 import org.junit.Test
 
 import org.junit.Assert.*
 import r.stookey.exoplanetexplorer.data.ExoplanetApiService
+import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -17,11 +19,11 @@ class ExampleUnitTest {
     }
 
 
-    @Test
-    fun apiService_returnsNotNull(){
-        val url = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+*+from+ps&format=json"
-        val exoplanetApiService = ExoplanetApiService()
-        val jsonObject = exoplanetApiService.makeJsonRequest(url)
-    }
+    /*@Test
+    suspend fun apiService_returnsNotNull(){
+        var exoplanetApiService = ExoplanetApiService()
+        var repo = RepositoryImpl(exoplanetApiService)
+        assertEquals(repo.getAllPlanets(), JSONObject())
+    }*/
 
 }
