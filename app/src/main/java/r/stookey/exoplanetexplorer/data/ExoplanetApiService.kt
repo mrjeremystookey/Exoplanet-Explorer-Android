@@ -1,76 +1,32 @@
 package r.stookey.exoplanetexplorer.data
 
-import android.app.Application
-import android.content.Context
-import android.graphics.Bitmap
-import android.util.Log
-import androidx.collection.LruCache
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.toolbox.ImageLoader
+import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import org.json.JSONObject
+import timber.log.Timber
+import javax.inject.Inject
 
 
-class ExoplanetApiService() {
+class ExoplanetApiService @Inject constructor(var queue: RequestQueue) {
 
-    private val requestQueue = MySingleton.getInstance(Application())
-    private val allPlanetsUrl = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+*+from+ps&format=json"
-
+    init {
+        Timber.i("ExoplanetApiService init running")
+    }
 
     fun getAllPlanets(): JSONObject {
-        var returnedObject = JSONObject()
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, allPlanetsUrl, null,
-            {
-                //Handle success
-            Log.d("Exoplanet API Service", "number of objects found: ${it.length()}")
-                returnedObject = it
-
-            },
-            {
-                //Handle failure
-                Log.d("ExoplanetApiService", "error during jsonRequest")
-            }
-        )
-        requestQueue.addToRequestQueue(jsonObjectRequest)
-        return returnedObject
+        val allPlanetsUrl = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+*+from+ps&format=json"
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET,
+            allPlanetsUrl,
+            null,
+            Response.Listener {  },
+            Response.ErrorListener {  })
+        queue.add(jsonObjectRequest)
+        Timber.i("jsonObjectRequest added to queue")
+        return JSONObject()
     }
 
 
-    class MySingleton constructor(context: Context) {
-        companion object {
-            @Volatile
-            private var INSTANCE: MySingleton? = null
-            fun getInstance(context: Context) =
-                INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: MySingleton(context).also {
-                        INSTANCE = it
-                    }
-                }
-        }
-
-        val imageLoader: ImageLoader by lazy {
-            ImageLoader(requestQueue,
-                object : ImageLoader.ImageCache {
-                    private val cache = LruCache<String, Bitmap>(20)
-                    override fun getBitmap(url: String): Bitmap? {
-                        return cache.get(url)
-                    }
-
-                    override fun putBitmap(url: String, bitmap: Bitmap) {
-                        cache.put(url, bitmap)
-                    }
-                })
-        }
-        val requestQueue: RequestQueue by lazy {
-            // applicationContext is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
-            Volley.newRequestQueue(context.applicationContext)
-        }
-
-        fun <T> addToRequestQueue(req: Request<T>) {
-            requestQueue.add(req)
-        }
-    }
 }

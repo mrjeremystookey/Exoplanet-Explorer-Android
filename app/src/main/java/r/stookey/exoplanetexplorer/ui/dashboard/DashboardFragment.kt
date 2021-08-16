@@ -8,13 +8,14 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import r.stookey.exoplanetexplorer.R
 import r.stookey.exoplanetexplorer.databinding.FragmentDashboardBinding
+import timber.log.Timber
 
 class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private var _binding: FragmentDashboardBinding? = null
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,6 +26,7 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Timber.i("onCreateView called")
         dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
 
@@ -40,6 +42,12 @@ class DashboardFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Timber.i("onDestroyView called")
         _binding = null
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart called")
     }
 }

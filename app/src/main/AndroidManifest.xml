@@ -14,12 +14,6 @@
         android:theme="@style/Theme.ExoplanetExplorer">
 
 
-        <activity
-            android:name=".ui.Compose"
-            android:exported="true"
-            android:label="@string/title_activity_compose"
-            android:theme="@style/Theme.ExoplanetExplorer.NoActionBar" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBHyZWATtiUIiowkWsJualRC5grM0-TJtw" />
@@ -30,7 +24,6 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

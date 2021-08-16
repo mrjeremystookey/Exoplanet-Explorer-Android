@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import r.stookey.exoplanetexplorer.R
 import r.stookey.exoplanetexplorer.databinding.FragmentNotificationsBinding
+import timber.log.Timber
 
 class NotificationsFragment : Fragment() {
 
@@ -25,8 +26,9 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        Timber.i("onCreateView called")
+        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        Timber.d("notificationsViewModel.toString(): $notificationsViewModel")
 
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -40,6 +42,7 @@ class NotificationsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Timber.i("onDestroyView called")
         _binding = null
     }
 }

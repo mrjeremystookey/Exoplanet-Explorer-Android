@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import r.stookey.exoplanetexplorer.R
-import r.stookey.exoplanetexplorer.data.ExoplanetApiService
+import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.databinding.FragmentHomeBinding
-import r.stookey.exoplanetexplorer.repository.RepositoryImpl
+import timber.log.Timber
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
@@ -27,29 +27,35 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        Timber.i("onCreateView called")
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        Timber.d("homeViewModel.toString(): ${homeViewModel.toString()}")
+
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+
+
+        homeViewModel.allPlanets.observe(viewLifecycleOwner, {
+            textView.text = it.toString()
         })
-
-
-
-
-
 
         return root
     }
 
 
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart called")
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Timber.i("onDestroyView called")
         _binding = null
     }
+
+
 }
