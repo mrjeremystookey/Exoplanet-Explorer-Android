@@ -4,19 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
 import javax.inject.Inject
 
-
-class HomeViewModel() : ViewModel() {
-
-
-    @Inject lateinit var repo: RepositoryImpl
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
 
 
     private val _allPlanets = MutableLiveData<JSONObject>()
@@ -25,11 +21,16 @@ class HomeViewModel() : ViewModel() {
 
     init {
         Timber.i("homeViewModel initialized")
-        //Timber.d("repo.toString() $repo")
+    }
+
+    fun buttonPressed(){
+        Timber.i("button pressed")
         viewModelScope.launch {
-           //_allPlanets.value = repo.getAllPlanets()
+            val allPlanets = repo.getAllPlanets()
+            _allPlanets.value = allPlanets
         }
     }
+
 
 
 

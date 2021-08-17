@@ -12,6 +12,7 @@ class DashboardViewModel : ViewModel() {
 
     init {
         Timber.d("dashboardViewModel initialized")
+
     }
 
     private val _text = MutableLiveData<String>().apply {
