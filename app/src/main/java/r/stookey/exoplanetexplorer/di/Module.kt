@@ -8,6 +8,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import r.stookey.exoplanetexplorer.domain.DomainDto
+import r.stookey.exoplanetexplorer.domain.DomainDtoImpl
 import r.stookey.exoplanetexplorer.network.ExoplanetApiService
 import r.stookey.exoplanetexplorer.repository.Repository
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
@@ -18,6 +20,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object Module {
+
+    @Singleton
+    @Provides
+    fun providesDomainDtoImpl(): DomainDto {
+        Timber.i("PlanetDto injected")
+        return DomainDtoImpl()
+    }
 
     @Singleton
     @Provides
