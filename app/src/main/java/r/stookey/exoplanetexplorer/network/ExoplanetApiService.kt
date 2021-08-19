@@ -13,7 +13,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 
-class ExoplanetApiService @Inject constructor(var queue: RequestQueue) {
+class ExoplanetApiService @Inject constructor(private var queue: RequestQueue) {
 
     init {
         Timber.i("ExoplanetApiService init running")
@@ -21,6 +21,7 @@ class ExoplanetApiService @Inject constructor(var queue: RequestQueue) {
 
 
     suspend fun getAllPlanets() = suspendCoroutine<JSONArray> { cont ->
+        val allPlanetsUrl = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+*+from+ps&format=json"
         val keplerUrl = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+*+from+ps+where+pl_name+=+%27Kepler-11%20c%27&format=json"
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET,
@@ -28,7 +29,6 @@ class ExoplanetApiService @Inject constructor(var queue: RequestQueue) {
             null,
             { response ->
                 Timber.d("It worked")
-                //Timber.d("API Response: $response")
                 cont.resume(response)
             },
             {

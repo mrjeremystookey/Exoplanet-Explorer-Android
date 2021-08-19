@@ -24,8 +24,6 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
 
-    @Inject
-    lateinit var exoplanetApiService: ExoplanetApiService
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -42,15 +40,11 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         Timber.d("_binding.toString(): ${_binding.toString()}")
         val root: View = binding.root
+
         val textView: TextView = binding.textHome
-
-
-
-
         homeViewModel.allPlanets.observe(viewLifecycleOwner, {
             textView.text = it.toString()
         })
-
 
         val button: Button = binding.button
         button.setOnClickListener {

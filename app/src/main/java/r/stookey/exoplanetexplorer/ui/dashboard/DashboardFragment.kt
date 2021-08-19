@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.compose.material.Text
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -27,21 +29,14 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
         Timber.i("onCreateView called")
-        dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                Text(dashboardViewModel.text.value!!)
+            }
+        }
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-
-
-
-        return root
     }
 
     override fun onDestroyView() {

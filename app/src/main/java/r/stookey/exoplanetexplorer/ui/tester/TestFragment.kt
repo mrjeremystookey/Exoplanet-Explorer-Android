@@ -6,11 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import r.stookey.exoplanetexplorer.cache.PlanetDatabase
 import r.stookey.exoplanetexplorer.databinding.FragmentNotificationsBinding
+import r.stookey.exoplanetexplorer.repository.RepositoryImpl
+import timber.log.Timber
+import javax.inject.Inject
 
 class TestFragment : Fragment() {
+
+
 
 
     private lateinit var testerViewModel: TestViewModel
@@ -25,20 +34,16 @@ class TestFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        testerViewModel =
-            ViewModelProvider(this).get(TestViewModel::class.java)
-
+        testerViewModel = ViewModelProvider(this).get(TestViewModel::class.java)
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textNotifications
-        testerViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        testerViewModel.text.observe(viewLifecycleOwner, Observer {})
 
 
-
-
+        val button: Button = binding.bTest
+        button.setOnClickListener {}
 
         return root
     }
@@ -48,6 +53,8 @@ class TestFragment : Fragment() {
         _binding = null
         
     }
+
+
 
 
 }
