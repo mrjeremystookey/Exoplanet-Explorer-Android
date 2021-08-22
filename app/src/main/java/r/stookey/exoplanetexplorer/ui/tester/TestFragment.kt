@@ -11,12 +11,14 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.cache.PlanetDatabase
 import r.stookey.exoplanetexplorer.databinding.FragmentNotificationsBinding
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class TestFragment : Fragment() {
 
 
@@ -38,12 +40,7 @@ class TestFragment : Fragment() {
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        testerViewModel.text.observe(viewLifecycleOwner, Observer {})
 
-
-        val button: Button = binding.bTest
-        button.setOnClickListener {}
 
         return root
     }

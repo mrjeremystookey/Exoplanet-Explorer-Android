@@ -21,4 +21,5 @@ class DatabaseModule {
         Timber.i("Planet Database injected")
         return PlanetDatabase.getInstance(context)
     }
+
 }

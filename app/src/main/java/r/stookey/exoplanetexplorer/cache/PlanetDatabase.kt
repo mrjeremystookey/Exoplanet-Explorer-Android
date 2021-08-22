@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import r.stookey.exoplanetexplorer.domain.Planet
 import timber.log.Timber
 
-@Database(entities = [Planet::class], version = 2)
+@Database(entities = [Planet::class], version = 3)
 abstract class PlanetDatabase: RoomDatabase() {
 
     abstract fun planetDao(): PlanetDao
@@ -28,8 +28,7 @@ abstract class PlanetDatabase: RoomDatabase() {
                 object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        //Do work when db is created
-                        Timber.i("planets-db created ", db.attachedDbs)
+                        Timber.i("planets-db created")
                     }
                 }
             ).fallbackToDestructiveMigration()

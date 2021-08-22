@@ -13,48 +13,66 @@ import com.squareup.moshi.JsonClass
 data class Planet(
                   @PrimaryKey(autoGenerate = true)
                   @ColumnInfo(name = "planet_id")
-                  var pl_id: Int? = null,
+                  var planetID: Int? = null,
 
                   @ColumnInfo(name = "planet_name")
                   @Json(name = "pl_name")
-                  val pl_name: String? = null,
+                  val planetName: String? = null,
 
                   @ColumnInfo(name = "planet_letter")
                   @Json(name = "pl_letter")
-                  val pl_letter: String? = null,
+                  val planetLetter: String? = null,
 
                   @ColumnInfo(name = "hostname")
                   @Json(name = "hostname")
                   val hostname: String? = null,
 
-                  @ColumnInfo(name = "discovery_published_date")
-                  @Json(name = "disc_pub_date")
-                  val disc_pub_date: String? = null,
-
                   @ColumnInfo(name = "discovery_year")
                   @Json(name = "disc_year")
-                  val disc_year: String? = null,
+                  val discoveryYear: String? = null,
 
-                  @ColumnInfo(name = "discovery_method")
+                  @ColumnInfo(name = "discoverymethod")
                   @Json(name = "disc_method")
-                  val disc_method: String? = null,
+                  val discoveryMethod: String? = null,
 
                   @ColumnInfo(name = "discovery_locale")
                   @Json(name = "disc_locale")
-                  val disc_locale: String? = null,
+                  val discoveryLocale: String? = null,
 
                   @ColumnInfo(name = "discovery_facility")
                   @Json(name = "disc_facility")
-                  val dic_facility: String? = null,
+                  val discoveryFacility: String? = null,
 
                   @ColumnInfo(name = "discovery_instrument")
                   @Json(name = "disc_instrument")
-                  val disc_instrument: String? = null,
+                  val discoveryInstrument: String? = null,
 
                   @ColumnInfo(name = "discovery_telescope")
                   @Json(name = "disc_telescope")
-                  val disc_telescope: String? = null,
+                  val discoveryTelescope: String? = null,
+
+                  @ColumnInfo(name = "system_star_number")
+                  @Json(name = "sy_snum")
+                  val systemStarNumber: String? = null,
+
+                  @ColumnInfo(name = "system_planet_number")
+                  @Json(name = "sy_pnum")
+                  val systemPlanetNumber: String? = null,
+                    //Unit measured in days
+                  @ColumnInfo(name = "planetary_orbit_period")
+                  @Json(name = "pl_orbper")
+                  val planetaryOrbitPeriod: String? = null,
+
+                  @ColumnInfo(name = "planetary_radius_earth")
+                  @Json(name="pl_rade")
+                  val planetaryRadiusEarth: String? = null,
+
+                  @ColumnInfo(name = "planetary_mass_earth")
+                  @Json(name = "pl_bmasse")
+                  val planetaryMassEarth: String? = null
+
 ){
 
 }
 
+//pl_masse,pl_rade,pl_orbper,sy_pnum,sy_snum,disc_telescope,disc_instrument,disc_facility,disc_locale,disc_method,disc_year,hostname,pl_letter,pl_name
