@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
@@ -27,6 +27,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private var _binding: FragmentDashboardBinding? = null
+    @ExperimentalComposeUiApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,11 +39,12 @@ class DashboardFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val planets = dashboardViewModel.planets.value
-                Column(modifier = Modifier.padding(8.dp)) {
+                Column {
                     PlanetSearchBar(query, dashboardViewModel)
                     LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        contentPadding = PaddingValues(vertical = 8.dp))
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp)
+                    )
                     {
                         itemsIndexed(items = planets) { index, planet ->
                             PlanetCard(planet = planet, onClick = {

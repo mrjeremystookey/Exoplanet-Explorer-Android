@@ -31,7 +31,7 @@ data class Planet(
                   @Json(name = "disc_year")
                   val discoveryYear: String? = null,
 
-                  @ColumnInfo(name = "discoverymethod")
+                  @ColumnInfo(name = "discovery_method")
                   @Json(name = "disc_method")
                   val discoveryMethod: String? = null,
 

@@ -18,9 +18,9 @@ fun PlanetCard(
     planet: Planet,
     onClick: () -> Unit,
 ){
-
-
     Card(
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.onPrimary,
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .padding(
@@ -37,10 +37,12 @@ fun PlanetCard(
                 horizontalArrangement = Arrangement.End)
             {
                 Text("Planet Name: " + planet.planetName)
-                Spacer(modifier = Modifier.size(8.dp))
-                Text("PlanetID: " + planet.planetID)
+                Spacer(modifier = Modifier.padding(horizontal = 32.dp))
+                Text("Hostname: " + planet.hostname)
             }
-            Text("Hostname: " + planet.hostname)
+            Text("PlanetID: " + planet.planetID)
+            Text("Planet Letter: ${planet.planetLetter}")
+
         }
     }
 }

@@ -3,6 +3,7 @@ package r.stookey.exoplanetexplorer.repository
 import r.stookey.exoplanetexplorer.cache.PlanetDatabase
 import r.stookey.exoplanetexplorer.domain.PlanetDtoImpl
 import r.stookey.exoplanetexplorer.domain.Planet
+import r.stookey.exoplanetexplorer.domain.PlanetFts
 import r.stookey.exoplanetexplorer.network.ExoplanetApiService
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,6 +19,7 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     init {
         Timber.i("Repository init running")
     }
+
 
     override suspend fun getPlanetsFromNetwork(query: String): List<Planet> {
         val jsonArray = exoplanetApiService.getPlanets(query)
@@ -49,5 +51,10 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     override suspend fun searchPlanetsFromCache(query: String): List<Planet> {
         Timber.d("searching database for $query")
         return db.planetDao().search(query)
+    }
+
+    override suspend fun searchPlanetsFullText(query: String): List<PlanetFts> {
+        Timber.d("searching full text of Planets for $query")
+        return db.planetDao().planetFulLTextSearch(query)
     }
 }

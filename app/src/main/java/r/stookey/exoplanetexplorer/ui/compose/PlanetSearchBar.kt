@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -27,11 +28,12 @@ fun PlanetSearchBar(query: MutableState<String>, dashboardViewModel: DashboardVi
     val keyboardController = LocalSoftwareKeyboardController.current
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colors.onPrimary,
+        color = MaterialTheme.colors.primary,
         elevation = 8.dp
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+
         ){
             TextField(
                 modifier = Modifier
@@ -42,7 +44,7 @@ fun PlanetSearchBar(query: MutableState<String>, dashboardViewModel: DashboardVi
                     dashboardViewModel.onQueryChanged(newQuery)
                 },
                 label = {
-                    Text("Search")
+                    Text("Search", color = MaterialTheme.colors.onPrimary)
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
@@ -54,9 +56,9 @@ fun PlanetSearchBar(query: MutableState<String>, dashboardViewModel: DashboardVi
                 })
                 ,
                 leadingIcon = {
-                    Icon(Icons.Filled.Search, "search")
+                    Icon(Icons.Outlined.Search, "search")
                 },
-                textStyle = TextStyle(color = MaterialTheme.colors.onSurface)
+                textStyle = TextStyle(color = MaterialTheme.colors.onPrimary)
             )
         }
     }

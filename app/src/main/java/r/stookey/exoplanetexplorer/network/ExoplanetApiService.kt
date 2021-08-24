@@ -16,7 +16,7 @@ import kotlin.coroutines.suspendCoroutine
 class ExoplanetApiService @Inject constructor(private var queue: RequestQueue) {
 
     init {
-        Timber.i("ExoplanetApiService init running")
+        Timber.d("ExoplanetApiService init running")
     }
 
 
@@ -39,7 +39,7 @@ class ExoplanetApiService @Inject constructor(private var queue: RequestQueue) {
             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
         queue.add(jsonArrayRequest)
-        Timber.i("jsonArrayRequest added to queue")
+        Timber.d("jsonArrayRequest added to queue")
     }
 
 }

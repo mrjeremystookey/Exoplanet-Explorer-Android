@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import r.stookey.exoplanetexplorer.domain.Planet
+import r.stookey.exoplanetexplorer.domain.PlanetFts
 import timber.log.Timber
 
-@Database(entities = [Planet::class], version = 3)
+@Database(entities = [Planet::class, PlanetFts::class], version = 6)
 abstract class PlanetDatabase: RoomDatabase() {
 
     abstract fun planetDao(): PlanetDao

@@ -1,10 +1,10 @@
 package r.stookey.exoplanetexplorer.cache
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import r.stookey.exoplanetexplorer.domain.Planet
+import r.stookey.exoplanetexplorer.domain.PlanetFts
 
 @Dao
 interface PlanetDao {
@@ -17,6 +17,9 @@ interface PlanetDao {
     @Query("DELETE FROM `planets-db`")
     suspend fun clearCache()
 
-    @Query("SELECT * FROM `planets-db` WHERE planet_name = :planetName")
+    @Query("SELECT * FROM `planets-db` WHERE  planet_name LIKE '%' ||:planetName || '%'")
     suspend fun search(planetName: String): List<Planet>
+
+    @Query("""SELECT * FROM `planets_fts` WHERE `planets_fts` MATCH :query""")
+    suspend fun planetFulLTextSearch(query: String): List<PlanetFts>
 }
