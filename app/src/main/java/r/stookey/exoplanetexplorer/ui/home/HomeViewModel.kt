@@ -14,7 +14,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
 
-    private val allPlanetsUrl = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+distinct(pl_name),hostname,pl_letter,pl_rade,pl_orbper,pl_bmasse,sy_pnum,sy_snum,disc_telescope,disc_instrument,disc_facility,disc_locale,discoverymethod,disc_year+from+%20pscomppars+order+by+pl_name+desc+&format=json"
+    private val allPlanetsUrl = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+distinct(pl_name),hostname,pl_letter,pl_rade," +
+            "pl_orbper,pl_bmasse,sy_pnum,sy_snum,disc_telescope,disc_instrument,disc_facility,disc_locale,discoverymethod,disc_year" +
+            "+from+%20pscomppars+order+by+pl_name+desc+&format=json"
 
     private val _allPlanets = MutableLiveData<List<Planet>>()
     val allPlanets: LiveData<List<Planet>> = _allPlanets

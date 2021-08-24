@@ -1,8 +1,5 @@
 package r.stookey.exoplanetexplorer.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.liveData
 import r.stookey.exoplanetexplorer.cache.PlanetDatabase
 import r.stookey.exoplanetexplorer.domain.PlanetDtoImpl
 import r.stookey.exoplanetexplorer.domain.Planet
@@ -49,18 +46,8 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
         db.planetDao().clearCache()
     }
 
-
-
-
-     /*fun getPagedSearchResults(query: String) = Pager(
-         config = PagingConfig(
-             pageSize = 1,
-             maxSize = 3,
-             enablePlaceholders = false),
-         pagingSourceFactory = { PlanetPagingSource(exoplanetApiService, query) }
-     ).liveData*/
-
-
-
-
+    override suspend fun searchPlanetsFromCache(query: String): List<Planet> {
+        Timber.d("searching database for $query")
+        return db.planetDao().search(query)
+    }
 }

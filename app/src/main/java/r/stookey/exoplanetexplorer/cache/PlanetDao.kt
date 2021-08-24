@@ -17,4 +17,6 @@ interface PlanetDao {
     @Query("DELETE FROM `planets-db`")
     suspend fun clearCache()
 
+    @Query("SELECT * FROM `planets-db` WHERE planet_name = :planetName")
+    suspend fun search(planetName: String): List<Planet>
 }
