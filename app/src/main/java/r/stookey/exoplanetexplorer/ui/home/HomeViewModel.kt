@@ -25,18 +25,6 @@ class HomeViewModel @Inject constructor(private val repo: RepositoryImpl) : View
         Timber.i("homeViewModel initialized")
     }
 
-    fun networkButtonPressed(){
-        Timber.i("getting planets from query string")
-        viewModelScope.launch {
-            repo.getPlanetsFromNetwork(allPlanetsUrl)
-        }
-    }
-
-    /*fun pagedNetworkButtonPressed(){
-        Timber.d("getting allPlanets paged search results")
-        repo.getPagedSearchResults(allPlanetsUrl)
-    }*/
-
 
     fun cacheButtonPressed(){
         Timber.i("get Planet objects from cache")
@@ -45,10 +33,5 @@ class HomeViewModel @Inject constructor(private val repo: RepositoryImpl) : View
         }
     }
 
-    fun clearCacheButtonPressed() {
-        Timber.i("clearing local cache")
-        viewModelScope.launch {
-            repo.removeAllPlanetsFromCache()
-        }
-    }
+
 }

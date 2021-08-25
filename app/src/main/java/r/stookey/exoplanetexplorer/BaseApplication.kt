@@ -2,6 +2,8 @@ package r.stookey.exoplanetexplorer
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import timber.log.Timber
 
 
@@ -10,6 +12,7 @@ class BaseApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
+        val applicationScope = CoroutineScope(SupervisorJob())
         Timber.d("Timber tree planted")
     }
 }

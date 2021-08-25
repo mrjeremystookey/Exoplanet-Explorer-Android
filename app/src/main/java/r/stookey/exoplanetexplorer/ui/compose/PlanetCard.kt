@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,11 +35,11 @@ fun PlanetCard(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End)
-            {
+                {
                 Text("Planet Name: " + planet.planetName)
                 Spacer(modifier = Modifier.padding(horizontal = 32.dp))
                 Text("Hostname: " + planet.hostname)
-            }
+                }
             Text("PlanetID: " + planet.planetID)
             Text("Planet Letter: ${planet.planetLetter}")
 
@@ -52,6 +52,8 @@ fun PlanetCard(
 fun PreviewPlanetCard(){
     PlanetCard(Planet(1, "And Cheeks", "Kepler", "Kepler")) {}
 }
+
+
 
 
 

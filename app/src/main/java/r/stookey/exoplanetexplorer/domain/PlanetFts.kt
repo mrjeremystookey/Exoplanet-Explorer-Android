@@ -3,7 +3,6 @@ package r.stookey.exoplanetexplorer.domain
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Fts4
-import com.squareup.moshi.Json
 
 
 @Entity(tableName = "planets_fts")

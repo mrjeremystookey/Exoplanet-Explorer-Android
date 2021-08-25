@@ -14,8 +14,16 @@ import javax.inject.Inject
 @HiltViewModel
 class DashboardViewModel @Inject constructor(private val repo: RepositoryImpl): ViewModel() {
 
+    private val allPlanetsUrl = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+distinct(pl_name),hostname,pl_letter,pl_rade," +
+            "pl_orbper,pl_bmasse,sy_pnum,sy_snum,disc_telescope,disc_instrument,disc_facility,disc_locale,discoverymethod,disc_year" +
+            "+from+%20pscomppars+order+by+pl_name+desc+&format=json"
+
     val planets: MutableState<List<Planet>> = mutableStateOf(listOf())
+
+
     val query = mutableStateOf("")
+
+
 
     init {
         Timber.d("dashboardViewModel initialized")
@@ -42,4 +50,17 @@ class DashboardViewModel @Inject constructor(private val repo: RepositoryImpl): 
         this.query.value = query
     }
 
+    fun networkButtonPressed(){
+        Timber.i("getting planets from query string")
+        viewModelScope.launch {
+            repo.getPlanetsFromNetwork(allPlanetsUrl)
+        }
+    }
+
+    fun clearCacheButtonPressed() {
+        Timber.i("clearing local cache")
+        viewModelScope.launch {
+            repo.removeAllPlanetsFromCache()
+        }
+    }
 }
