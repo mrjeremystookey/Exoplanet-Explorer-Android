@@ -3,6 +3,7 @@ package r.stookey.exoplanetexplorer.cache
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetFts
 
@@ -22,4 +23,7 @@ interface PlanetDao {
 
     @Query("""SELECT * FROM `planets_fts` WHERE `planets_fts` MATCH :query""")
     suspend fun planetFulLTextSearch(query: String): List<PlanetFts>
+
+    @Query("SELECT * FROM `planets-db`")
+    fun getAllPlanetsFlow(): Flow<List<Planet>>
 }

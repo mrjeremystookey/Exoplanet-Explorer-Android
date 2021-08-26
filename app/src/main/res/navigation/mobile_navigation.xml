@@ -3,19 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_dashboard">
+    app:startDestination="@id/navigation_search">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="r.stookey.exoplanetexplorer.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="r.stookey.exoplanetexplorer.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_search"
+        android:name="r.stookey.exoplanetexplorer.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_search" />
 
 
     <fragment
