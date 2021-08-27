@@ -12,7 +12,6 @@ class BaseApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        val applicationScope = CoroutineScope(SupervisorJob())
         Timber.d("Timber tree planted")
     }
 }

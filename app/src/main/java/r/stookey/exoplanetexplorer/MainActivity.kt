@@ -1,10 +1,10 @@
 package r.stookey.exoplanetexplorer
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.databinding.ActivityMainBinding
 import timber.log.Timber

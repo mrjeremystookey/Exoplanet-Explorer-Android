@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -42,68 +43,65 @@ class SearchFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val query = searchViewModel.query
-                val planets = searchViewModel.planets.value
                 val loading = searchViewModel.loading.value
+
                 ExoplanetExplorerTheme {
                     Scaffold(
                         topBar = {
                             PlanetSearchBar(
                                 query = query,
                                 onQueryChanged = searchViewModel::onQueryChanged,
-                                onPlanetSearched = searchViewModel::newSearchByPlanetName,
-                            )
+                                onPlanetSearched = searchViewModel::newSearchByPlanetName)
                         },
                         content = {
-                            Column {
-                                Box(modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(top = 4.dp)
-                                    .weight(.9f)) {
-                                    LazyColumn(
-                                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                                        contentPadding = PaddingValues(horizontal = 8.dp,
-                                            vertical = 4.dp),
-                                    )
-                                    {
-                                        searchViewModel.planetsUsingFlow.observe(
-                                            viewLifecycleOwner,
-                                            { planets ->
-                                                itemsIndexed(items = planets) { index, planet ->
-                                                    PlanetCard(planet = planet) {
-
-                                                    }
-                                                }
-                                            })
-                                    }
-                                    CircularIndeterminateProgressBar(isDisplayed = loading)
-                                }
-                                Row(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(.1f),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically)
-                                {
-                                    Button(
-                                        modifier = Modifier.padding(4.dp),
-                                        onClick = searchViewModel::networkButtonPressed
-                                    ) {
-                                        Text("Network")
-                                    }
-                                    Button(
-                                        modifier = Modifier.padding(4.dp),
-                                        onClick = searchViewModel::clearCacheButtonPressed,
-                                    ) {
-                                        Text("Clear Cache")
-                                    }
-                                }
-                            }
-
+                            PlanetListAndLoading(loading = loading)
                         }
                     )
                 }
             }
+        }
+    }
+    
+    @Composable
+    fun PlanetListAndLoading(loading: Boolean){
+        Column {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 4.dp)
+                .weight(.9f)) {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp,
+                        vertical = 4.dp),
+                )
+                {
+                    itemsIndexed(items = searchViewModel.planetsList.value){ index, planet ->
+                        PlanetCard(planet = planet) {
 
-
+                        }
+                    }
+                }
+                CircularIndeterminateProgressBar(isDisplayed = loading)
+            }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(.1f),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically)
+            {
+                Button(
+                    modifier = Modifier.padding(4.dp),
+                    onClick = searchViewModel::networkButtonPressed
+                ) {
+                    Text("Network")
+                }
+                Button(
+                    modifier = Modifier.padding(4.dp),
+                    onClick = searchViewModel::clearCacheButtonPressed,
+                ) {
+                    Text("Clear Cache")
+                }
+            }
         }
     }
 

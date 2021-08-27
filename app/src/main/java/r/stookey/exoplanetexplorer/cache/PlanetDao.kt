@@ -13,7 +13,7 @@ interface PlanetDao {
     suspend fun insert(planet: Planet)
 
     @Query("SELECT * FROM `planets-db`")
-    suspend fun getAll(): List<Planet>
+    fun getAllPlanets(): Flow<List<Planet>>
 
     @Query("DELETE FROM `planets-db`")
     suspend fun clearCache()
@@ -24,6 +24,7 @@ interface PlanetDao {
     @Query("""SELECT * FROM `planets_fts` WHERE `planets_fts` MATCH :query""")
     suspend fun planetFulLTextSearch(query: String): List<PlanetFts>
 
-    @Query("SELECT * FROM `planets-db`")
-    fun getAllPlanetsFlow(): Flow<List<Planet>>
+    @Query("SELECT * FROM `planets-db` WHERE  planet_name LIKE '%' ||:planetName || '%'")
+    fun searchWithFlow(planetName: String): Flow<List<Planet>>
+
 }

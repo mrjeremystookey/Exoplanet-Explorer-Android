@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/navigation_tester"
-        android:name="r.stookey.exoplanetexplorer.ui.tester.TestFragment"
+        android:name="r.stookey.exoplanetexplorer.ui.test.TestFragment"
         android:label="TestFragment"
         tools:layout="@layout/fragment_test" />
 
