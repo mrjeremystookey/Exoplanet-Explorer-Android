@@ -32,6 +32,8 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         }
     }
 
+
+
     fun onQueryChanged(query: String) {
         Timber.d("query is changing: $query")
         this.query.value = query

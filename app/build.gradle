@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id("androidx.navigation.safeargs.kotlin")
+
 }
 
 android {
@@ -87,7 +89,6 @@ dependencies {
 
     // Integration with observables
     implementation("androidx.compose.runtime:runtime-livedata:1.0.1")
-    implementation("androidx.compose.runtime:runtime-rxjava2:1.0.1")
 
     // Maps
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
@@ -117,9 +118,7 @@ dependencies {
     implementation("com.squareup.moshi:moshi:1.12.0")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
 
-    //Paging Data
-    def paging_version = "3.0.1"
-    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
-    implementation("androidx.paging:paging-compose:1.0.0-alpha12")
+
+
 
 }

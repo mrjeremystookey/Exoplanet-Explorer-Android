@@ -2,6 +2,8 @@ package r.stookey.exoplanetexplorer.ui.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,8 +16,11 @@ import r.stookey.exoplanetexplorer.domain.Planet
 @Composable
 fun PlanetDetails(planet: Planet){
     Column(
-        Modifier.background(MaterialTheme.colors.primary),
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.primary),
     ) {
+        Text("Planet Name: ${planet.planetName}")
         Text("Number of planets in System: ${planet.systemPlanetNumber}")
         Text("Mass of planet, earth mass: ${planet.planetaryMassEarth}")
         Text("Discovery Facility: ${planet.discoveryFacility}")

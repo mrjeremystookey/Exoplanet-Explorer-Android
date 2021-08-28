@@ -14,7 +14,6 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl) : View
 
     init {
         Timber.d("TestViewModel initialized")
-
     }
 
 

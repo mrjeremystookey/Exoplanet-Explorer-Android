@@ -9,7 +9,7 @@ import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetFts
 import timber.log.Timber
 
-@Database(entities = [Planet::class, PlanetFts::class], version = 6)
+@Database(entities = [Planet::class, PlanetFts::class], version = 6, exportSchema = false)
 abstract class PlanetDatabase: RoomDatabase() {
 
     abstract fun planetDao(): PlanetDao

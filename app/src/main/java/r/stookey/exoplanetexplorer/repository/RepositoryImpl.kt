@@ -16,29 +16,26 @@ import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(private var exoplanetApiService: ExoplanetApiService,
                                          private var planetMapper: PlanetDtoImpl,
+                                         private var db: PlanetDatabase
                                          ): Repository {
 
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 
-
-    @Inject
-    lateinit var db: PlanetDatabase
 
     init {
         Timber.i("Repository init running")
     }
 
     //Should only run when called specifically, when data is deleted from the network, or needs to be updated
-    override suspend fun getPlanetsFromNetwork(): List<Planet> {
+    override suspend fun getPlanetsFromNetwork() {
         val jsonArray = exoplanetApiService.getPlanets()  //gets JsonArray of Planets from ApiService
         val planetList = planetMapper.convertJsonToPlanets(jsonArray)  //Converts JsonArray into List of domain model, Planet objects
-        Timber.d("getAllPlanetsFromNetwork called, number of planets retrieved: " + planetList.size)
+        Timber.d("getPlanetsFromNetwork called, number of planets retrieved: " + planetList.size)
         planetList.forEach { planet ->
             //Need to add if already in cache, don't add
             insertPlanetIntoCache(planet)  //Adds the Planet object into Room database
         }
         Timber.d("done adding Planets to local cache")
-        return planetList
     }
 
 
@@ -49,20 +46,19 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
 
     override suspend fun removeAllPlanetsFromCache() {
         Timber.d("removing Planets from local Planet Database")
-        db.planetDao().clearCache()
+        db.planetDao().clearPlanets()
     }
 
 
-    override suspend fun searchPlanetsFullText(query: String): List<PlanetFts> {
+    override suspend fun searchPlanetsFromCacheFullText(query: String): List<PlanetFts> {
         Timber.d("searching full text of Planets for $query")
-        return db.planetDao().planetFulLTextSearch(query)
+        return db.planetDao().planetFts(query)
     }
 
 
     override fun searchPlanetsFromCache(query: String): Flow<List<Planet>>{
         Timber.d("searching database for $query")
-        return db.planetDao()
-            .searchWithFlow(query)
+        return db.planetDao().searchPlanetByName(query)
             .flowOn(defaultDispatcher)
             .conflate()
     }
@@ -71,4 +67,12 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
         get() = db.planetDao().getAllPlanets()
             .flowOn(defaultDispatcher)
             .conflate()
+
+
+    override fun getPlanetFromCache(planetId: Int): Flow<Planet> {
+        Timber.d("getting planetID: {$planetId} from cache")
+        return db.planetDao().searchPlanetByPlanetId(planetId)
+            .flowOn(defaultDispatcher)
+            .conflate()
+    }
 }

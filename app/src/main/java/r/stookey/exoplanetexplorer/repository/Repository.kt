@@ -5,11 +5,13 @@ import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetFts
 
 interface Repository {
-     suspend fun getPlanetsFromNetwork(): List<Planet>
-     suspend fun searchPlanetsFullText(query: String): List<PlanetFts>
      suspend fun insertPlanetIntoCache(planet:Planet)
      suspend fun removeAllPlanetsFromCache()
+
+     suspend fun getPlanetsFromNetwork()
+     suspend fun searchPlanetsFromCacheFullText(query: String): List<PlanetFts>
+
      fun searchPlanetsFromCache(query: String): Flow<List<Planet>>
      val getAllPlanetsFromCache: Flow<List<Planet>>
-
+     fun getPlanetFromCache(planetId: Int): Flow<Planet>
 }

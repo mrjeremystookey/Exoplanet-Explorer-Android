@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -16,9 +17,12 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import r.stookey.exoplanetexplorer.R
 import r.stookey.exoplanetexplorer.databinding.FragmentSearchBinding
 import r.stookey.exoplanetexplorer.ui.compose.CircularIndeterminateProgressBar
 import r.stookey.exoplanetexplorer.ui.compose.PlanetCard
@@ -43,7 +47,7 @@ class SearchFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val query = searchViewModel.query
-                val loading = searchViewModel.loading.value
+                val isLoading = searchViewModel.loading.value
 
                 ExoplanetExplorerTheme {
                     Scaffold(
@@ -54,16 +58,17 @@ class SearchFragment : Fragment() {
                                 onPlanetSearched = searchViewModel::newSearchByPlanetName)
                         },
                         content = {
-                            PlanetListAndLoading(loading = loading)
+                            PlanetListAndLoading(loading = isLoading)   //Gets changed when a planet is selected
                         }
                     )
                 }
             }
         }
     }
-    
+
     @Composable
-    fun PlanetListAndLoading(loading: Boolean){
+    fun PlanetListAndLoading(loading: Boolean){  //Loaded when app is opened
+        val listState = rememberLazyListState()
         Column {
             Box(modifier = Modifier
                 .fillMaxSize()
@@ -71,14 +76,21 @@ class SearchFragment : Fragment() {
                 .weight(.9f)) {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
-                    contentPadding = PaddingValues(horizontal = 8.dp,
+                    contentPadding = PaddingValues(
+                        horizontal = 16.dp,
                         vertical = 4.dp),
+                    state = listState
                 )
                 {
-                    itemsIndexed(items = searchViewModel.planetsList.value){ index, planet ->
-                        PlanetCard(planet = planet) {
-
-                        }
+                    items(items = searchViewModel.planetsList.value){ planet ->
+                        PlanetCard(
+                            planet = planet,
+                            navigateToPlanet = {
+                                val action = SearchFragmentDirections.viewPlanet(planet.planetID!!)
+                                Timber.d("navigating to Planet: ${planet.planetName} with PlanetID: ${planet.planetID}")
+                                findNavController().navigate(action)
+                            }
+                        )
                     }
                 }
                 CircularIndeterminateProgressBar(isDisplayed = loading)
@@ -104,6 +116,10 @@ class SearchFragment : Fragment() {
             }
         }
     }
+    
+
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

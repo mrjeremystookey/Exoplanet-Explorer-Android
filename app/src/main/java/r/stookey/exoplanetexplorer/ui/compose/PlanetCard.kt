@@ -16,7 +16,7 @@ import r.stookey.exoplanetexplorer.domain.Planet
 @Composable
 fun PlanetCard(
     planet: Planet,
-    onClick: () -> Unit,
+    navigateToPlanet: () -> Unit,
 ){
     Card(
         backgroundColor = MaterialTheme.colors.primary,
@@ -28,10 +28,10 @@ fun PlanetCard(
                 top = 6.dp,
             )
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(onClick = navigateToPlanet),
         elevation = 8.dp
     ){
-        Column(modifier = Modifier.clickable {    }) {
+        Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End)
