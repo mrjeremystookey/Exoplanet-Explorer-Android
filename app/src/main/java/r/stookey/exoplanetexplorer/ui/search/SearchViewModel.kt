@@ -23,7 +23,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
 
 
     init {
-        Timber.d("dashboardViewModel initialized")
+        Timber.d("SearchViewModel initialized")
         viewModelScope.launch {
             repo.getAllPlanetsFromCache.collect { planets ->
                 planetsList.value = planets

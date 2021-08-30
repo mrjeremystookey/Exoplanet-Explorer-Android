@@ -48,7 +48,6 @@ class SearchFragment : Fragment() {
             setContent {
                 val query = searchViewModel.query
                 val isLoading = searchViewModel.loading.value
-
                 ExoplanetExplorerTheme {
                     Scaffold(
                         topBar = {
@@ -117,9 +116,6 @@ class SearchFragment : Fragment() {
         }
     }
     
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

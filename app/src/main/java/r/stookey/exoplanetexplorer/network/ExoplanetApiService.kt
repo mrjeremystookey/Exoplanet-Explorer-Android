@@ -17,11 +17,20 @@ class ExoplanetApiService @Inject constructor(private var queue: RequestQueue) {
         Timber.d("ExoplanetApiService init running")
     }
 
-    //Will be adjusted to pull in more data fields
+    private val parameters = "hostname," +
+            "pl_letter,pl_controv_flag,pl_rade,pl_orbper," +
+            "pl_bmasse,pl_orbeccen,pl_orbincl," +
+            "sy_pnum,sy_snum,sy_mnum,cb_flag," +
+            "disc_telescope,disc_instrument,disc_facility,disc_refname,disc_pubdate," +
+            "disc_locale,discoverymethod,disc_year," +
+            "rv_flag,pul_flag,ptv_flag," +
+            "tran_flag,ast_flag,obm_flag," +
+            "micro_flag,etv_flag,ima_flag,dkin_flag,"+
+            "pl_orbper_reflink"
+
+
     private val allPlanetsUrl =
-        "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+distinct(pl_name),hostname,pl_letter,pl_rade," +
-                "pl_orbper,pl_bmasse,sy_pnum,sy_snum,disc_telescope,disc_instrument,disc_facility,disc_locale,discoverymethod,disc_year" +
-                "+from+%20pscomppars+order+by+pl_name+desc+&format=json"
+        "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+distinct(pl_name),$parameters%20from+%20pscomppars+order+by+pl_name+desc+&format=json"
 
     suspend fun getPlanets() = suspendCoroutine<JSONArray> { cont ->
         val jsonArrayRequest = JsonArrayRequest(

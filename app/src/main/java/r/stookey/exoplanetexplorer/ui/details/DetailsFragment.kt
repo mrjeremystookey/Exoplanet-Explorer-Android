@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
@@ -31,9 +33,12 @@ class DetailsFragment : Fragment() {
         detailsViewModel.newSearchByPlanetId(args.planetID)
         return ComposeView(requireContext()).apply {
             setContent {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Scaffold(topBar = {
+                    TopAppBar {
+                    }
+                }, content = {
                     PlanetDetails(planet = detailsViewModel.selectedPlanet.value)
-                }
+                })
             }
         }
     }

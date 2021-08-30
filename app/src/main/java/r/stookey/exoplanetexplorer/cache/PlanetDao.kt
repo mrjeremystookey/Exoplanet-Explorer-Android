@@ -26,6 +26,8 @@ interface PlanetDao {
 
 
 
+
+
     //Full Text Search, not in use
     @Query("""SELECT * FROM `planets_fts` WHERE `planets_fts` MATCH :query""")
     suspend fun planetFts(query: String): List<PlanetFts>

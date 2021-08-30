@@ -19,7 +19,6 @@ class DetailsViewModel @Inject constructor(private val repo: RepositoryImpl): Vi
     var selectedPlanet: MutableState<Planet> = mutableStateOf(Planet())
 
 
-
     init {
         Timber.d("detailsViewModel initialized")
     }
@@ -27,7 +26,7 @@ class DetailsViewModel @Inject constructor(private val repo: RepositoryImpl): Vi
     fun newSearchByPlanetId(planetId: Int) {
         viewModelScope.launch {
             repo.getPlanetFromCache(planetId).collect { planet ->
-                Timber.d("Planet name returned: ${planet.planetName}")
+                Timber.d("Planet name returned: ${planet}")
                 selectedPlanet.value = planet
             }
         }
