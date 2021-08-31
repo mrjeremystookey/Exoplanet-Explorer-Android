@@ -13,6 +13,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.PlanetDetails
@@ -22,14 +23,15 @@ import timber.log.Timber
 class DetailsFragment : Fragment() {
 
 
-    private lateinit var detailsViewModel: DetailsViewModel
+    private val detailsViewModel: DetailsViewModel by viewModels()
     private val args: DetailsFragmentArgs by navArgs()
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        detailsViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
         detailsViewModel.newSearchByPlanetId(args.planetID)
         return ComposeView(requireContext()).apply {
             setContent {

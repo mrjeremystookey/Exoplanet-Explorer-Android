@@ -5,7 +5,7 @@ import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetFts
 
 interface Repository {
-     suspend fun insertPlanetIntoCache(planet:Planet)
+     suspend fun checkAndInsertPlanetIntoCache(planet:Planet)
      suspend fun removeAllPlanetsFromCache()
 
      suspend fun getPlanetsFromNetwork()
@@ -14,4 +14,6 @@ interface Repository {
      fun searchPlanetsFromCache(query: String): Flow<List<Planet>>
      val getAllPlanetsFromCache: Flow<List<Planet>>
      fun getPlanetFromCache(planetId: Int): Flow<Planet>
+
+
 }

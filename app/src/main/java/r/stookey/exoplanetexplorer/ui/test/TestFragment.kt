@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.databinding.FragmentTestBinding
@@ -28,7 +29,7 @@ import timber.log.Timber
 class TestFragment : Fragment() {
 
 
-    private lateinit var testViewModel: TestViewModel
+    private val testViewModel: TestViewModel by viewModels()
     private var _binding: FragmentTestBinding? = null
 
 
@@ -38,7 +39,6 @@ class TestFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        testViewModel = ViewModelProvider(this).get(TestViewModel::class.java)
         _binding = FragmentTestBinding.inflate(inflater, container, false)
         return ComposeView(requireContext()).apply {
             setContent {

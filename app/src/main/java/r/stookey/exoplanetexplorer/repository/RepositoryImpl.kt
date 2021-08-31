@@ -1,10 +1,10 @@
 package r.stookey.exoplanetexplorer.repository
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.cache.PlanetDatabase
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetDtoImpl
@@ -19,7 +19,9 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
                                          private var db: PlanetDatabase
                                          ): Repository {
 
+    //needs to be injected
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    private val externalScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
 
 
     init {
@@ -30,20 +32,26 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     override suspend fun getPlanetsFromNetwork() {
         val jsonArray = exoplanetApiService.getPlanets()  //gets JsonArray of Planets from ApiService
         val planetList = planetMapper.convertJsonToPlanets(jsonArray)  //Converts JsonArray into List of domain model, Planet objects
-        Timber.d("getPlanetsFromNetwork called, number of planets retrieved: " + planetList.size)
-        planetList.forEach { planet ->
-            //Need to add if already in cache, don't add
-            insertPlanetIntoCache(planet)  //Adds the Planet object into Room database
-        }
-        Timber.d("done adding Planets to local cache")
+            Timber.d("getPlanetsFromNetwork called, number of planets retrieved: " + planetList.size)
+            planetList.forEach { planet ->
+                checkAndInsertPlanetIntoCache(planet)  //Adds the Planet object into Room database
+            }
+            Timber.d("done adding Planets to local cache")
     }
 
 
-
     //used to add Planet after getting list
-    override suspend fun insertPlanetIntoCache(planet: Planet) {
-        Timber.d("adding planet, "+ planet.planetName + " to local Planet Database")
-        db.planetDao().insert(planet)
+    override suspend fun checkAndInsertPlanetIntoCache(planet: Planet) {
+        externalScope.launch {
+            val isAlreadyCached = db.planetDao().isPlanetCached(planet.planetName)
+            if(isAlreadyCached){
+                Timber.d("Planet is already cached")
+            } else {
+                Timber.d("adding planet, "+ planet.planetName + " to local Planet Database")
+                db.planetDao().insert(planet)
+            }
+
+        }
     }
 
     override suspend fun removeAllPlanetsFromCache() {
@@ -54,6 +62,7 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     //used when searching for a planet
     override fun searchPlanetsFromCache(query: String): Flow<List<Planet>>{
         Timber.d("searching database for $query")
+
         return db.planetDao().searchPlanetByName(query)
             .flowOn(defaultDispatcher)
             .conflate()

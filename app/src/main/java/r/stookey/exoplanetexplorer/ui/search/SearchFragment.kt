@@ -17,12 +17,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import r.stookey.exoplanetexplorer.R
 import r.stookey.exoplanetexplorer.databinding.FragmentSearchBinding
 import r.stookey.exoplanetexplorer.ui.compose.CircularIndeterminateProgressBar
 import r.stookey.exoplanetexplorer.ui.compose.PlanetCard
@@ -33,7 +31,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel: SearchViewModel by viewModels()
     private var _binding: FragmentSearchBinding? = null
 
     @ExperimentalComposeUiApi
@@ -43,7 +41,6 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         Timber.i("onCreateView called")
-        searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         return ComposeView(requireContext()).apply {
             setContent {
                 val query = searchViewModel.query
@@ -53,11 +50,11 @@ class SearchFragment : Fragment() {
                         topBar = {
                             PlanetSearchBar(
                                 query = query,
-                                onQueryChanged = searchViewModel::onQueryChanged,
-                                onPlanetSearched = searchViewModel::newSearchByPlanetName)
+                                onQueryChanged = searchViewModel::onQueryChanged,   //These do sorta the same thing. onPlanetSearched could be removed
+                                onPlanetSearched = searchViewModel::newSearchByPlanetName) //the search button doesn't need pressed as planet results update automatically
                         },
                         content = {
-                            PlanetListAndLoading(loading = isLoading)   //Gets changed when a planet is selected
+                            PlanetListAndLoading(loading = isLoading)
                         }
                     )
                 }

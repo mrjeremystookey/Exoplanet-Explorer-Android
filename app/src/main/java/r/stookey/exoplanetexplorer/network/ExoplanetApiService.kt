@@ -30,7 +30,7 @@ class ExoplanetApiService @Inject constructor(private var queue: RequestQueue) {
 
 
     private val allPlanetsUrl =
-        "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+distinct(pl_name),$parameters%20from+%20pscomppars+order+by+pl_name+desc+&format=json"
+        "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+distinct(pl_name),$parameters%20from+%20pscomppars+order+by+pl_name+asc+&format=json"
 
     suspend fun getPlanets() = suspendCoroutine<JSONArray> { cont ->
         val jsonArrayRequest = JsonArrayRequest(

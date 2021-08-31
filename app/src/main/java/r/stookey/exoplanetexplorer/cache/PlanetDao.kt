@@ -25,7 +25,8 @@ interface PlanetDao {
     suspend fun clearPlanets()
 
 
-
+    @Query("SELECT EXISTS(SELECT * FROM `planets-db` where planet_name = :planetName )")
+    fun isPlanetCached(planetName: String?): Boolean
 
 
     //Full Text Search, not in use

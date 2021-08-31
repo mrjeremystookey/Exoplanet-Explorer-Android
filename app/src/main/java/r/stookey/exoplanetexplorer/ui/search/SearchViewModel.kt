@@ -1,6 +1,7 @@
 package r.stookey.exoplanetexplorer.ui.search
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,18 +18,25 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
 
 
     //Mutable State Variables
-    val planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
-    val query = mutableStateOf("")
-    val loading = mutableStateOf(false)
+    private val _planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
+    val planetsList: State<List<Planet>> = _planetsList
+
+
+    private val _query = mutableStateOf("")
+    val query: State<String> = _query
+
+
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> = _loading
 
 
     init {
         Timber.d("SearchViewModel initialized")
         viewModelScope.launch {
             repo.getAllPlanetsFromCache.collect { planets ->
-                planetsList.value = planets
+                _planetsList.value = planets
             }
-            Timber.d("number of Planets from cache: " + planetsList.value.size)
+            Timber.d("number of Planets from cache: " + _planetsList.value.size)
         }
     }
 
@@ -36,20 +44,20 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
 
     fun onQueryChanged(query: String) {
         Timber.d("query is changing: $query")
-        this.query.value = query
-        viewModelScope.launch {
-             repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
-                 Timber.d("Number of planets returned from search: ${listOfPlanets.size}")
-                 planetsList.value = listOfPlanets
-             }
-        }
+        _query.value = query
+            viewModelScope.launch {
+                repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
+                    Timber.d("Number of planets returned from search: ${listOfPlanets.size}")
+                    _planetsList.value = listOfPlanets
+                }
+            }
     }
 
     fun newSearchByPlanetName(query: String) {
         viewModelScope.launch {
             repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
                 Timber.d("number of Planets returned from search: ${listOfPlanets.size}")
-                planetsList.value = listOfPlanets
+                _planetsList.value = listOfPlanets
             }
         }
     }
@@ -58,9 +66,9 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     fun networkButtonPressed() {
         Timber.i("launching network service for new planets")
         viewModelScope.launch {
-            loading.value = true
+            _loading.value = true
             repo.getPlanetsFromNetwork()
-            loading.value = false
+            _loading.value = false
         }
     }
 
