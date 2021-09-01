@@ -26,7 +26,9 @@ class ExoplanetApiService @Inject constructor(private var queue: RequestQueue) {
             "rv_flag,pul_flag,ptv_flag," +
             "tran_flag,ast_flag,obm_flag," +
             "micro_flag,etv_flag,ima_flag,dkin_flag,"+
-            "pl_orbper_reflink"
+            "pl_orbper_reflink, pl_orbsmax, pl_orbsmax_reflink," +
+            "pl_dens, pl_dens_reflink,pl_bmasse_reflink," +
+            "pl_tranmid, pl_tranmid_reflink"
 
 
     private val allPlanetsUrl =

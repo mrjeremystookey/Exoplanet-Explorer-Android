@@ -27,9 +27,9 @@
         android:name="r.stookey.exoplanetexplorer.ui.details.DetailsFragment"
         android:label="DetailsFragment">
         <argument
-            android:name="planetID"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="planetName"
+            app:argType="string"
+            android:defaultValue="" />
     </fragment>
 
 </navigation>

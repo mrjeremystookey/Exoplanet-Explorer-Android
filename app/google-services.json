@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "855506135443",
+    "project_id": "exoplanet-explorer-d7896",
+    "storage_bucket": "exoplanet-explorer-d7896.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855506135443:android:fb046cc12e4e75d6d92066",
+        "android_client_info": {
+          "package_name": "r.stookey.exoplanetexplorer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855506135443-gr5cvp0ils8lt6e23m10qn0g3gp3lmje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7fi0z_foSmzSouJVdABZGaNEVEBSXShI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855506135443-gr5cvp0ils8lt6e23m10qn0g3gp3lmje.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

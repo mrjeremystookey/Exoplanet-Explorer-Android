@@ -45,7 +45,7 @@ fun PlanetSearchBar(query: State<String>,
                     onQueryChanged(newQuery)
                 },
                 label = {
-                    Text("Search", color = MaterialTheme.colors.onPrimary)
+                    Text("Search", color = MaterialTheme.colors.secondary)
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,

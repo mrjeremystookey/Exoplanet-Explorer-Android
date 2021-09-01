@@ -23,11 +23,12 @@ class DetailsViewModel @Inject constructor(private val repo: RepositoryImpl): Vi
         Timber.d("detailsViewModel initialized")
     }
 
-    fun newSearchByPlanetId(planetId: Int) {
+
+    fun newSearchByPlanetName(planetName: String){
         viewModelScope.launch {
-            repo.getPlanetFromCache(planetId).collect { planet ->
-                Timber.d("Planet name returned: ${planet}")
-                selectedPlanet.value = planet
+            repo.searchPlanetsFromCache(planetName).collect { planet ->
+                Timber.d("Planet name returned: $planet")
+                selectedPlanet.value = planet[0]
             }
         }
     }

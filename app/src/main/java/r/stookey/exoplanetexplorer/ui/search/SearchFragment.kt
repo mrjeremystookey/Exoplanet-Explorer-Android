@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -52,7 +53,7 @@ class SearchFragment : Fragment() {
                                 query = query,
                                 onQueryChanged = searchViewModel::onQueryChanged,   //These do sorta the same thing. onPlanetSearched could be removed
                                 onPlanetSearched = searchViewModel::newSearchByPlanetName) //the search button doesn't need pressed as planet results update automatically
-                        },
+                        },backgroundColor = MaterialTheme.colors.surface,
                         content = {
                             PlanetListAndLoading(loading = isLoading)
                         }
@@ -82,7 +83,7 @@ class SearchFragment : Fragment() {
                         PlanetCard(
                             planet = planet,
                             navigateToPlanet = {
-                                val action = SearchFragmentDirections.viewPlanet(planet.planetID!!)
+                                val action = SearchFragmentDirections.viewPlanet(planet.planetName!!)
                                 Timber.d("navigating to Planet: ${planet.planetName} with PlanetID: ${planet.planetID}")
                                 findNavController().navigate(action)
                             }

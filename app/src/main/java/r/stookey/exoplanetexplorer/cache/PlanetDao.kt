@@ -18,12 +18,8 @@ interface PlanetDao {
     @Query("SELECT * FROM `planets-db` WHERE  planet_name LIKE '%' ||:planetName || '%'")
     fun searchPlanetByName(planetName: String): Flow<List<Planet>>
 
-    @Query("SELECT * FROM `planets-db` WHERE  planet_id LIKE '%' || :planetId || '%'")
-    fun searchPlanetByPlanetId(planetId: Int): Flow<Planet>
-
     @Query("DELETE FROM `planets-db`")
     suspend fun clearPlanets()
-
 
     @Query("SELECT EXISTS(SELECT * FROM `planets-db` where planet_name = :planetName )")
     fun isPlanetCached(planetName: String?): Boolean

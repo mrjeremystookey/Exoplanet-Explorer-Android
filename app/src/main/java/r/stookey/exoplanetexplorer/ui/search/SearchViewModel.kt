@@ -41,16 +41,15 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     }
 
 
-
     fun onQueryChanged(query: String) {
         Timber.d("query is changing: $query")
         _query.value = query
-            viewModelScope.launch {
-                repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
-                    Timber.d("Number of planets returned from search: ${listOfPlanets.size}")
-                    _planetsList.value = listOfPlanets
-                }
+        viewModelScope.launch {
+            repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
+                Timber.d("Number of planets returned from search: ${listOfPlanets.size}")
+                _planetsList.value = listOfPlanets
             }
+        }
     }
 
     fun newSearchByPlanetName(query: String) {

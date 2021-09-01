@@ -43,7 +43,7 @@ class TestFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 Column {
-
+                    //testViewModel.logInFireBase()
                 }
             }
         }
