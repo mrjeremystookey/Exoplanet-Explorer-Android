@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import r.stookey.exoplanetexplorer.domain.Planet
 
@@ -18,6 +19,7 @@ import r.stookey.exoplanetexplorer.domain.Planet
 fun PlanetCard(
     planet: Planet,
     navigateToPlanet: () -> Unit,
+    cardHeight: Dp
 ){
     Card(
         backgroundColor = MaterialTheme.colors.primary,
@@ -29,6 +31,7 @@ fun PlanetCard(
                 top = 6.dp,
             )
             .fillMaxWidth()
+            .height(cardHeight)
             .clickable(onClick = navigateToPlanet),
         elevation = 8.dp
     ){
@@ -45,7 +48,11 @@ fun PlanetCard(
 @Preview
 @Composable
 fun PreviewPlanetCard(){
-    PlanetCard(Planet(1, "And Cheeks", "Kepler", "Kepler")) {}
+    PlanetCard(
+        planet = Planet(1, "And Cheeks", "Kepler", "Kepler"),
+        cardHeight = 75.dp,
+        navigateToPlanet = {}
+    )
 }
 
 

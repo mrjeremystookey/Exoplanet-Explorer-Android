@@ -2,6 +2,7 @@ package r.stookey.exoplanetexplorer.ui.compose
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 @ExperimentalComposeUiApi
@@ -33,7 +35,9 @@ fun PlanetSearchBar(query: State<String>,
         elevation = 8.dp
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(72.dp),
 
         ){
             TextField(
@@ -45,7 +49,7 @@ fun PlanetSearchBar(query: State<String>,
                     onQueryChanged(newQuery)
                 },
                 label = {
-                    Text("Search", color = MaterialTheme.colors.secondary)
+                    Text("Search", color = MaterialTheme.colors.secondary, fontSize = 18.sp)
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,

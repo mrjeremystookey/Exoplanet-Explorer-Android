@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
@@ -17,15 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.databinding.FragmentSearchBinding
-import r.stookey.exoplanetexplorer.ui.compose.CircularIndeterminateProgressBar
-import r.stookey.exoplanetexplorer.ui.compose.PlanetCard
-import r.stookey.exoplanetexplorer.ui.compose.PlanetSearchBar
+import r.stookey.exoplanetexplorer.ui.compose.*
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import timber.log.Timber
 
@@ -34,6 +34,9 @@ class SearchFragment : Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModels()
     private var _binding: FragmentSearchBinding? = null
+
+
+
 
     @ExperimentalComposeUiApi
     override fun onCreateView(
@@ -51,11 +54,14 @@ class SearchFragment : Fragment() {
                         topBar = {
                             PlanetSearchBar(
                                 query = query,
-                                onQueryChanged = searchViewModel::onQueryChanged,   //These do sorta the same thing. onPlanetSearched could be removed
-                                onPlanetSearched = searchViewModel::newSearchByPlanetName) //the search button doesn't need pressed as planet results update automatically
-                        },backgroundColor = MaterialTheme.colors.surface,
+                                onQueryChanged = searchViewModel::onQueryChanged,
+                                onPlanetSearched = searchViewModel::newSearchByPlanetName
+                            ) //the search button doesn't need pressed as planet results update automatically
+                        } ,
+                        backgroundColor = MaterialTheme.colors.background,
                         content = {
-                            PlanetListAndLoading(loading = isLoading)
+                            MainContent(
+                                loading = isLoading)
                         }
                     )
                 }
@@ -64,33 +70,20 @@ class SearchFragment : Fragment() {
     }
 
     @Composable
-    fun PlanetListAndLoading(loading: Boolean){  //Loaded when app is opened
+    fun MainContent(loading: Boolean){  //Loaded when app is opened
         val listState = rememberLazyListState()
+        val cardHeight = 65.dp
         Column {
             Box(modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 4.dp)
                 .weight(.9f)) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    contentPadding = PaddingValues(
-                        horizontal = 16.dp,
-                        vertical = 4.dp),
-                    state = listState
-                )
-                {
-                    items(items = searchViewModel.planetsList.value){ planet ->
-                        PlanetCard(
-                            planet = planet,
-                            navigateToPlanet = {
-                                val action = SearchFragmentDirections.viewPlanet(planet.planetName!!)
-                                Timber.d("navigating to Planet: ${planet.planetName} with PlanetID: ${planet.planetID}")
-                                findNavController().navigate(action)
-                            }
-                        )
-                    }
+                if(loading){
+                    PlanetListLoading(cardHeight = cardHeight)
+                } else {
+                    PlanetListLoaded(listState = listState, cardHeight = cardHeight)
                 }
-                CircularIndeterminateProgressBar(isDisplayed = loading)
+                //CircularIndeterminateProgressBar(isDisplayed = loading)
             }
             Row(modifier = Modifier
                 .fillMaxWidth()
@@ -113,7 +106,45 @@ class SearchFragment : Fragment() {
             }
         }
     }
-    
+
+    @Composable
+    fun PlanetListLoading(cardHeight: Dp) {
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp),
+            contentPadding = PaddingValues(
+                horizontal = 16.dp,
+                vertical = 4.dp),
+        ){
+            repeat(10){
+                item {
+                    ShimmerPlanetCard(cardHeight = cardHeight)
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun PlanetListLoaded(listState: LazyListState, cardHeight: Dp){
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            contentPadding = PaddingValues(
+                horizontal = 16.dp,
+                vertical = 4.dp),
+            state = listState
+        )
+        {
+            items(items = searchViewModel.planetsList.value){ planet ->
+                PlanetCard(
+                    planet = planet,
+                    navigateToPlanet = {
+                        val action = SearchFragmentDirections.viewPlanet(planet.planetName!!)
+                        Timber.d("navigating to Planet: ${planet.planetName} with PlanetID: ${planet.planetID}")
+                        findNavController().navigate(action)
+                    },
+                    cardHeight = cardHeight
+                )
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

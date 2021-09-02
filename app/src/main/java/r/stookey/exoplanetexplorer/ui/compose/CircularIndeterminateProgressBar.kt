@@ -2,6 +2,8 @@ package r.stookey.exoplanetexplorer.ui.compose
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -39,7 +41,7 @@ fun CircularIndeterminateProgressBar(isDisplayed: Boolean){
                     style = TextStyle(
                         color = Color.White,
                         fontSize = 15.sp),
-                    modifier = Modifier.layoutId("text")
+                    modifier = Modifier.layoutId("text").padding(5.dp)
                 )
             }
         }

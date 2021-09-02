@@ -59,7 +59,7 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     }
 
     //used when searching for a planet
-    override fun searchPlanetsFromCache(query: String): Flow<List<Planet>>{
+    override fun searchPlanetsFromCache(query: String): Flow<List<Planet>> {
         Timber.d("searching database for $query")
         return db.planetDao().searchPlanetByName(query)
             .flowOn(defaultDispatcher)
@@ -72,13 +72,9 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
             .flowOn(defaultDispatcher)
             .conflate()
 
-    //used when picking a planet in list of planets
-    /*override fun getPlanetFromCache(planetId: Int): Flow<Planet> {
-        Timber.d("getting planetID: {$planetId} from cache")
-        return db.planetDao().searchPlanetByPlanetId(planetId)
-            .flowOn(defaultDispatcher)
-            .conflate()
-    }*/
+
+
+
 
 
     //Used for FTS, not in use

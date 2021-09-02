@@ -7,12 +7,12 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
+private val DarkThemeColors = darkColors(
     primary = Primary,
     primaryVariant = PrimaryDark,
     secondary = Secondary,
     secondaryVariant = SecondaryDark,
-    background = Color.White,
+    background = Color.Black,
     surface = Gray,
     onPrimary = PrimaryTextColor,
     onSecondary = SecondaryTextColor,
@@ -20,7 +20,7 @@ private val DarkColorPalette = darkColors(
     onSurface = PrimaryTextColor
 )
 
-private val LightColorPalette = lightColors(
+private val LightThemeColors = lightColors(
     primary = Primary,
     primaryVariant = PrimaryLight,
     secondary = Secondary,
@@ -39,9 +39,9 @@ fun ExoplanetExplorerTheme(
     content: @Composable() () -> Unit,
 ) {
     val colors = if (darkTheme) {
-        DarkColorPalette
+        DarkThemeColors
     } else {
-        LightColorPalette
+        LightThemeColors
     }
 
     MaterialTheme(
