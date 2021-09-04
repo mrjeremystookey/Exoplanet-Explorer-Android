@@ -120,11 +120,14 @@ dependencies {
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
 
 
-    implementation 'org.jsoup:jsoup:1.14.2'
-
     //Firebase Analytics
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    //WorkManager
+    def work_version = "2.6.0"
+    implementation("androidx.work:work-runtime-ktx:$work_version")
+
 
 
 }

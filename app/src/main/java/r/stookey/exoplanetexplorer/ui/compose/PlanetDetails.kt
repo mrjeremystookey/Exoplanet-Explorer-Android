@@ -30,6 +30,7 @@ import r.stookey.exoplanetexplorer.domain.Planet
 fun PlanetDetails(planet: Planet) {
     val textColor = MaterialTheme.colors.onPrimary
     val dividerThickness = 16.dp
+    val dividerModifier = Modifier.padding(4.dp)
     LazyColumn(
         Modifier
             .fillMaxSize()
@@ -50,7 +51,7 @@ fun PlanetDetails(planet: Planet) {
                     color = textColor)
                 Text("Orbit semi-major axis: ${planet.orbitSemiMajorAxis} AU", color = textColor)
             }
-            Divider(thickness = dividerThickness)
+            Divider(thickness = dividerThickness, modifier = dividerModifier)
             Column {
                 Text("System Composition:", color = textColor, fontSize = 24.sp)
                 Text("Number of stars in system: ${planet.systemMoonNumber}", color = textColor)
@@ -58,7 +59,7 @@ fun PlanetDetails(planet: Planet) {
                 Text("Number of moons in system: ${planet.systemMoonNumber}", color = textColor)
                 Text("Member of a binary system: ${planet.orbitsInBinarySystem}", color = textColor)
             }
-            Divider(thickness = dividerThickness)
+            Divider(thickness = dividerThickness, modifier = dividerModifier)
             Column {
                 Text("Discovery information:", color = textColor, fontSize = 24.sp)
                 Text("Discovery facility: ${planet.discoveryFacility}", color = textColor)
@@ -69,7 +70,7 @@ fun PlanetDetails(planet: Planet) {
                 Text("Discovery pub. date: ${planet.discoveryPublicationDate}", color = textColor)
                 Text("Discovery location: ${planet.discoveryLocale}", color = textColor)
             }
-            Divider(thickness = dividerThickness)
+            Divider(thickness = dividerThickness, modifier = dividerModifier)
             Column {
                 Text("References: ", color = textColor, fontSize = 24.sp)
                 AnnotatedClickableText("Orbital period reference",

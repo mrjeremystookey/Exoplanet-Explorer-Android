@@ -9,11 +9,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -22,8 +20,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.databinding.FragmentSearchBinding
 import r.stookey.exoplanetexplorer.ui.compose.*
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
@@ -34,21 +34,19 @@ class SearchFragment : Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModels()
     private var _binding: FragmentSearchBinding? = null
-
-
-
+    private lateinit var scaffoldState: ScaffoldState
 
     @ExperimentalComposeUiApi
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Timber.i("onCreateView called")
         return ComposeView(requireContext()).apply {
             setContent {
                 val query = searchViewModel.query
                 val isLoading = searchViewModel.loading.value
+                //TODO need to setup a value for remembering scroll position
+                scaffoldState = rememberScaffoldState()
+
+
                 ExoplanetExplorerTheme {
                     Scaffold(
                         topBar = {
@@ -56,13 +54,15 @@ class SearchFragment : Fragment() {
                                 query = query,
                                 onQueryChanged = searchViewModel::onQueryChanged,
                                 onPlanetSearched = searchViewModel::newSearchByPlanetName
-                            ) //the search button doesn't need pressed as planet results update automatically
+                            )
                         } ,
                         backgroundColor = MaterialTheme.colors.background,
                         content = {
                             MainContent(
                                 loading = isLoading)
-                        }
+                        },
+                        scaffoldState = scaffoldState,
+                        snackbarHost = {scaffoldState.snackbarHostState}
                     )
                 }
             }
@@ -72,6 +72,9 @@ class SearchFragment : Fragment() {
     @Composable
     fun MainContent(loading: Boolean){  //Loaded when app is opened
         val listState = rememberLazyListState()
+        val hostState = remember{SnackbarHostState()}
+
+
         val cardHeight = 65.dp
         Column {
             Box(modifier = Modifier
@@ -82,6 +85,7 @@ class SearchFragment : Fragment() {
                     PlanetListLoading(cardHeight = cardHeight)
                 } else {
                     PlanetListLoaded(listState = listState, cardHeight = cardHeight)
+                    //PlanetLoadedSnackBar(snackbarHostState = hostState) {}
                 }
                 //CircularIndeterminateProgressBar(isDisplayed = loading)
             }
@@ -156,6 +160,7 @@ class SearchFragment : Fragment() {
         super.onStart()
         Timber.i("onStart called")
     }
+
 }
 
 

@@ -1,13 +1,11 @@
 package r.stookey.exoplanetexplorer.ui.test
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,6 +25,9 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl) : View
             param(FirebaseAnalytics.Param.ITEM_NAME, "TestViewModel")
         }
     }
+
+
+
 
 
 

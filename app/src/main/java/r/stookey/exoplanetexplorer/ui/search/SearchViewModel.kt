@@ -40,7 +40,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         }
     }
 
-
     fun onQueryChanged(query: String) {
         Timber.d("query is changing: $query")
         _query.value = query
@@ -60,7 +59,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
             }
         }
     }
-
 
     fun networkButtonPressed() {
         Timber.i("launching network service for new planets")
