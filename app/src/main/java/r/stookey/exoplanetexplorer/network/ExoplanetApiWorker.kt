@@ -14,7 +14,9 @@ import javax.inject.Inject
 
 
 //TODO fix API Worker class
-class ExoplanetApiWorker @Inject constructor(appContext: Context, workerParams: WorkerParameters, var requestQueue: RequestQueue): Worker(appContext, workerParams) {
+class ExoplanetApiWorker @Inject constructor(appContext: Context,
+                                             workerParams: WorkerParameters,
+                                             var requestQueue: RequestQueue): Worker(appContext, workerParams) {
 
     /**
      * Override this method to do your actual background processing.  This method is called on a

@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun PlanetSearchBar(query: State<String>,
                     onQueryChanged: (String) -> Unit,
-                    onPlanetSearched: (String) -> Unit,
 ){
     val keyboardController = LocalSoftwareKeyboardController.current
     Surface(
@@ -55,11 +54,7 @@ fun PlanetSearchBar(query: State<String>,
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Search
                 ),
-                keyboardActions = KeyboardActions(onSearch = {
-                    onPlanetSearched(query.value)
-                    keyboardController?.hide()
-                })
-                ,
+
                 leadingIcon = {
                     Icon(Icons.Outlined.Search, "search")
                 },

@@ -38,21 +38,23 @@ class DetailsFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 ExoplanetExplorerTheme {
-                    Scaffold(topBar = {
-                        TopAppBar(
-                            modifier = Modifier.height(72.dp),
-                            backgroundColor = MaterialTheme.colors.surface,
-                            content = {
-                                Text("${detailsViewModel.selectedPlanet.value.planetName}",
+                    Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                modifier = Modifier.height(72.dp),
+                                backgroundColor = MaterialTheme.colors.surface,
+                                content = {
+                                    Text("${detailsViewModel.selectedPlanet.value.planetName}",
                                     fontSize = 32.sp,
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                     ) },
-                            elevation = 8.dp
-                        )
-                    }, backgroundColor = MaterialTheme.colors.primaryVariant,
+                                elevation = 8.dp
+                            )
+                        },
+                        backgroundColor = MaterialTheme.colors.primaryVariant,
                         content = {
                             PlanetDetails(planet = detailsViewModel.selectedPlanet.value)
-                        })
+                        }, )
                 }
             }
         }

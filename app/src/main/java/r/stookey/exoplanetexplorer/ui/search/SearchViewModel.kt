@@ -30,6 +30,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     val loading: State<Boolean> = _loading
 
 
+
     init {
         Timber.d("SearchViewModel initialized")
         viewModelScope.launch {
@@ -51,15 +52,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         }
     }
 
-    fun newSearchByPlanetName(query: String) {
-        viewModelScope.launch {
-            repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
-                Timber.d("number of Planets returned from search: ${listOfPlanets.size}")
-                _planetsList.value = listOfPlanets
-            }
-        }
-    }
-
     fun networkButtonPressed() {
         Timber.i("launching network service for new planets")
         viewModelScope.launch {
@@ -75,4 +67,5 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
             repo.removeAllPlanetsFromCache()
         }
     }
+
 }

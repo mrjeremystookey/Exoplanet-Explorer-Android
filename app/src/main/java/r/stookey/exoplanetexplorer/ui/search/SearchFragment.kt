@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -11,19 +12,19 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.databinding.FragmentSearchBinding
 import r.stookey.exoplanetexplorer.ui.compose.*
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
@@ -35,17 +36,31 @@ class SearchFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
     private var _binding: FragmentSearchBinding? = null
     private lateinit var scaffoldState: ScaffoldState
+    private lateinit var query: State<String>
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.i("onDestroyView called")
+        _binding = null
+    }
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart called")
+    }
 
     @ExperimentalComposeUiApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Timber.i("onCreateView called")
         return ComposeView(requireContext()).apply {
             setContent {
-                val query = searchViewModel.query
+                query = searchViewModel.query
                 val isLoading = searchViewModel.loading.value
+
+
                 //TODO need to setup a value for remembering scroll position
                 scaffoldState = rememberScaffoldState()
-
+                
 
                 ExoplanetExplorerTheme {
                     Scaffold(
@@ -53,13 +68,15 @@ class SearchFragment : Fragment() {
                             PlanetSearchBar(
                                 query = query,
                                 onQueryChanged = searchViewModel::onQueryChanged,
-                                onPlanetSearched = searchViewModel::newSearchByPlanetName
                             )
                         } ,
                         backgroundColor = MaterialTheme.colors.background,
                         content = {
                             MainContent(
                                 loading = isLoading)
+                        },
+                        drawerContent = {
+                            navigationDrawer()
                         },
                         scaffoldState = scaffoldState,
                         snackbarHost = {scaffoldState.snackbarHostState}
@@ -69,56 +86,44 @@ class SearchFragment : Fragment() {
         }
     }
 
+
     @Composable
     fun MainContent(loading: Boolean){  //Loaded when app is opened
         val listState = rememberLazyListState()
-        val hostState = remember{SnackbarHostState()}
-
-
         val cardHeight = 65.dp
-        Column {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 4.dp)
-                .weight(.9f)) {
-                if(loading){
-                    PlanetListLoading(cardHeight = cardHeight)
-                } else {
-                    PlanetListLoaded(listState = listState, cardHeight = cardHeight)
-                    //PlanetLoadedSnackBar(snackbarHostState = hostState) {}
-                }
-                //CircularIndeterminateProgressBar(isDisplayed = loading)
-            }
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .weight(.1f),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically)
-            {
-                Button(
-                    modifier = Modifier.padding(4.dp),
-                    onClick = searchViewModel::networkButtonPressed
-                ) {
-                    Text("Network")
-                }
-                Button(
-                    modifier = Modifier.padding(4.dp),
-                    onClick = searchViewModel::clearCacheButtonPressed,
-                ) {
-                    Text("Clear Cache")
+
+        if(loading){
+            PlanetListLoading(cardHeight = cardHeight)
+        } else {
+            Box(modifier = Modifier.fillMaxSize()) {
+                PlanetListLoaded(listState = listState, cardHeight = cardHeight)
+                Row(modifier = Modifier
+                    .wrapContentSize()
+                    .align(Alignment.BottomCenter)) {
+                    PlanetLoadedSnackBar(snackbarHostState = scaffoldState.snackbarHostState) {}
                 }
             }
+
+            //Only launch when viewModel state = doneLoading
+            LaunchedEffect(key1 = "Snackbar", block = {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = "Done adding planets",
+                    actionLabel = "Hide",
+                    duration = SnackbarDuration.Short)
+            })
         }
     }
 
+    //Called when data is being retrieved from the network and cached
     @Composable
     fun PlanetListLoading(cardHeight: Dp) {
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp),
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
             contentPadding = PaddingValues(
                 horizontal = 16.dp,
                 vertical = 4.dp),
         ){
-            repeat(10){
+            repeat(20){
                 item {
                     ShimmerPlanetCard(cardHeight = cardHeight)
                 }
@@ -150,16 +155,25 @@ class SearchFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.i("onDestroyView called")
-        _binding = null
+
+    @Composable
+    fun navigationDrawer(){
+        Column() {
+            Button(
+                modifier = Modifier.padding(4.dp),
+                onClick = searchViewModel::networkButtonPressed
+            ) {
+                Text("Check for new planets")
+            }
+            Button(
+                modifier = Modifier.padding(4.dp),
+                onClick = searchViewModel::clearCacheButtonPressed,
+            ) {
+                Text("Clear Cache")
+            }
+        }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Timber.i("onStart called")
-    }
 
 }
 
