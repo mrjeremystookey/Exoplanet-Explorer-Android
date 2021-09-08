@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,6 +52,8 @@ class SearchFragment : Fragment() {
         Timber.i("onStart called")
     }
 
+
+
     @ExperimentalComposeUiApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Timber.i("onCreateView called")
@@ -76,7 +81,7 @@ class SearchFragment : Fragment() {
                                 loading = isLoading)
                         },
                         drawerContent = {
-                            navigationDrawer()
+                            navigationDrawer(searchViewModel)
                         },
                         scaffoldState = scaffoldState,
                         snackbarHost = {scaffoldState.snackbarHostState}
@@ -107,7 +112,7 @@ class SearchFragment : Fragment() {
             //Only launch when viewModel state = doneLoading
             LaunchedEffect(key1 = "Snackbar", block = {
                 scaffoldState.snackbarHostState.showSnackbar(
-                    message = "Done adding planets",
+                    message = "Cached Planets updated",
                     actionLabel = "Hide",
                     duration = SnackbarDuration.Short)
             })
@@ -133,7 +138,9 @@ class SearchFragment : Fragment() {
 
     @Composable
     fun PlanetListLoaded(listState: LazyListState, cardHeight: Dp){
+        val scrollState = rememberScrollState()
         LazyColumn(
+            modifier = Modifier.scrollable(scrollState, Orientation.Vertical),
             verticalArrangement = Arrangement.spacedBy(4.dp),
             contentPadding = PaddingValues(
                 horizontal = 16.dp,
@@ -156,23 +163,7 @@ class SearchFragment : Fragment() {
     }
 
 
-    @Composable
-    fun navigationDrawer(){
-        Column() {
-            Button(
-                modifier = Modifier.padding(4.dp),
-                onClick = searchViewModel::networkButtonPressed
-            ) {
-                Text("Check for new planets")
-            }
-            Button(
-                modifier = Modifier.padding(4.dp),
-                onClick = searchViewModel::clearCacheButtonPressed,
-            ) {
-                Text("Clear Cache")
-            }
-        }
-    }
+
 
 
 }

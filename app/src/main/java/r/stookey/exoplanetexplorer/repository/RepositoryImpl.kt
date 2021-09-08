@@ -33,7 +33,7 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
         val jsonArray = exoplanetApiService.getPlanets()  //gets JsonArray of Planets from ApiService
         val planetList = planetMapper.convertJsonToPlanets(jsonArray)  //Converts JsonArray into List of domain model, Planet objects
         Timber.d("getPlanetsFromNetwork called, number of planets retrieved: " + planetList.size)
-        checkAndInsertPlanetIntoCache(planetList)  //Adds the Planet object into Room database
+         checkAndInsertPlanetIntoCache(planetList)  //Adds the Planet object into Room database
     }
 
 
@@ -71,6 +71,7 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
         get() = db.planetDao().getAllPlanets()
             .flowOn(defaultDispatcher)
             .conflate()
+
 
 
 

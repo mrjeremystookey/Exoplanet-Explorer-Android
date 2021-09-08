@@ -21,7 +21,6 @@ import javax.inject.Singleton
 object RepoModule {
 
 
-
     @Singleton
     @Provides
     fun provideRepository(exoplanetApiService: ExoplanetApiService,

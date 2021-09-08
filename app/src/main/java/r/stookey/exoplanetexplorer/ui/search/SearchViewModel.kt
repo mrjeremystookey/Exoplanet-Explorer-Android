@@ -36,7 +36,9 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         viewModelScope.launch {
             repo.getAllPlanetsFromCache.collect { planets ->
                 _planetsList.value = planets
+
             }
+            repo.getAllPlanetsFromCache
             Timber.d("number of Planets from cache: " + _planetsList.value.size)
         }
     }
@@ -55,8 +57,11 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     fun networkButtonPressed() {
         Timber.i("launching network service for new planets")
         viewModelScope.launch {
-            _loading.value = true
-            repo.getPlanetsFromNetwork()
+            runCatching {
+                _loading.value = true
+                repo.getPlanetsFromNetwork()
+                //TODO examine errors from runCatching
+            }
             _loading.value = false
         }
     }

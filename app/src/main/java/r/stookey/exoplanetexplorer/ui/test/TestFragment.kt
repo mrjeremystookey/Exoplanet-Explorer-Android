@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -20,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
@@ -39,8 +42,7 @@ class TestFragment : Fragment() {
 
     private val testViewModel: TestViewModel by viewModels()
     private var _binding: FragmentTestBinding? = null
-    private lateinit var scaffoldState: ScaffoldState
-    private lateinit var hostState: SnackbarHostState
+
 
     @ExperimentalComposeUiApi
     override fun onCreateView(
@@ -51,66 +53,71 @@ class TestFragment : Fragment() {
         _binding = FragmentTestBinding.inflate(inflater, container, false)
         return ComposeView(requireContext()).apply {
             setContent {
-                hostState = remember{ SnackbarHostState() }
-                scaffoldState = rememberScaffoldState()
+
+                val scaffoldState = rememberScaffoldState()
+                val uiState = testViewModel.uiState.observeAsState().value
 
                 val dividerThickness = 16.dp
                 val dividerModifier = Modifier.padding(4.dp)
 
+                when(uiState){
+                    UiState.Empty -> Timber.d("no Planets are found")
+                    UiState.Loading -> Timber.d("Planets are loading")
+                    UiState.Loaded -> Scaffold(
+                        backgroundColor = MaterialTheme.colors.background,
+                        content = {
+                            Column {
+                                Row(){
+                                    Button(
+                                        modifier = Modifier.padding(16.dp),
+                                        onClick = { testViewModel.doSomeWork() },
+                                    ) {
+                                        Text("Do some work")
+                                    }
+                                    Button(
+                                        modifier = Modifier.padding(16.dp),
+                                        onClick = { testViewModel.logInFireBase() },
+                                    ) {
+                                        Text("Add event to Firebase")
+                                    }
+                                }
+                                Divider(thickness = dividerThickness, modifier = dividerModifier)
+                                LaunchedEffect(key1 = "snackbar", block = {
+                                    scaffoldState.snackbarHostState.showSnackbar(
+                                        message = "Done adding planets",
+                                        actionLabel = "Hide",
+                                        duration = SnackbarDuration.Indefinite)
+                                })
+                                AndroidView(
+                                    modifier = Modifier
+                                        .padding(2.dp),
+                                    factory = { context ->
+                                        WebView(context)
+                                    }
+                                ){ webView ->
+                                    webView.loadUrl("https://www.google.com")
+                                }
+                                Divider(thickness = dividerThickness, modifier = dividerModifier)
+                                Box(Modifier
+                                    .fillMaxSize()
+                                    .background(Color.Gray)){
+                                    Row(modifier = Modifier
+                                        .wrapContentSize()
+                                        .align(Alignment.BottomCenter)) {
+                                        PlanetLoadedSnackBar(snackbarHostState = scaffoldState.snackbarHostState) {}
+                                    }
+                                }
 
-                Scaffold(
-                    backgroundColor = MaterialTheme.colors.background,
-                    content = {
-                        Column {
-                            Button(
-                                modifier = Modifier.padding(16.dp),
-                                onClick = { doSomeWork() },
-                            ) {
-                                Text("Do some work")
                             }
-                            Divider(thickness = dividerThickness, modifier = dividerModifier)
-                            LaunchedEffect(key1 = "snackbar", block = {
-                                scaffoldState.snackbarHostState.showSnackbar(
-                                    message = "Done adding planets",
-                                    actionLabel = "Hide",
-                                    duration = SnackbarDuration.Indefinite)
-                            })
-                            AndroidView(
-                                modifier = Modifier
-                                    .padding(32.dp)
-                                    .background(Color.Blue)
-                                    .clickable {
-                                        Timber.d("Webview clicked")
-                                    },
-                                factory = { context ->
-                                    WebView(context)
-                                }
-                            ){ webView ->
-                                webView.loadUrl("https://www.google.com")
-                            }
-                            Divider(thickness = dividerThickness, modifier = dividerModifier)
-                            Box(Modifier
-                                .fillMaxSize()
-                                .background(Color.Gray)){
-                                Row(modifier = Modifier
-                                    .wrapContentSize()
-                                    .align(Alignment.BottomCenter)) {
-                                    PlanetLoadedSnackBar(snackbarHostState = scaffoldState.snackbarHostState) {}
-                                }
-                            }
-                        }
-                    },
-                    scaffoldState = scaffoldState,
-                    snackbarHost = {scaffoldState.snackbarHostState}
-               )
+                        },
+                        scaffoldState = scaffoldState,
+                        snackbarHost = {scaffoldState.snackbarHostState}
+                    )
+                }
+
+
             }
         }
-    }
-
-
-    private fun doSomeWork(){
-        Timber.d("Doing some work")
-        val workManager = WorkManager.getInstance()
     }
 
 
