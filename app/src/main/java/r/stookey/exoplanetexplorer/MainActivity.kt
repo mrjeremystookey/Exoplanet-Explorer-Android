@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
     }
 
+
+    //This comment was made on the laptop
+
     override fun onStart() {
         super.onStart()
         Timber.i("onStart called")
