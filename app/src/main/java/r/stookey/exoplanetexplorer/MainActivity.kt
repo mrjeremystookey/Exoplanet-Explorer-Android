@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //This comment was made on the laptop
-    //This comment was made on the desktop
 
     override fun onStart() {
         super.onStart()
