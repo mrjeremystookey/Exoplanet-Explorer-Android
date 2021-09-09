@@ -88,15 +88,6 @@ class TestFragment : Fragment() {
                                         actionLabel = "Hide",
                                         duration = SnackbarDuration.Indefinite)
                                 })
-                                AndroidView(
-                                    modifier = Modifier
-                                        .padding(2.dp),
-                                    factory = { context ->
-                                        WebView(context)
-                                    }
-                                ){ webView ->
-                                    webView.loadUrl("https://www.google.com")
-                                }
                                 Divider(thickness = dividerThickness, modifier = dividerModifier)
                                 Box(Modifier
                                     .fillMaxSize()

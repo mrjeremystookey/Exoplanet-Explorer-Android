@@ -61,11 +61,7 @@ class SearchFragment : Fragment() {
             setContent {
                 query = searchViewModel.query
                 val isLoading = searchViewModel.loading.value
-
-
-                //TODO need to setup a value for remembering scroll position
                 scaffoldState = rememberScaffoldState()
-                
 
                 ExoplanetExplorerTheme {
                     Scaffold(

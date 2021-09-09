@@ -2,10 +2,8 @@ package r.stookey.exoplanetexplorer.ui.compose
 
 import android.util.Log
 import android.util.Patterns
-import android.webkit.WebView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +13,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -24,12 +21,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import r.stookey.exoplanetexplorer.domain.Planet
 
 
 @Composable
-fun PlanetDetails(planet: Planet, onReferenceClicked: () -> Unit) {
+fun PlanetDetails(planet: Planet, navigateToReference: (url: String) -> Unit) {
     val textColor = MaterialTheme.colors.onPrimary
     val dividerThickness = 16.dp
     val dividerModifier = Modifier.padding(4.dp)
@@ -77,19 +73,20 @@ fun PlanetDetails(planet: Planet, onReferenceClicked: () -> Unit) {
                 Text("References: ", color = textColor, fontSize = 24.sp)
                 AnnotatedClickableText("Orbital period reference",
                     planet.orbitalPeriodReference?.let { extractUrl(it) },
-                    planet.orbitalPeriodReference?.let { extractStr(it) })
+                    planet.orbitalPeriodReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
                 AnnotatedClickableText("Planet mass reference",
                     planet.planetaryMassEarthReference?.let { extractUrl(it) },
-                    planet.planetaryMassEarthReference?.let { extractStr(it) })
+                    planet.planetaryMassEarthReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
                 AnnotatedClickableText("Planet transit midpoint reference",
                     planet.planetaryTransitMidpointReference?.let { extractUrl(it) },
-                    planet.planetaryTransitMidpointReference?.let { extractStr(it) })
+                    planet.planetaryTransitMidpointReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
                 AnnotatedClickableText("Discovery reference info",
                     planet.discoveryReference?.let { extractUrl(it) },
-                    planet.discoveryReference?.let { extractStr(it) })
+                    planet.discoveryReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
                 AnnotatedClickableText("Orbit semi-major axis reference",
                     planet.orbitSemiMajorAxisReference?.let { extractUrl(it) },
-                    planet.orbitSemiMajorAxisReference?.let { extractStr(it) })
+                    planet.orbitSemiMajorAxisReference?.let { extractStr(it) }, navigateToReference = navigateToReference
+                )
             }
         }
     }
@@ -99,7 +96,7 @@ fun PlanetDetails(planet: Planet, onReferenceClicked: () -> Unit) {
 
 //Used when linking to outside content in a URL
 @Composable
-fun AnnotatedClickableText(label: String, url: String?, text: String?) {
+fun AnnotatedClickableText(label: String, url: String?, text: String?, navigateToReference: (url: String) -> Unit) {
     val annotatedText = buildAnnotatedString {
         append("$label: ")
         pushStringAnnotation(
@@ -120,8 +117,7 @@ fun AnnotatedClickableText(label: String, url: String?, text: String?) {
                 end = offset)
                 .firstOrNull()?.let { annotation ->
                     Log.d("Clicked URL", annotation.item)
-                    //Navigate to webview with URL
-
+                    navigateToReference(annotation.item)
                 }
         },
         style = TextStyle(
@@ -147,7 +143,7 @@ fun PreviewPlanetDetails(){
         "Eyes", "earth", "test",
         "eyes", "tester", "6",
         "5", "45", "1.3", "2.4"),
-        onReferenceClicked = {})
+        navigateToReference = {})
 }
 
 

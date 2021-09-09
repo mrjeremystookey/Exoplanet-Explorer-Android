@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -14,11 +12,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.PlanetDetails
@@ -58,10 +56,12 @@ class DetailsFragment : Fragment() {
                         content = {
                             PlanetDetails(
                                 planet = detailsViewModel.selectedPlanet.value,
-                                onReferenceClicked = {
-                                    //Navigate to new fragment containing a webview
-                                })
-                        },
+                                navigateToReference = { url ->
+                                    val action = DetailsFragmentDirections.viewReference(url)
+                                    findNavController().navigate(action)
+                                }
+                            )
+                        }
                     )
                 }
             }
