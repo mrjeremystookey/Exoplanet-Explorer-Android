@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    //This is a comment
 
     override fun onStart() {
         super.onStart()
