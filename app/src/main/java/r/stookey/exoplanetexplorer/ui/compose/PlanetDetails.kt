@@ -2,6 +2,7 @@ package r.stookey.exoplanetexplorer.ui.compose
 
 import android.util.Log
 import android.util.Patterns
+import android.webkit.WebView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,11 +24,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import r.stookey.exoplanetexplorer.domain.Planet
 
 
 @Composable
-fun PlanetDetails(planet: Planet) {
+fun PlanetDetails(planet: Planet, onReferenceClicked: () -> Unit) {
     val textColor = MaterialTheme.colors.onPrimary
     val dividerThickness = 16.dp
     val dividerModifier = Modifier.padding(4.dp)
@@ -93,6 +95,8 @@ fun PlanetDetails(planet: Planet) {
     }
 }
 
+
+
 //Used when linking to outside content in a URL
 @Composable
 fun AnnotatedClickableText(label: String, url: String?, text: String?) {
@@ -117,6 +121,7 @@ fun AnnotatedClickableText(label: String, url: String?, text: String?) {
                 .firstOrNull()?.let { annotation ->
                     Log.d("Clicked URL", annotation.item)
                     //Navigate to webview with URL
+
                 }
         },
         style = TextStyle(
@@ -141,7 +146,8 @@ fun PreviewPlanetDetails(){
         "Kp", "Kepler", 1,"1334",
         "Eyes", "earth", "test",
         "eyes", "tester", "6",
-        "5", "45", "1.3", "2.4"))
+        "5", "45", "1.3", "2.4"),
+        onReferenceClicked = {})
 }
 
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,17 +45,24 @@ class DetailsFragment : Fragment() {
                                 modifier = Modifier.height(72.dp),
                                 backgroundColor = MaterialTheme.colors.surface,
                                 content = {
-                                    Text("${detailsViewModel.selectedPlanet.value.planetName}",
-                                    fontSize = 32.sp,
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                    ) },
+                                    Text(
+                                        "${detailsViewModel.selectedPlanet.value.planetName}",
+                                        fontSize = 32.sp,
+                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                    )
+                                },
                                 elevation = 8.dp
                             )
                         },
                         backgroundColor = MaterialTheme.colors.primaryVariant,
                         content = {
-                            PlanetDetails(planet = detailsViewModel.selectedPlanet.value)
-                        }, )
+                            PlanetDetails(
+                                planet = detailsViewModel.selectedPlanet.value,
+                                onReferenceClicked = {
+                                    //Navigate to new fragment containing a webview
+                                })
+                        },
+                    )
                 }
             }
         }
