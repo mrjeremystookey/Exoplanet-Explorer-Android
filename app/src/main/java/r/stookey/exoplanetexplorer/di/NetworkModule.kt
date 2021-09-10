@@ -1,7 +1,6 @@
 package r.stookey.exoplanetexplorer.di
 
 import android.content.Context
-import androidx.work.WorkManager
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import dagger.Module

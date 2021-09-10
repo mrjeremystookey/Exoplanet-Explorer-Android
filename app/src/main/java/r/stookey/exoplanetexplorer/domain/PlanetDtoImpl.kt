@@ -1,10 +1,8 @@
 package r.stookey.exoplanetexplorer.domain
 
-import androidx.compose.ui.text.buildAnnotatedString
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
-import org.w3c.dom.Document
 import timber.log.Timber
 import javax.inject.Inject
 
