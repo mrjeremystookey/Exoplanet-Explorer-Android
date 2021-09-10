@@ -40,57 +40,34 @@ class TestFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
 
-                val scaffoldState = rememberScaffoldState()
-                val uiState = testViewModel.uiState.observeAsState().value
-
                 val dividerThickness = 16.dp
                 val dividerModifier = Modifier.padding(4.dp)
 
-                when(uiState){
-                    TestUiState.Empty -> Timber.d("no Planets are found")
-                    TestUiState.Loading -> Timber.d("Planets are loading")
-                    TestUiState.Loaded -> Scaffold(
-                        backgroundColor = MaterialTheme.colors.background,
-                        content = {
-                            Column {
-                                Row(){
-                                    Button(
-                                        modifier = Modifier.padding(16.dp),
-                                        onClick = { testViewModel.doSomeWork() },
-                                    ) {
-                                        Text("Do some work")
-                                    }
-                                    Button(
-                                        modifier = Modifier.padding(16.dp),
-                                        onClick = { testViewModel.logInFireBase() },
-                                    ) {
-                                        Text("Add event to Firebase")
-                                    }
+                Scaffold(
+                    backgroundColor = MaterialTheme.colors.background,
+                    content = {
+                        Column {
+                            Row(){
+                                Button(
+                                    modifier = Modifier.padding(16.dp),
+                                    onClick = { testViewModel.doSomeWork() },
+                                ) {
+                                    Text("Do some work")
                                 }
-                                Divider(thickness = dividerThickness, modifier = dividerModifier)
-                                LaunchedEffect(key1 = "snackbar", block = {
-                                    scaffoldState.snackbarHostState.showSnackbar(
-                                        message = "Done adding planets",
-                                        actionLabel = "Hide",
-                                        duration = SnackbarDuration.Indefinite)
-                                })
-                                Divider(thickness = dividerThickness, modifier = dividerModifier)
-                                Box(Modifier
-                                    .fillMaxSize()
-                                    .background(Color.Gray)){
-                                    Row(modifier = Modifier
-                                        .wrapContentSize()
-                                        .align(Alignment.BottomCenter)) {
-                                        PlanetLoadedSnackBar(snackbarHostState = scaffoldState.snackbarHostState) {}
-                                    }
+                                Button(
+                                    modifier = Modifier.padding(16.dp),
+                                    onClick = { testViewModel.logInFireBase() },
+                                ) {
+                                    Text("Add event to Firebase")
                                 }
-
                             }
-                        },
-                        scaffoldState = scaffoldState,
-                        snackbarHost = {scaffoldState.snackbarHostState}
-                    )
-                }
+                            Divider(thickness = dividerThickness, modifier = dividerModifier)
+                            Divider(thickness = dividerThickness, modifier = dividerModifier)
+
+
+                        }
+                    }
+                )
 
 
             }
