@@ -42,7 +42,6 @@ class SearchFragment : Fragment() {
 
 
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.i("onDestroyView called")
@@ -63,7 +62,6 @@ class SearchFragment : Fragment() {
                 query = searchViewModel.query
                 scaffoldState = rememberScaffoldState()
                 val uiState = searchViewModel.uiState.observeAsState().value
-
                 ExoplanetExplorerTheme {
                     Scaffold(
                         topBar = {
@@ -89,21 +87,35 @@ class SearchFragment : Fragment() {
         }
     }
 
-
+    //Main window between search bar and bottom bar
     @Composable
     fun MainContent(uiState: UiState?){  //Loaded when app is opened
         val listState = rememberLazyListState()
+        val cacheState = searchViewModel.cacheState.observeAsState().value
         val cardHeight = 65.dp
-        Timber.d("UiState: ${uiState}")
+        Timber.d("UiState: $uiState")
         when(uiState){
             UiState.Empty -> {
-                Text("No planets are located", color = MaterialTheme.colors.onPrimary)
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("Planets not found", color = MaterialTheme.colors.onPrimary)
+                }
             }
             UiState.Loading -> {
                 PlanetListLoading(cardHeight = cardHeight)
             }
             UiState.Loaded -> {
                 Box(modifier = Modifier.fillMaxSize()) {
+                    if(cacheState == true){
+                        LaunchedEffect(key1 = "Snackbar", block = {
+                            scaffoldState.snackbarHostState.showSnackbar(
+                                message = "Cached Planets updated",
+                                actionLabel = "Hide",
+                                duration = SnackbarDuration.Short)
+                        })
+                    }
                     PlanetListLoaded(listState = listState, cardHeight = cardHeight)
                     Row(modifier = Modifier
                         .wrapContentSize()
@@ -112,14 +124,7 @@ class SearchFragment : Fragment() {
                     }
                 }
             }
-            UiState.PlanetsCached -> {
-                LaunchedEffect(key1 = "Snackbar", block = {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = "Cached Planets updated",
-                        actionLabel = "Hide",
-                        duration = SnackbarDuration.Short)
-                })
-            }
+
         }
     }
 
@@ -140,6 +145,7 @@ class SearchFragment : Fragment() {
         }
     }
 
+    //Called when planet data is cached and beinng displayed
     @Composable
     fun PlanetListLoaded(listState: LazyListState, cardHeight: Dp){
         val scrollState = rememberScrollState()

@@ -19,7 +19,6 @@ sealed class UiState {
     object Loading: UiState()
     object Loaded: UiState()
     object Empty: UiState()
-    object PlanetsCached: UiState()
 }
 
 @HiltViewModel
@@ -33,33 +32,33 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     private val _query = mutableStateOf("")
     val query: State<String> = _query
 
-
     private val _uiState = MutableLiveData<UiState>()
-    val uiState: LiveData<UiState>
-        get() = _uiState
+    val uiState: LiveData<UiState> = _uiState
 
-
+    private val _cacheState = MutableLiveData<Boolean>()
+    val cacheState: LiveData<Boolean> =_cacheState
 
 
 
     init {
         Timber.d("SearchViewModel initialized")
-
         //Gets planets and populates list
         viewModelScope.launch {
             repo.getAllPlanetsFromCache.collect { planets ->
                 _planetsList.value = planets
                 _uiState.value = UiState.Loaded
+                if(planets.isEmpty()){
+                    _uiState.value = UiState.Empty
+                }
             }
             Timber.d("number of Planets from cache: " + _planetsList.value.size)
         }
 
-        //Lets ViewModel know when Repo is done caching planets so that Snackbar can be shown
+        //Should be removed when viewmodel is shut otherwise leaks
+        //Lets ViewModel know when Repo is done caching planets so that Snackbar composable can be shown
         repo.doneAdding.observeForever {
-            if(it == true)
-                _uiState.value = UiState.PlanetsCached
+            _cacheState.value = it == true
         }
-
     }
 
     fun onQueryChanged(query: String) {
@@ -67,6 +66,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         _query.value = query
         viewModelScope.launch {
             repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
+                Timber.d("number of planets found: ${listOfPlanets.size}")
                 _planetsList.value = listOfPlanets
             }
         }
@@ -88,7 +88,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         Timber.i("clearing local cache")
         viewModelScope.launch {
             repo.removeAllPlanetsFromCache()
-            _uiState.value = UiState.Empty
         }
     }
 

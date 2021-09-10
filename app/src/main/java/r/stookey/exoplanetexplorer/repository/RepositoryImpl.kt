@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import r.stookey.exoplanetexplorer.cache.PlanetDatabase
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetDtoImpl
@@ -50,12 +50,12 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     override suspend fun checkAndInsertPlanetIntoCache(planetList: List<Planet>) {
         _doneAdding.value = false
         Timber.d("doneAdding value: ${_doneAdding.value}")
-        externalScope.launch {
+        withContext(externalScope.coroutineContext) {
             planetList.forEach { planet ->
-                if(db.planetDao().isPlanetCached(planet.planetName)){
+                if (db.planetDao().isPlanetCached(planet.planetName)) {
                     Timber.d("Planet is already cached")
                 } else {
-                    Timber.d("adding planet, "+ planet.planetName + " to local Planet Database")
+                    Timber.d("adding planet, " + planet.planetName + " to local Planet Database")
                     db.planetDao().insert(planet)
                 }
             }
@@ -73,12 +73,13 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
             .conflate()
     }
 
-    //used when first loading list of planets
+    //used when loading list of planets
     override val getAllPlanetsFromCache: Flow<List<Planet>>
         get() = db.planetDao().getAllPlanets()
             .flowOn(defaultDispatcher)
             .conflate()
 
+    //Pretty obvious what it does
     override suspend fun removeAllPlanetsFromCache() {
         Timber.d("removing Planets from local Planet Database")
         db.planetDao().clearPlanets()
