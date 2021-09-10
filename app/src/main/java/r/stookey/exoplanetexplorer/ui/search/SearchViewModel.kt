@@ -3,6 +3,8 @@ package r.stookey.exoplanetexplorer.ui.search
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +15,13 @@ import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
 import javax.inject.Inject
 
+sealed class UiState {
+    object Loading: UiState()
+    object Loaded: UiState()
+    object Empty: UiState()
+    object PlanetsCached: UiState()
+}
+
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
 
@@ -21,26 +30,36 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     private val _planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
     val planetsList: State<List<Planet>> = _planetsList
 
-
     private val _query = mutableStateOf("")
     val query: State<String> = _query
 
 
-    private val _loading = mutableStateOf(false)
-    val loading: State<Boolean> = _loading
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState: LiveData<UiState>
+        get() = _uiState
+
+
 
 
 
     init {
         Timber.d("SearchViewModel initialized")
+
+        //Gets planets and populates list
         viewModelScope.launch {
             repo.getAllPlanetsFromCache.collect { planets ->
                 _planetsList.value = planets
-
+                _uiState.value = UiState.Loaded
             }
-            repo.getAllPlanetsFromCache
             Timber.d("number of Planets from cache: " + _planetsList.value.size)
         }
+
+        //Lets ViewModel know when Repo is done caching planets so that Snackbar can be shown
+        repo.doneAdding.observeForever {
+            if(it == true)
+                _uiState.value = UiState.PlanetsCached
+        }
+
     }
 
     fun onQueryChanged(query: String) {
@@ -48,7 +67,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         _query.value = query
         viewModelScope.launch {
             repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
-                Timber.d("Number of planets returned from search: ${listOfPlanets.size}")
                 _planetsList.value = listOfPlanets
             }
         }
@@ -58,11 +76,11 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         Timber.i("launching network service for new planets")
         viewModelScope.launch {
             runCatching {
-                _loading.value = true
+                _uiState.value = UiState.Loading
                 repo.getPlanetsFromNetwork()
                 //TODO examine errors from runCatching
             }
-            _loading.value = false
+            _uiState.value = UiState.Loaded
         }
     }
 
@@ -70,6 +88,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         Timber.i("clearing local cache")
         viewModelScope.launch {
             repo.removeAllPlanetsFromCache()
+            _uiState.value = UiState.Empty
         }
     }
 

@@ -8,13 +8,10 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.RequestFuture
-import com.android.volley.toolbox.Volley
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import org.json.JSONArray
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 
 //TODO fix API Worker class

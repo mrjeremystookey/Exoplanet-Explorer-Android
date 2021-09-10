@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -18,10 +17,10 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-sealed class UiState {
-    object Loading: UiState()
-    object Loaded: UiState()
-    object Empty: UiState()
+sealed class TestUiState {
+    object Loading: TestUiState()
+    object Loaded: TestUiState()
+    object Empty: TestUiState()
 }
 
 @HiltViewModel
@@ -32,13 +31,13 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl) : View
 
 
 
-    private val _uiState = MutableLiveData<UiState>()
-    val uiState: LiveData<UiState>
+    private val _uiState = MutableLiveData<TestUiState>()
+    val uiState: LiveData<TestUiState>
         get() = _uiState
 
     init {
         Timber.d("TestViewModel initialized")
-        _uiState.value = UiState.Loaded
+        _uiState.value = TestUiState.Loaded
     }
 
     fun logInFireBase(){

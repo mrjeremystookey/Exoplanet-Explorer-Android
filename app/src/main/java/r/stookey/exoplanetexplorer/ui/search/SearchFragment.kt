@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -17,10 +16,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -42,6 +41,8 @@ class SearchFragment : Fragment() {
     private lateinit var query: State<String>
 
 
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.i("onDestroyView called")
@@ -60,8 +61,8 @@ class SearchFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 query = searchViewModel.query
-                val isLoading = searchViewModel.loading.value
                 scaffoldState = rememberScaffoldState()
+                val uiState = searchViewModel.uiState.observeAsState().value
 
                 ExoplanetExplorerTheme {
                     Scaffold(
@@ -73,8 +74,9 @@ class SearchFragment : Fragment() {
                         } ,
                         backgroundColor = MaterialTheme.colors.background,
                         content = {
-                            MainContent(
-                                loading = isLoading)
+                                MainContent(
+                                    uiState = uiState)
+
                         },
                         drawerContent = {
                             navigationDrawer(searchViewModel)
@@ -89,29 +91,35 @@ class SearchFragment : Fragment() {
 
 
     @Composable
-    fun MainContent(loading: Boolean){  //Loaded when app is opened
+    fun MainContent(uiState: UiState?){  //Loaded when app is opened
         val listState = rememberLazyListState()
         val cardHeight = 65.dp
-
-        if(loading){
-            PlanetListLoading(cardHeight = cardHeight)
-        } else {
-            Box(modifier = Modifier.fillMaxSize()) {
-                PlanetListLoaded(listState = listState, cardHeight = cardHeight)
-                Row(modifier = Modifier
-                    .wrapContentSize()
-                    .align(Alignment.BottomCenter)) {
-                    PlanetLoadedSnackBar(snackbarHostState = scaffoldState.snackbarHostState) {}
+        Timber.d("UiState: ${uiState}")
+        when(uiState){
+            UiState.Empty -> {
+                Text("No planets are located", color = MaterialTheme.colors.onPrimary)
+            }
+            UiState.Loading -> {
+                PlanetListLoading(cardHeight = cardHeight)
+            }
+            UiState.Loaded -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    PlanetListLoaded(listState = listState, cardHeight = cardHeight)
+                    Row(modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.BottomCenter)) {
+                        PlanetLoadedSnackBar(snackbarHostState = scaffoldState.snackbarHostState) {}
+                    }
                 }
             }
-
-            //Only launch when viewModel state = doneLoading
-            LaunchedEffect(key1 = "Snackbar", block = {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = "Cached Planets updated",
-                    actionLabel = "Hide",
-                    duration = SnackbarDuration.Short)
-            })
+            UiState.PlanetsCached -> {
+                LaunchedEffect(key1 = "Snackbar", block = {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Cached Planets updated",
+                        actionLabel = "Hide",
+                        duration = SnackbarDuration.Short)
+                })
+            }
         }
     }
 
@@ -157,10 +165,6 @@ class SearchFragment : Fragment() {
             }
         }
     }
-
-
-
-
 
 }
 

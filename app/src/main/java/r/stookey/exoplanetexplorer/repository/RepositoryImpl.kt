@@ -1,9 +1,13 @@
 package r.stookey.exoplanetexplorer.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.cache.PlanetDatabase
 import r.stookey.exoplanetexplorer.domain.Planet
@@ -24,6 +28,12 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     private val externalScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
 
+    //Used to tell ViewModel when Cache is up to date
+    private val _doneAdding: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
+    val doneAdding: LiveData<Boolean>
+        get() = _doneAdding
+
+
     init {
         Timber.i("Repository init running")
     }
@@ -32,17 +42,17 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     override suspend fun getPlanetsFromNetwork() {
         val jsonArray = exoplanetApiService.getPlanets()  //gets JsonArray of Planets from ApiService
         val planetList = planetMapper.convertJsonToPlanets(jsonArray)  //Converts JsonArray into List of domain model, Planet objects
-        Timber.d("getPlanetsFromNetwork called, number of planets retrieved: " + planetList.size)
          checkAndInsertPlanetIntoCache(planetList)  //Adds the Planet object into Room database
     }
 
 
     //Checks if Planets have already been cached, if not, adds them to cache
     override suspend fun checkAndInsertPlanetIntoCache(planetList: List<Planet>) {
+        _doneAdding.value = false
+        Timber.d("doneAdding value: ${_doneAdding.value}")
         externalScope.launch {
             planetList.forEach { planet ->
-                val isAlreadyCached = db.planetDao().isPlanetCached(planet.planetName)
-                if(isAlreadyCached){
+                if(db.planetDao().isPlanetCached(planet.planetName)){
                     Timber.d("Planet is already cached")
                 } else {
                     Timber.d("adding planet, "+ planet.planetName + " to local Planet Database")
@@ -51,11 +61,8 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
             }
             Timber.d("done adding Planets to local cache")
         }
-    }
-
-    override suspend fun removeAllPlanetsFromCache() {
-        Timber.d("removing Planets from local Planet Database")
-        db.planetDao().clearPlanets()
+        _doneAdding.value = true
+        Timber.d("doneAdding value: ${_doneAdding.value}")
     }
 
     //used when searching for a planet
@@ -72,10 +79,10 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
             .flowOn(defaultDispatcher)
             .conflate()
 
-
-
-
-
+    override suspend fun removeAllPlanetsFromCache() {
+        Timber.d("removing Planets from local Planet Database")
+        db.planetDao().clearPlanets()
+    }
 
 
     //Used for FTS, not in use

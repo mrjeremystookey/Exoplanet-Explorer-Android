@@ -30,5 +30,4 @@ interface PlanetDao {
     suspend fun planetFts(query: String): List<PlanetFts>
 
 
-
 }
