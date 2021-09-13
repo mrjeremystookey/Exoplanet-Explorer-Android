@@ -54,7 +54,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
             Timber.d("number of Planets from cache: " + _planetsList.value.size)
         }
 
-        //Should be removed when viewmodel is shut otherwise leaks
+        //Should be removed when viewModel is shut otherwise leaks
         //Lets ViewModel know when Repo is done caching planets so that Snackbar composable can be shown
         repo.doneAdding.observeForever {
             _cacheState.value = it == true
