@@ -25,7 +25,6 @@ class DetailsViewModel @Inject constructor(
         Timber.d("detailsViewModel initialized")
     }
 
-
     fun newSearchByPlanetName(planetName: String){
         viewModelScope.launch {
             repo.searchPlanetsFromCache(planetName).collect { planet ->
