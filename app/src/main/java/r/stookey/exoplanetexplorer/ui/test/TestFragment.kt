@@ -4,23 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.databinding.FragmentTestBinding
-import r.stookey.exoplanetexplorer.ui.compose.PlanetLoadedSnackBar
-import timber.log.Timber
+import r.stookey.exoplanetexplorer.ui.compose.ScatterPlot
 
 @AndroidEntryPoint
 class TestFragment : Fragment() {
@@ -62,6 +58,9 @@ class TestFragment : Fragment() {
                                 }
                             }
                             Divider(thickness = dividerThickness, modifier = dividerModifier)
+                            Row{
+                                ScatterPlot()
+                            }
                             Divider(thickness = dividerThickness, modifier = dividerModifier)
 
 
