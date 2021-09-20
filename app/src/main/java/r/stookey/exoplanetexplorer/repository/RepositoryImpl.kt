@@ -2,6 +2,9 @@ package r.stookey.exoplanetexplorer.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,13 +17,16 @@ import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetDtoImpl
 import r.stookey.exoplanetexplorer.domain.PlanetFts
 import r.stookey.exoplanetexplorer.network.ExoplanetApiService
+import r.stookey.exoplanetexplorer.network.ExoplanetApiWorker
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
 class RepositoryImpl @Inject constructor(private var exoplanetApiService: ExoplanetApiService,
                                          private var planetMapper: PlanetDtoImpl,
-                                         private var db: PlanetDatabase
+                                         private var db: PlanetDatabase,
+                                         private val workManager: WorkManager
                                          ): Repository {
 
     //needs to be injected
@@ -36,6 +42,7 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
 
     init {
         Timber.i("Repository init running")
+        //queryNetworkForNewPlanets()
     }
 
     //Should only run when called specifically, when data is deleted from the network, or needs to be updated
@@ -43,6 +50,15 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
         val jsonArray = exoplanetApiService.getPlanets()  //gets JsonArray of Planets from ApiService
         val planetList = planetMapper.convertJsonToPlanets(jsonArray)  //Converts JsonArray into List of domain model, Planet objects
          checkAndInsertPlanetIntoCache(planetList)  //Adds the Planet object into Room database
+    }
+
+    //Called on Repo initialization, checks network for new planets
+    //queries API to see if Exoplanet list has been updated, checks every week as new planets are added on a weekly basis
+    private fun queryNetworkForNewPlanets(){
+        val planetSyncWorkRequest: WorkRequest =
+            PeriodicWorkRequestBuilder<ExoplanetApiWorker>(7, TimeUnit.DAYS).build()
+        Timber.d("periodic work request created ${planetSyncWorkRequest.id}")
+        workManager.enqueue(planetSyncWorkRequest)
     }
 
 

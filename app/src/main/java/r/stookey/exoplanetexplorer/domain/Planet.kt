@@ -112,6 +112,11 @@ data class Planet(
     @Json(name = "pl_bmasse")
     val planetaryMassEarth: Double? = null,
 
+    //Amount of matter contained in the planet, measured in units of masses of Jupiter
+    @ColumnInfo(name = "planetary_mass_jupiter")
+    @Json(name = "pl_bmassj")
+    val planetaryMassJupiter: Double? = null,
+
     //Amount by which the orbit of the planet deviates from a perfect circle
     @ColumnInfo(name = "pl_orbeccen")
     @Json(name = "pl_orbeccen")

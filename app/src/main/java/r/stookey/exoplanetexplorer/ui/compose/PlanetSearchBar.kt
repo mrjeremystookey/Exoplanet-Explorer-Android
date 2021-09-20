@@ -22,42 +22,32 @@ import androidx.compose.ui.unit.sp
 
 @ExperimentalComposeUiApi
 @Composable
-fun PlanetSearchBar(query: State<String>,
+fun PlanetSearchBar(modifier: Modifier,
+                    query: State<String>,
                     onQueryChanged: (String) -> Unit,
 ){
-    val keyboardController = LocalSoftwareKeyboardController.current
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colors.primary,
-        elevation = 8.dp
-    ) {
-        Row(
+    Row(
+        modifier = Modifier
+            .height(72.dp),
+    ){
+        TextField(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(72.dp),
-
-        ){
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                value = query.value,
-                onValueChange = { newQuery ->
-                    onQueryChanged(newQuery)
-                },
-                label = {
-                    Text("Search", color = MaterialTheme.colors.secondary, fontSize = 18.sp)
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Search
-                ),
-
-                leadingIcon = {
-                    Icon(Icons.Outlined.Search, "search")
-                },
-                textStyle = TextStyle(color = MaterialTheme.colors.onPrimary)
-            )
-        }
+                .padding(8.dp),
+            value = query.value,
+            onValueChange = { newQuery ->
+                onQueryChanged(newQuery)
+            },
+            label = {
+                Text("Search", color = MaterialTheme.colors.secondary, fontSize = 18.sp)
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Search
+            ),
+            leadingIcon = {
+                Icon(Icons.Outlined.Search, "search")
+            },
+            textStyle = TextStyle(color = MaterialTheme.colors.onPrimary)
+        )
     }
 }

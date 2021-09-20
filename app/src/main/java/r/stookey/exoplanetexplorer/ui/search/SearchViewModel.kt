@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
@@ -66,10 +67,17 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         _query.value = query
         viewModelScope.launch {
             repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
-                Timber.d("number of planets found: ${listOfPlanets.size}")
-                _planetsList.value = listOfPlanets
+                if(uiState.value == UiState.Loaded){
+                    Timber.d("number of planets found: ${listOfPlanets.size}")
+                    _planetsList.value = listOfPlanets
+                }
             }
         }
+    }
+
+    suspend fun onSortClicked(){
+        Timber.d("Sort button clicked")
+        var list = repo.getAllPlanetsFromCache.toList()
     }
 
     fun networkButtonPressed() {

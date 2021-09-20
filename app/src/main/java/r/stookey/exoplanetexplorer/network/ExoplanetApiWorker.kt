@@ -12,9 +12,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import org.json.JSONArray
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 
-//TODO fix API Worker class
 @HiltWorker
 class ExoplanetApiWorker @AssistedInject constructor(
     @Assisted appContext: Context,
@@ -26,16 +26,16 @@ class ExoplanetApiWorker @AssistedInject constructor(
         Timber.d("doing some work with WorkManager")
         var future: RequestFuture<JSONArray> = RequestFuture.newFuture()
         var request = JsonArrayRequest(Request.Method.GET, Urls.ALL_PLANETS_URL, null, future, future)
-        //requestQueue.add(request)
-        /*return try {
-            var response = future.get(60, TimeUnit.SECONDS)
-            Timber.d("response from background work: ${response[0]}")
+        queue.add(request)
+        return try {
+            var response = future.get(120, TimeUnit.SECONDS)
+            //TODO Convert to Planet objects, check if in cache and insert if not
+            Timber.d("future response: ${response[1]}")
             Result.success()
-        } catch (throwable: Throwable) {
-            Timber.d("response from background work failed")
+        } catch (throwable: Throwable){
+            Timber.d("unable to do future work: ${throwable.cause}")
             return Result.failure()
-        }*/
-        return Result.success()
+        }
     }
 
     override fun onStopped() {

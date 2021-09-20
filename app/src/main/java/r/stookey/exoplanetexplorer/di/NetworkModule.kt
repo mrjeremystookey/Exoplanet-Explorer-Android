@@ -1,6 +1,7 @@
 package r.stookey.exoplanetexplorer.di
 
 import android.content.Context
+import androidx.work.WorkManager
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import dagger.Module
@@ -30,11 +31,10 @@ object NetworkModule {
         return Volley.newRequestQueue(appContext)
     }
 
-
-    /*@Singleton
+    @Singleton
     @Provides
-    fun providesWorkManager(@ApplicationContext appContext: Context): WorkManager{
-        return WorkManager.initialize(appContext, )
-    }*/
+    fun providesWorkManager(@ApplicationContext appContext: Context): WorkManager {
+        return WorkManager.getInstance(appContext)
+    }
 
 }

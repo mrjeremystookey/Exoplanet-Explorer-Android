@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -12,7 +14,10 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -21,8 +26,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -53,7 +63,6 @@ class SearchFragment : Fragment() {
     }
 
 
-
     @ExperimentalComposeUiApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Timber.i("onCreateView called")
@@ -64,12 +73,8 @@ class SearchFragment : Fragment() {
                 val uiState = searchViewModel.uiState.observeAsState().value
                 ExoplanetExplorerTheme {
                     Scaffold(
-                        topBar = {
-                            PlanetSearchBar(
-                                query = query,
-                                onQueryChanged = searchViewModel::onQueryChanged,
-                            )
-                        } ,
+                        topBar = { TopBar()
+                        },
                         backgroundColor = MaterialTheme.colors.background,
                         content = {
                                 MainContent(
@@ -128,6 +133,42 @@ class SearchFragment : Fragment() {
         }
     }
 
+
+    @ExperimentalComposeUiApi
+    @Composable
+    fun TopBar(){
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colors.primary,
+            elevation = 8.dp
+        ) {
+            Row(
+                modifier = Modifier
+                    .height(72.dp),
+            ){
+                PlanetSearchBar(
+                    modifier = Modifier
+                        .weight(.8f),
+                    query = query,
+                    onQueryChanged = searchViewModel::onQueryChanged,
+                )
+                Button(
+                    modifier = Modifier
+                        .padding(end = 8.dp, bottom = 6.dp, top = 6.dp)
+                        .fillMaxSize()
+                        .background(MaterialTheme.colors.primaryVariant)
+                        .weight(.2f),
+                    border = BorderStroke(1.dp, MaterialTheme.colors.secondary),
+                    onClick = {searchViewModel::onSortClicked})
+                {
+                    Text(text = "Sort By",
+                        color = MaterialTheme.colors.secondary,
+                        fontSize = 18.sp)
+                }
+            }
+        }
+    }
+
     //Called when data is being retrieved from the network and cached
     @Composable
     fun PlanetListLoading(cardHeight: Dp) {
@@ -171,6 +212,8 @@ class SearchFragment : Fragment() {
             }
         }
     }
+
+
 
 }
 

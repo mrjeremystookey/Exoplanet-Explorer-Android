@@ -17,6 +17,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.databinding.FragmentTestBinding
 import r.stookey.exoplanetexplorer.ui.compose.ScatterPlot
+import timber.log.Timber
 
 @AndroidEntryPoint
 class TestFragment : Fragment() {
@@ -59,10 +60,12 @@ class TestFragment : Fragment() {
                             }
                             Divider(thickness = dividerThickness, modifier = dividerModifier)
                             Row{
-                                ScatterPlot()
+                                if(testViewModel.planetsList.value != null){
+                                    Timber.d("planetsList size: ${testViewModel.planetsList.value.size}")
+                                    ScatterPlot(testViewModel.planetsList.value, context)
+                                }
                             }
                             Divider(thickness = dividerThickness, modifier = dividerModifier)
-
 
                         }
                     }

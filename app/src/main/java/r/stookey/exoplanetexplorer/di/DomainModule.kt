@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import r.stookey.exoplanetexplorer.ExoplanetApplication
 import r.stookey.exoplanetexplorer.domain.PlanetDto
 import r.stookey.exoplanetexplorer.domain.PlanetDtoImpl
 import timber.log.Timber
@@ -28,6 +29,4 @@ object DomainModule {
         Timber.i("PlanetDto injected")
         return PlanetDtoImpl(provideMoshi())
     }
-
-
 }

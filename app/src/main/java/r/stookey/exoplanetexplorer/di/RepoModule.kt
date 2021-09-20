@@ -1,5 +1,6 @@
 package r.stookey.exoplanetexplorer.di
 
+import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,14 +18,14 @@ import javax.inject.Singleton
 @Module
 object RepoModule {
 
-
     @Singleton
     @Provides
     fun provideRepository(exoplanetApiService: ExoplanetApiService,
                           planetMapper: PlanetDtoImpl,
-                          planetDatabase: PlanetDatabase
+                          planetDatabase: PlanetDatabase,
+                          workManager: WorkManager
     ): Repository {
         Timber.i("RepositoryImpl injected")
-        return RepositoryImpl(exoplanetApiService, planetMapper, planetDatabase)
+        return RepositoryImpl(exoplanetApiService, planetMapper, planetDatabase, workManager)
     }
 }

@@ -3,7 +3,7 @@ package r.stookey.exoplanetexplorer.network
 object Urls {
     private const val PARAMETERS = "hostname," +
             "pl_letter,pl_controv_flag,pl_rade,pl_orbper," +
-            "pl_bmasse,pl_orbeccen,pl_orbincl," +
+            "pl_bmasse,pl_bmassj,pl_orbeccen,pl_orbincl," +
             "sy_pnum,sy_snum,sy_mnum,cb_flag," +
             "disc_telescope,disc_instrument,disc_facility,disc_refname,disc_pubdate," +
             "disc_locale,discoverymethod,disc_year," +

@@ -1,5 +1,6 @@
 package r.stookey.exoplanetexplorer.ui.compose
 
+import android.content.Context
 import android.graphics.Color
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,16 +14,26 @@ import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.ScatterData
 import com.github.mikephil.charting.data.ScatterDataSet
+import com.github.mikephil.charting.utils.Utils
+import r.stookey.exoplanetexplorer.domain.Planet
+import timber.log.Timber
 
 
 @Composable
-fun ScatterPlot() {
+fun ScatterPlot(listOfPlanets: List<Planet>, context: Context) {
+    Utils.init(context)
 
-    var entry1 = Entry(5f,15f)
-    var entry2 = Entry(10f,25f)
-    var entry3 = Entry(15f,45f)
-    var list = listOf(entry1, entry2, entry3)
-    var dataSet = ScatterDataSet(list, "test data")
+    var planetEntryList = mutableListOf<Entry>()
+    listOfPlanets.forEach { planet ->
+        if(planet.planetaryOrbitPeriod != null && planet.planetaryMassJupiter != null){
+            var planetEntry = Entry(planet.planetaryOrbitPeriod.toFloat(), planet.planetaryMassJupiter.toFloat())
+            planetEntryList.add(planetEntry)
+        }
+    }
+    Timber.d("number of Planets to be graphed: ${planetEntryList.size}")
+
+
+    var dataSet = ScatterDataSet(planetEntryList, "Mass - Period Distribution")
     var scatterDataSet = ScatterData(dataSet)
 
     AndroidView(
