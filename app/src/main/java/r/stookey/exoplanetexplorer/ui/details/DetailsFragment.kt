@@ -19,7 +19,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import r.stookey.exoplanetexplorer.ui.compose.PlanetDetails
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 
 @AndroidEntryPoint

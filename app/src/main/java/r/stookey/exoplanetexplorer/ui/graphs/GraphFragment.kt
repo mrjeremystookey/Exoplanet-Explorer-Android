@@ -9,7 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import r.stookey.exoplanetexplorer.ui.compose.ScatterPlot
+import r.stookey.exoplanetexplorer.ui.graphs.plots.ScatterPlot
+import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import timber.log.Timber
 
 
@@ -28,8 +29,8 @@ class GraphFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                Row{
-                    if(graphViewModel.planetsList.value != null){
+                ExoplanetExplorerTheme {
+                    Row{
                         Timber.d("planetsList size: ${graphViewModel.planetsList.value.size}")
                         ScatterPlot(graphViewModel.planetsList.value, context)
                     }

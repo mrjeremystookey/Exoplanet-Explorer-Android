@@ -16,8 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.databinding.FragmentTestBinding
-import r.stookey.exoplanetexplorer.ui.compose.ScatterPlot
-import timber.log.Timber
 
 @AndroidEntryPoint
 class TestFragment : Fragment() {
