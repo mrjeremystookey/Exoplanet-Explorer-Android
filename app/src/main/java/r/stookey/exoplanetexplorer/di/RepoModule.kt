@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import r.stookey.exoplanetexplorer.cache.PlanetDatabase
 import r.stookey.exoplanetexplorer.domain.PlanetDtoImpl
 import r.stookey.exoplanetexplorer.network.ExoplanetApiService
@@ -23,9 +24,10 @@ object RepoModule {
     fun provideRepository(exoplanetApiService: ExoplanetApiService,
                           planetMapper: PlanetDtoImpl,
                           planetDatabase: PlanetDatabase,
-                          workManager: WorkManager
+                          workManager: WorkManager,
+                          ioDispatcher: CoroutineDispatcher
     ): Repository {
         Timber.i("RepositoryImpl injected")
-        return RepositoryImpl(exoplanetApiService, planetMapper, planetDatabase, workManager)
+        return RepositoryImpl(exoplanetApiService, planetMapper, planetDatabase, workManager, ioDispatcher)
     }
 }

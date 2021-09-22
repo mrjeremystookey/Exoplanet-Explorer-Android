@@ -47,4 +47,12 @@
         android:label="@string/title_testing"
         tools:layout="@layout/fragment_test" />
 
+
+    <fragment
+        android:id="@+id/navigation_graphs"
+        android:name="r.stookey.exoplanetexplorer.ui.graphs.GraphFragment"
+        android:label="@string/title_graphs"
+        tools:layout="@layout/fragment_graphs" />
+
+
 </navigation>

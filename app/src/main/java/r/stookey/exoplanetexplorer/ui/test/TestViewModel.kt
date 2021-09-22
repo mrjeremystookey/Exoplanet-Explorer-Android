@@ -13,20 +13,14 @@ import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import r.stookey.exoplanetexplorer.ExoplanetApplication
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.network.ExoplanetApiWorker
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-sealed class TestUiState {
-    object Loading: TestUiState()
-    object Loaded: TestUiState()
-    object Empty: TestUiState()
-}
+
 
 @HiltViewModel
 class TestViewModel @Inject constructor(private val repo: RepositoryImpl,
@@ -34,17 +28,11 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl,
 
     private var firebaseAnalytics: FirebaseAnalytics = Firebase.analytics
 
-    private val _planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
-    val planetsList: State<List<Planet>> = _planetsList
 
-    private val _uiState = MutableLiveData<TestUiState>()
-    val uiState: LiveData<TestUiState>
-        get() = _uiState
+
 
     init {
         Timber.d("TestViewModel initialized")
-        _uiState.value = TestUiState.Loaded
-        graphData()
     }
 
     fun logInFireBase(){
@@ -56,20 +44,15 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl,
 
 
     fun doSomeWork(){
-        val testPlanetSyncWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ExoplanetApiWorker>().build()
+        val testPlanetSyncWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ExoplanetApiWorker>()
+            .addTag("CHECK_NEW_PLANETS")
+            .build()
         Timber.d("one time work request created ${testPlanetSyncWorkRequest.id}")
-        workManager.enqueue(testPlanetSyncWorkRequest)
         Timber.d("status of one time work request: ${workManager.getWorkInfoById(testPlanetSyncWorkRequest.id)}")
     }
 
 
-    fun graphData(){
-        viewModelScope.launch {
-            repo.getAllPlanetsFromCache.collect { planets ->
-                _planetsList.value = planets
-            }
-        }
-    }
+
 
 
 
