@@ -42,24 +42,26 @@ class TestFragment : Fragment() {
                     backgroundColor = MaterialTheme.colors.background,
                     content = {
                         Column {
-                            Row(){
-                                Button(
-                                    modifier = Modifier.padding(16.dp),
-                                    onClick = { testViewModel.doSomeWork() },
-                                ) {
-                                    Text("Do some work")
-                                }
-                                Button(
-                                    modifier = Modifier.padding(16.dp),
-                                    onClick = { testViewModel.logInFireBase() },
-                                ) {
-                                    Text("Add event to Firebase")
-                                }
+                            Button(
+                                modifier = Modifier.padding(16.dp),
+                                onClick = { testViewModel.doSomeWork() },
+                            ) {
+                                Text("Do some work")
                             }
                             Divider(thickness = dividerThickness, modifier = dividerModifier)
-
+                            Button(
+                                modifier = Modifier.padding(16.dp),
+                                onClick = { testViewModel.crash() },
+                            ) {
+                                Text("crash (and record event in Crashlytics)")
+                            }
                             Divider(thickness = dividerThickness, modifier = dividerModifier)
-
+                            Button(
+                                modifier = Modifier.padding(16.dp),
+                                onClick = { testViewModel.logInFireBase() },
+                            ) {
+                                Text("Add event to Firebase")
+                            }
                         }
                     }
                 )

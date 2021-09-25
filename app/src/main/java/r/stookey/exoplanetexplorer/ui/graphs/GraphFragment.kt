@@ -1,17 +1,21 @@
 package r.stookey.exoplanetexplorer.ui.graphs
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.graphs.plots.ScatterPlot
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
-import timber.log.Timber
+import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
+import r.stookey.exoplanetexplorer.ui.graphs.plots.DataSetUtil
 
 
 @AndroidEntryPoint
@@ -30,13 +34,28 @@ class GraphFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 ExoplanetExplorerTheme {
-                    Row{
-                        Timber.d("planetsList size: ${graphViewModel.planetsList.value.size}")
-                        ScatterPlot(graphViewModel.planetsList.value, context)
-                    }
+                    Scaffold(
+                        content = { GraphContent(context) },
+                        drawerContent = {}
+                    )
                 }
             }
         }
     }
 
+    @Composable
+    fun GraphContent(context: Context){
+
+        var massPeriodDataSet = DataSetUtil().createScatterDataSet(graphViewModel.planetsList.value, "Mass-Period Distribution")
+        var discoveryYearDataSet = DataSetUtil().createBarChartDataSet(graphViewModel.planetsList.value, "Detections Per Year")
+        //ScatterPlot(massPeriodDataSet)
+        BarChart(graphViewModel.planetsList.value)
+
+
+    }
+
+
+
 }
+
+

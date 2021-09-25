@@ -12,6 +12,10 @@ import r.stookey.exoplanetexplorer.ui.search.SearchViewModel
 
 @Composable
 fun navigationDrawer(searchViewModel: SearchViewModel){
+
+
+
+
     Column() {
         Button(
             modifier = Modifier.padding(4.dp),

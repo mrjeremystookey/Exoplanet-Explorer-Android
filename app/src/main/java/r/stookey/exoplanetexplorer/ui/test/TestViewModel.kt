@@ -17,6 +17,8 @@ import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.network.ExoplanetApiWorker
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
+import java.lang.Exception
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 
@@ -28,9 +30,6 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl,
 
     private var firebaseAnalytics: FirebaseAnalytics = Firebase.analytics
 
-
-
-
     init {
         Timber.d("TestViewModel initialized")
     }
@@ -40,6 +39,10 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl,
             param(FirebaseAnalytics.Param.ITEM_ID, 1)
             param(FirebaseAnalytics.Param.ITEM_NAME, "TestViewModel")
         }
+    }
+
+    fun crash(): Exception {
+        throw RuntimeException("Test Crash")
     }
 
 

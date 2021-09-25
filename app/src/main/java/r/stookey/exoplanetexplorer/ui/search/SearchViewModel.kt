@@ -26,6 +26,7 @@ sealed class UiState {
 class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
 
 
+
     //Mutable State Variables
     private val _planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
     val planetsList: State<List<Planet>> = _planetsList
@@ -75,9 +76,8 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         }
     }
 
-    suspend fun onSortClicked(){
+    fun onSortClicked(){
         Timber.d("Sort button clicked")
-        var list = repo.getAllPlanetsFromCache.toList()
     }
 
     fun networkButtonPressed() {

@@ -73,14 +73,12 @@ class SearchFragment : Fragment() {
                 val uiState = searchViewModel.uiState.observeAsState().value
                 ExoplanetExplorerTheme {
                     Scaffold(
-                        topBar = { TopBar()
-                        },
+                        topBar = { TopBar() },
                         backgroundColor = MaterialTheme.colors.background,
                         content = {
                                 MainContent(
                                     uiState = uiState)
-
-                        },
+                                  },
                         drawerContent = {
                             navigationDrawer(searchViewModel)
                         },
@@ -159,7 +157,7 @@ class SearchFragment : Fragment() {
                         .background(MaterialTheme.colors.primaryVariant)
                         .weight(.2f),
                     border = BorderStroke(1.dp, MaterialTheme.colors.secondary),
-                    onClick = {searchViewModel::onSortClicked})
+                    onClick = { onSortClicked() })
                 {
                     Text(text = "Sort By",
                         color = MaterialTheme.colors.secondary,
@@ -167,6 +165,10 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun onSortClicked(){
+        Timber.d("Sort button clicked")
     }
 
     //Called when data is being retrieved from the network and cached
@@ -212,6 +214,7 @@ class SearchFragment : Fragment() {
             }
         }
     }
+
 
 
 

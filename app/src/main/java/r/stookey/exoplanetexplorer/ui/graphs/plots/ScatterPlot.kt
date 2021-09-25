@@ -21,21 +21,8 @@ import timber.log.Timber
 
 
 @Composable
-fun ScatterPlot(listOfPlanets: List<Planet>, context: Context) {
-    Utils.init(context)
-
-    var planetEntryList = mutableListOf<Entry>()
-    listOfPlanets.forEach { planet ->
-        if(planet.planetaryOrbitPeriod != null && planet.planetaryMassJupiter != null){
-            var planetEntry = Entry(planet.planetaryOrbitPeriod.toFloat(), planet.planetaryMassJupiter.toFloat())
-            planetEntryList.add(planetEntry)
-        }
-    }
-    Timber.d("number of Planets to be graphed: ${planetEntryList.size}")
-
-
-    var dataSet = ScatterDataSet(planetEntryList, "Mass - Period Distribution")
-    var scatterDataSet = ScatterData(dataSet)
+fun ScatterPlot(dataset: ScatterDataSet) {
+    var scatterDataSet = ScatterData(dataset)
 
     AndroidView(
     modifier = Modifier
