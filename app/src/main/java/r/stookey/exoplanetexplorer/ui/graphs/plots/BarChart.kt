@@ -10,28 +10,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.ScatterData
-import com.github.mikephil.charting.data.ScatterDataSet
-import com.github.mikephil.charting.utils.Utils
-import r.stookey.exoplanetexplorer.domain.Planet
-import timber.log.Timber
 
 @Composable
-fun BarChart(listOfPlanets: List<Planet>) {
+fun BarChart(dataSet: BarDataSet) {
 
-
-    var planetEntryList = mutableListOf<Entry>()
-    listOfPlanets.forEach { planet ->
-
-    }
-    Timber.d("number of Planets to be graphed: ${planetEntryList.size}")
-
-
-    var dataSet = ScatterDataSet(planetEntryList, "Mass - Period Distribution")
-    var scatterDataSet = ScatterData(dataSet)
-
+    val barData = BarData(dataSet)
 
     AndroidView(modifier = Modifier
         .fillMaxSize()
@@ -44,13 +29,9 @@ fun BarChart(listOfPlanets: List<Planet>) {
         xAxis.textColor = Color.BLACK
         xAxis.setDrawAxisLine(true)
         xAxis.setDrawGridLines(true)
+
+
+        barChart.data = barData
         barChart.invalidate()
     }
-}
-
-
-@Preview
-@Composable
-fun PreviewBarChart(){
-    BarChart(emptyList())
 }

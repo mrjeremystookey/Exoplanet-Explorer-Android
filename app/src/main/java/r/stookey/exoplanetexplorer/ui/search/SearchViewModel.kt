@@ -42,6 +42,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
 
 
 
+
     init {
         Timber.d("SearchViewModel initialized")
         //Gets planets and populates list
@@ -79,6 +80,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     fun onSortClicked(){
         Timber.d("Sort button clicked")
     }
+
 
     fun networkButtonPressed() {
         Timber.i("launching network service for new planets")

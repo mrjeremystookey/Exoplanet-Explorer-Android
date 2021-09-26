@@ -168,8 +168,23 @@ class SearchFragment : Fragment() {
     }
 
     private fun onSortClicked(){
-        Timber.d("Sort button clicked")
+        searchViewModel.onSortClicked()
+        //Show SortOptions Composable function
     }
+
+    @Composable
+    fun SortOptions(){
+        //List of Buttons slide down from behind the Sort By button showing various options for Sorting
+        //Most mass, largest Semi major axis, longest period, etc
+
+    }
+
+    @Preview
+    @Composable
+    fun PreviewSortOptions(){
+        SortOptions()
+    }
+
 
     //Called when data is being retrieved from the network and cached
     @Composable

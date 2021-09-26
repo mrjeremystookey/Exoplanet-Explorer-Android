@@ -9,11 +9,12 @@ import timber.log.Timber
 
 class DataSetUtil {
 
-    fun createScatterDataSet(listOfPlanets: List<Planet>, label: String): ScatterDataSet {
-        var planetEntryList = mutableListOf<Entry>()
+    fun createMassPeriodDistributionDataSet(listOfPlanets: List<Planet>): ScatterDataSet {
+        val label = "Mass - Period Distribution"
+        val planetEntryList = mutableListOf<Entry>()
         listOfPlanets.forEach { planet ->
             if (planet.planetaryOrbitPeriod != null && planet.planetaryMassJupiter != null) {
-                var planetEntry = Entry(
+                val planetEntry = Entry(
                     planet.planetaryOrbitPeriod.toFloat(),
                     planet.planetaryMassJupiter.toFloat()
                 )
@@ -23,21 +24,26 @@ class DataSetUtil {
         return ScatterDataSet(planetEntryList, label)
     }
 
-    fun createBarChartDataSet(listOfPlanets: List<Planet>, label: String): BarDataSet {
-        var planetEntryList = mutableListOf<BarEntry>()
-        var yearDiscoveryList = mutableListOf<String>()
-
-        listOfPlanets.forEach { planet ->
-            //gets list of all years in the data set
-            if (planet.discoveryYear != null && !yearDiscoveryList.contains(planet.discoveryYear))
-                yearDiscoveryList.add(planet.discoveryYear)
-
-
+    fun createDiscoveryYearDataSet(listOfPlanets: List<Planet>): BarDataSet {
+        val label = "Detections Per Year"
+        val planetEntryList = mutableListOf<BarEntry>()
+        val yearDiscoveryNumberMap = listOfPlanets.groupBy { planet -> planet.discoveryYear }
+        yearDiscoveryNumberMap.keys.forEach { year ->
+            val yearBarEntry: BarEntry
+            if(year != null){
+                Timber.d("year: $year, planets discovered: ${yearDiscoveryNumberMap[year]?.size}")
+                val numberOfPlanets = yearDiscoveryNumberMap[year]?.size.let { it?.toFloat() }
+                yearBarEntry = BarEntry(year.toFloat(), numberOfPlanets!! )
+                Timber.d("yearBarEntry: $yearBarEntry")
+                planetEntryList.add(yearBarEntry)
+            }
         }
-
-        Timber.d("Planets were discovered in: $yearDiscoveryList")
-
-
         return BarDataSet(planetEntryList, label)
+    }
+
+    fun createPeriodRadiusDistributionDataSet(listOfPlanets: List<Planet>): ScatterDataSet {
+        val label = "Radius - Period Distribution"
+        val planetEntryList = mutableListOf<Entry>()
+        return ScatterDataSet(planetEntryList, label)
     }
 }

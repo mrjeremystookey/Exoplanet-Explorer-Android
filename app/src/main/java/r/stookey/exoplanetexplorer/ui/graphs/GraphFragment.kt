@@ -6,26 +6,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import r.stookey.exoplanetexplorer.ui.graphs.plots.ScatterPlot
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
 import r.stookey.exoplanetexplorer.ui.graphs.plots.DataSetUtil
+import timber.log.Timber
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class GraphFragment : Fragment() {
+class GraphFragment() : Fragment() {
 
     companion object {
         fun newInstance() = GraphFragment()
     }
 
     private val graphViewModel: GraphViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +36,7 @@ class GraphFragment : Fragment() {
             setContent {
                 ExoplanetExplorerTheme {
                     Scaffold(
-                        content = { GraphContent(context) },
+                        content = { GraphContent() },
                         drawerContent = {}
                     )
                 }
@@ -44,14 +45,16 @@ class GraphFragment : Fragment() {
     }
 
     @Composable
-    fun GraphContent(context: Context){
-
-        var massPeriodDataSet = DataSetUtil().createScatterDataSet(graphViewModel.planetsList.value, "Mass-Period Distribution")
-        var discoveryYearDataSet = DataSetUtil().createBarChartDataSet(graphViewModel.planetsList.value, "Detections Per Year")
+    fun GraphContent(){
+        val massPeriodDataSet = DataSetUtil().createMassPeriodDistributionDataSet(graphViewModel.planetsList.value)
+        val discoveryYearDataSet = DataSetUtil().createDiscoveryYearDataSet(graphViewModel.planetsList.value)
+        val radiusPeriodDataSet = DataSetUtil().createPeriodRadiusDistributionDataSet(graphViewModel.planetsList.value)
+        Timber.d("discoveryDataSet: ${discoveryYearDataSet.entryCount}")
+        Timber.d("massPeriodDataSet: ${massPeriodDataSet.entryCount}")
+        Timber.d("radiusPeriodDataSet: ${radiusPeriodDataSet.entryCount}")
+        BarChart(discoveryYearDataSet)
         //ScatterPlot(massPeriodDataSet)
-        BarChart(graphViewModel.planetsList.value)
-
-
+        //ScatterPlot(radiusPeriodDataSet)
     }
 
 
