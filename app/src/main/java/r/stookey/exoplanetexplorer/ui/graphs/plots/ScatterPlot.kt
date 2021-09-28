@@ -43,10 +43,9 @@ fun ScatterPlot(dataset: ScatterDataSet) {
     }
 }
 
-
-
-@Composable
+/*
 @Preview
+@Composable
 fun PreviewScatterPlot(){
-
-}
+    ScatterPlot()
+}*/

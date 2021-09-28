@@ -22,6 +22,10 @@ sealed class UiState {
     object Empty: UiState()
 }
 
+
+
+
+
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
 
@@ -79,7 +83,18 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
 
     fun onSortClicked(){
         Timber.d("Sort button clicked")
+        sortBy(true)
     }
+
+    private fun sortBy(descending: Boolean){
+        val sortedList: List<Planet> = if(descending){
+            planetsList.value.sortedByDescending { it.planetaryMassEarth }
+        } else{
+            planetsList.value.sortedBy { it.planetaryMassEarth }
+        }
+        _planetsList.value = sortedList
+    }
+
 
 
     fun networkButtonPressed() {

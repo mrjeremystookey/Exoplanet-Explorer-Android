@@ -15,7 +15,6 @@ import com.github.mikephil.charting.data.BarDataSet
 
 @Composable
 fun BarChart(dataSet: BarDataSet) {
-
     val barData = BarData(dataSet)
 
     AndroidView(modifier = Modifier
@@ -35,3 +34,9 @@ fun BarChart(dataSet: BarDataSet) {
         barChart.invalidate()
     }
 }
+
+/*@Preview
+@Composable
+fun PreviewBarChart(){
+    BarChart()
+}*/

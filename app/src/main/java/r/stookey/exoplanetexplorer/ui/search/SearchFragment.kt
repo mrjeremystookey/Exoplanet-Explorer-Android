@@ -131,7 +131,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-
     @ExperimentalComposeUiApi
     @Composable
     fun TopBar(){
@@ -174,16 +173,26 @@ class SearchFragment : Fragment() {
 
     @Composable
     fun SortOptions(){
+        var modifier = Modifier.padding(4.dp)
         //List of Buttons slide down from behind the Sort By button showing various options for Sorting
         //Most mass, largest Semi major axis, longest period, etc
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Button(modifier = modifier, content = {
+                Text("Radius")
 
+            }, onClick = {})
+            Button(modifier = modifier, content = {
+                Text("Semi-Major Axis")
+            }, onClick = {})
+            Button(modifier = modifier, content = {
+                Text("Period")
+            }, onClick = {})
+            Button(modifier = modifier, content = {
+                Text("Mass")
+            }, onClick = {})
+        }
     }
 
-    @Preview
-    @Composable
-    fun PreviewSortOptions(){
-        SortOptions()
-    }
 
 
     //Called when data is being retrieved from the network and cached
@@ -229,6 +238,13 @@ class SearchFragment : Fragment() {
             }
         }
     }
+
+    @Preview
+    @Composable
+    fun PreviewSortOptions(){
+        SortOptions()
+    }
+
 
 
 

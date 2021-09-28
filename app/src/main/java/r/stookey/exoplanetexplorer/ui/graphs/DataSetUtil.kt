@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.ui.graphs.plots
+package r.stookey.exoplanetexplorer.ui.graphs
 
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -24,6 +24,12 @@ class DataSetUtil {
         return ScatterDataSet(planetEntryList, label)
     }
 
+    fun createPeriodRadiusDistributionDataSet(listOfPlanets: List<Planet>): ScatterDataSet {
+        val label = "Radius - Period Distribution"
+        val planetEntryList = mutableListOf<Entry>()
+        return ScatterDataSet(planetEntryList, label)
+    }
+
     fun createDiscoveryYearDataSet(listOfPlanets: List<Planet>): BarDataSet {
         val label = "Detections Per Year"
         val planetEntryList = mutableListOf<BarEntry>()
@@ -41,9 +47,5 @@ class DataSetUtil {
         return BarDataSet(planetEntryList, label)
     }
 
-    fun createPeriodRadiusDistributionDataSet(listOfPlanets: List<Planet>): ScatterDataSet {
-        val label = "Radius - Period Distribution"
-        val planetEntryList = mutableListOf<Entry>()
-        return ScatterDataSet(planetEntryList, label)
-    }
+
 }
