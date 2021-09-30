@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -13,30 +12,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import r.stookey.exoplanetexplorer.R
 import r.stookey.exoplanetexplorer.databinding.FragmentSearchBinding
 import r.stookey.exoplanetexplorer.ui.compose.*
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
@@ -49,7 +44,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private lateinit var scaffoldState: ScaffoldState
     private lateinit var query: State<String>
-
+    private val expanded = mutableStateOf(false)
 
 
     override fun onDestroyView() {
@@ -71,9 +66,10 @@ class SearchFragment : Fragment() {
                 query = searchViewModel.query
                 scaffoldState = rememberScaffoldState()
                 val uiState = searchViewModel.uiState.observeAsState().value
+
                 ExoplanetExplorerTheme {
                     Scaffold(
-                        topBar = { TopBar() },
+                        topBar = { SearchAndSortBar() },
                         backgroundColor = MaterialTheme.colors.background,
                         content = {
                                 MainContent(
@@ -89,6 +85,93 @@ class SearchFragment : Fragment() {
             }
         }
     }
+
+    //Contains search bar and sort options for list of planets
+    @ExperimentalComposeUiApi
+    @Composable
+    fun SearchAndSortBar(){
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colors.primary,
+            elevation = 8.dp
+        ) {
+            Row(
+                modifier = Modifier
+                    .height(72.dp),
+            ){
+                PlanetSearchBar(
+                    modifier = Modifier
+                        .weight(.8f),
+                    query = query,
+                    onQueryChanged = searchViewModel::onQueryChanged,
+                )
+                Box(modifier = Modifier.weight(.2f)){
+                    Button(
+                        modifier = Modifier
+                            .padding(end = 8.dp, bottom = 6.dp, top = 6.dp)
+                            .fillMaxSize()
+                            .background(MaterialTheme.colors.primaryVariant),
+                        border = BorderStroke(2.dp, MaterialTheme.colors.secondary),
+                        onClick = { expanded.value = true
+                            Timber.d("expanded value changed")
+                        })
+                    {
+                        Text(text = "Sort By",
+                            color = MaterialTheme.colors.secondary,
+                            fontSize = 14.sp)
+                        IconButton(
+                            modifier = Modifier.fillMaxSize().padding(start = 4.dp),
+                            onClick = { searchViewModel.changeOrder() },
+                            content = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_baseline_sort_24),
+                                    contentDescription = "Ascending/Descending Order",
+                                    tint = MaterialTheme.colors.secondaryVariant
+                                )
+                            })
+                    }
+                    DropdownMenu(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .background(MaterialTheme.colors.primaryVariant),
+                        content = { SortMenu() },
+                        offset = DpOffset(10.dp, 8.dp),
+                        expanded = expanded.value,
+                        onDismissRequest = { expanded.value = false },
+                    )
+                }
+            }
+        }
+    }
+
+    //Shown when Sort button in Sort menu is clicked
+    @Composable
+    fun SortMenu(){
+            Column(Modifier.fillMaxSize()) {
+
+                val dividerModifier = Modifier.padding(vertical = 4.dp)
+                val rowModifier = Modifier.fillMaxSize().background(MaterialTheme.colors.primary).padding(4.dp)
+                val textModifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally)
+
+                Divider(dividerModifier, color = MaterialTheme.colors.secondaryVariant, thickness = 1.dp)
+                Row(rowModifier.clickable {
+                    Timber.d("Sort by Mass, Earth")
+                    searchViewModel.onSortClicked(SortStatus.EarthMass)
+                    expanded.value = false
+                }) {
+                    Text(modifier = textModifier, text = "Mass, Earth")
+                }
+                Divider(dividerModifier, color = MaterialTheme.colors.secondaryVariant, thickness = 1.dp)
+                Row(rowModifier.clickable {
+                    Timber.d("Sort by Period, Days")
+                    searchViewModel.onSortClicked(SortStatus.Period)
+                    expanded.value = false
+                }) {
+                    Text(modifier = textModifier, text = "Period, Days")
+                }
+                Divider(dividerModifier, color = MaterialTheme.colors.secondaryVariant, thickness = 1.dp)
+            }
+        }
 
     //Main window between search bar and bottom bar
     @Composable
@@ -127,73 +210,8 @@ class SearchFragment : Fragment() {
                     }
                 }
             }
-
         }
     }
-
-    @ExperimentalComposeUiApi
-    @Composable
-    fun TopBar(){
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colors.primary,
-            elevation = 8.dp
-        ) {
-            Row(
-                modifier = Modifier
-                    .height(72.dp),
-            ){
-                PlanetSearchBar(
-                    modifier = Modifier
-                        .weight(.8f),
-                    query = query,
-                    onQueryChanged = searchViewModel::onQueryChanged,
-                )
-                Button(
-                    modifier = Modifier
-                        .padding(end = 8.dp, bottom = 6.dp, top = 6.dp)
-                        .fillMaxSize()
-                        .background(MaterialTheme.colors.primaryVariant)
-                        .weight(.2f),
-                    border = BorderStroke(1.dp, MaterialTheme.colors.secondary),
-                    onClick = { onSortClicked() })
-                {
-                    Text(text = "Sort By",
-                        color = MaterialTheme.colors.secondary,
-                        fontSize = 18.sp)
-                }
-            }
-        }
-    }
-
-    private fun onSortClicked(){
-        searchViewModel.onSortClicked()
-        //Show SortOptions Composable function
-    }
-
-    @Composable
-    fun SortOptions(){
-        var modifier = Modifier.padding(4.dp)
-        //List of Buttons slide down from behind the Sort By button showing various options for Sorting
-        //Most mass, largest Semi major axis, longest period, etc
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(modifier = modifier, content = {
-                Text("Radius")
-
-            }, onClick = {})
-            Button(modifier = modifier, content = {
-                Text("Semi-Major Axis")
-            }, onClick = {})
-            Button(modifier = modifier, content = {
-                Text("Period")
-            }, onClick = {})
-            Button(modifier = modifier, content = {
-                Text("Mass")
-            }, onClick = {})
-        }
-    }
-
-
 
     //Called when data is being retrieved from the network and cached
     @Composable
@@ -212,7 +230,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    //Called when planet data is cached and beinng displayed
+    //Called when planet data is cached and being displayed
     @Composable
     fun PlanetListLoaded(listState: LazyListState, cardHeight: Dp){
         val scrollState = rememberScrollState()
@@ -238,15 +256,6 @@ class SearchFragment : Fragment() {
             }
         }
     }
-
-    @Preview
-    @Composable
-    fun PreviewSortOptions(){
-        SortOptions()
-    }
-
-
-
 
 
 }

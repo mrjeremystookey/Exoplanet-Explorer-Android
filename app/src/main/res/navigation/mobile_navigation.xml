@@ -50,7 +50,7 @@
 
     <fragment
         android:id="@+id/navigation_graphs"
-        android:name="r.stookey.exoplanetexplorer.ui.graphs.GraphFragment"
+        android:name="r.stookey.exoplanetexplorer.ui.graphs.GraphListFragment"
         android:label="@string/title_graphs"
         tools:layout="@layout/fragment_graphs" />
 

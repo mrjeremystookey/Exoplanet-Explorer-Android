@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
@@ -23,7 +22,10 @@ sealed class UiState {
 }
 
 
-
+sealed class SortStatus {
+    object EarthMass: SortStatus()
+    object Period: SortStatus()
+}
 
 
 @HiltViewModel
@@ -44,6 +46,8 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     private val _cacheState = MutableLiveData<Boolean>()
     val cacheState: LiveData<Boolean> =_cacheState
 
+    private val _orderState = MutableLiveData<Boolean>()
+    val orderState: LiveData<Boolean> = _orderState
 
 
 
@@ -81,20 +85,23 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         }
     }
 
-    fun onSortClicked(){
+    fun onSortClicked(sort: SortStatus){
         Timber.d("Sort button clicked")
-        sortBy(true)
-    }
-
-    private fun sortBy(descending: Boolean){
-        val sortedList: List<Planet> = if(descending){
-            planetsList.value.sortedByDescending { it.planetaryMassEarth }
-        } else{
-            planetsList.value.sortedBy { it.planetaryMassEarth }
+        val sortedList: List<Planet> = when(sort){
+            SortStatus.EarthMass -> {
+                planetsList.value.sortedBy { it.planetaryMassEarth }
+            }
+            SortStatus.Period -> {
+                planetsList.value.sortedBy { it.planetaryOrbitPeriod }
+            }
         }
         _planetsList.value = sortedList
     }
 
+    //Flips planet list ascending or descending order
+    fun changeOrder(){
+        Timber.d("Flipping sort order")
+    }
 
 
     fun networkButtonPressed() {

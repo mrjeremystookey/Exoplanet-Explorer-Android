@@ -33,13 +33,10 @@ class GraphViewModel @Inject constructor(private val repo: RepositoryImpl) : Vie
     private val _planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
     val planetsList: State<List<Planet>> = _planetsList
 
+
     init {
         graphData()
         _graphUIState.value = GraphUIState.AllGraphs
-    }
-
-    fun getListOfGraphs(){
-
     }
 
     private fun graphData(){
