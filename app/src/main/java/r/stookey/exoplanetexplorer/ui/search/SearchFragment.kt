@@ -12,17 +12,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -120,8 +117,10 @@ class SearchFragment : Fragment() {
                             color = MaterialTheme.colors.secondary,
                             fontSize = 14.sp)
                         IconButton(
-                            modifier = Modifier.fillMaxSize().padding(start = 4.dp),
-                            onClick = { searchViewModel.changeOrder() },
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(start = 4.dp),
+                            onClick = { searchViewModel.changeAscendingDescending() },
                             content = {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_baseline_sort_24),
@@ -148,30 +147,31 @@ class SearchFragment : Fragment() {
     @Composable
     fun SortMenu(){
             Column(Modifier.fillMaxSize()) {
-
-                val dividerModifier = Modifier.padding(vertical = 4.dp)
-                val rowModifier = Modifier.fillMaxSize().background(MaterialTheme.colors.primary).padding(4.dp)
-                val textModifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally)
-
-                Divider(dividerModifier, color = MaterialTheme.colors.secondaryVariant, thickness = 1.dp)
-                Row(rowModifier.clickable {
-                    Timber.d("Sort by Mass, Earth")
-                    searchViewModel.onSortClicked(SortStatus.EarthMass)
-                    expanded.value = false
-                }) {
-                    Text(modifier = textModifier, text = "Mass, Earth")
-                }
-                Divider(dividerModifier, color = MaterialTheme.colors.secondaryVariant, thickness = 1.dp)
-                Row(rowModifier.clickable {
-                    Timber.d("Sort by Period, Days")
-                    searchViewModel.onSortClicked(SortStatus.Period)
-                    expanded.value = false
-                }) {
-                    Text(modifier = textModifier, text = "Period, Days")
-                }
-                Divider(dividerModifier, color = MaterialTheme.colors.secondaryVariant, thickness = 1.dp)
+                SortItem(sort = SortStatus.EarthMass)
+                SortItem(sort = SortStatus.EarthRadius)
+                SortItem(sort = SortStatus.Period)
+                SortItem(sort = SortStatus.Density)
             }
         }
+
+    //Items shown when sort menu is clicked
+    @Composable
+    fun SortItem(sort: SortStatus){
+        val dividerModifier = Modifier.padding(vertical = 4.dp)
+        val rowModifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.primary)
+            .padding(4.dp)
+        val textModifier = Modifier.padding(8.dp)
+        Row(rowModifier.clickable {
+            Timber.d("Sort by ${sort.label}")
+            searchViewModel.onSortClicked(sort)
+            expanded.value = false
+        }) {
+            Text(modifier = textModifier, text = sort.label)
+        }
+        Divider(dividerModifier, color = MaterialTheme.colors.secondaryVariant, thickness = 1.dp)
+    }
 
     //Main window between search bar and bottom bar
     @Composable

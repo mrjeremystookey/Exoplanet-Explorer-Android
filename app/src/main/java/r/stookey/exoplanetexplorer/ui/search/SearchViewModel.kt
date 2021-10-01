@@ -22,9 +22,11 @@ sealed class UiState {
 }
 
 
-sealed class SortStatus {
-    object EarthMass: SortStatus()
-    object Period: SortStatus()
+sealed class SortStatus(var label: String) {
+    object EarthMass: SortStatus("Mass, Earth")
+    object EarthRadius: SortStatus("Radius, Earth")
+    object Period: SortStatus("Period, Days")
+    object Density: SortStatus("Density")
 }
 
 
@@ -46,8 +48,8 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     private val _cacheState = MutableLiveData<Boolean>()
     val cacheState: LiveData<Boolean> =_cacheState
 
-    private val _orderState = MutableLiveData<Boolean>()
-    val orderState: LiveData<Boolean> = _orderState
+    private val _ascendingState = MutableLiveData<Boolean>()
+    val ascendingState: LiveData<Boolean> = _ascendingState
 
 
 
@@ -58,6 +60,8 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
             repo.getAllPlanetsFromCache.collect { planets ->
                 _planetsList.value = planets
                 _uiState.value = UiState.Loaded
+                _ascendingState.value = true
+
                 if(planets.isEmpty()){
                     _uiState.value = UiState.Empty
                 }
@@ -92,15 +96,29 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
                 planetsList.value.sortedBy { it.planetaryMassEarth }
             }
             SortStatus.Period -> {
-                planetsList.value.sortedBy { it.planetaryOrbitPeriod }
+                _planetsList.value.sortedBy { it.planetaryOrbitPeriod }
+            }
+            SortStatus.EarthRadius -> {
+                _planetsList.value.sortedBy { it.planetaryRadiusEarth }
+            }
+            SortStatus.Density -> {
+                _planetsList.value.sortedBy { it.planetDensity }
             }
         }
+        _ascendingState.value = true
         _planetsList.value = sortedList
     }
 
     //Flips planet list ascending or descending order
-    fun changeOrder(){
+    fun changeAscendingDescending(){
         Timber.d("Flipping sort order")
+        if(_ascendingState.value.let { true }){
+            val descendingList: List<Planet> = planetsList.value.asReversed()
+            _planetsList.value = descendingList
+        } else {
+            val ascendingList: List<Planet> = planetsList.value
+            _planetsList.value = ascendingList
+        }
     }
 
 
@@ -110,11 +128,16 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
             runCatching {
                 _uiState.value = UiState.Loading
                 repo.getPlanetsFromNetwork()
-                //TODO examine errors from runCatching
+            }.onFailure { error: Throwable ->
+                Timber.d("networkButtonPressed failed, $error")
+            }.onSuccess {
+                Timber.d("networkButtonPressed successful")
             }
             _uiState.value = UiState.Loaded
         }
     }
+
+
 
     fun clearCacheButtonPressed() {
         Timber.i("clearing local cache")
@@ -123,4 +146,9 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        Timber.d("onCleared called, removing observers")
+        repo.doneAdding.removeObserver {}
+    }
 }

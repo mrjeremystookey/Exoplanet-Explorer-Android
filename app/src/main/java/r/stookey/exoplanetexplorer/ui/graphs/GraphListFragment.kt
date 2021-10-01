@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -58,7 +59,6 @@ class GraphListFragment() : Fragment() {
                 ListOfGraphs()
             }
             GraphUIState.GraphSelected -> {
-                //Navigate to DetailFragment
                 SelectedGraph()
             }
             GraphUIState.Empty -> {
@@ -74,7 +74,9 @@ class GraphListFragment() : Fragment() {
             .padding(4.dp)
             .background(MaterialTheme.colors.primary)
         Column {
-            Row(rowModifier){
+            Row(rowModifier.clickable {
+                //Navigate to GraphFragment and display selected graph
+            }){
                 Text("Discoveries Per Year")
             }
             Row(rowModifier){
