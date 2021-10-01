@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
+import r.stookey.exoplanetexplorer.ui.graphs.plots.DataSetUtil
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
 
 
@@ -30,7 +31,7 @@ class GraphListFragment() : Fragment() {
         fun newInstance() = GraphListFragment()
     }
 
-    private val graphViewModel: GraphViewModel by viewModels()
+    private val graphsListViewModel: GraphListViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -39,7 +40,7 @@ class GraphListFragment() : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                val graphUIState = graphViewModel.graphUIState.observeAsState().value
+                val graphUIState = graphsListViewModel.graphUIState.observeAsState().value
                 ExoplanetExplorerTheme {
                     Scaffold(
                         content = { GraphContent(graphUIState = graphUIState) },
@@ -57,6 +58,7 @@ class GraphListFragment() : Fragment() {
                 ListOfGraphs()
             }
             GraphUIState.GraphSelected -> {
+                //Navigate to DetailFragment
                 SelectedGraph()
             }
             GraphUIState.Empty -> {
@@ -83,7 +85,7 @@ class GraphListFragment() : Fragment() {
 
     @Composable
     fun SelectedGraph(){
-        val discoveryYearDataSet = DataSetUtil().createDiscoveryYearDataSet(graphViewModel.planetsList.value)
+        val discoveryYearDataSet = DataSetUtil().createDiscoveryYearDataSet(graphsListViewModel.planetsList.value)
         BarChart(discoveryYearDataSet)
     }
 

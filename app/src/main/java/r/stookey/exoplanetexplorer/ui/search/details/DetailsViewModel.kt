@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.ui.details
+package r.stookey.exoplanetexplorer.ui.search.details
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

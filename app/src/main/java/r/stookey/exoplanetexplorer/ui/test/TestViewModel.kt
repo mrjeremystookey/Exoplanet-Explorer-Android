@@ -1,27 +1,21 @@
 package r.stookey.exoplanetexplorer.ui.test
 
-import android.content.Context
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.*
-import androidx.work.*
+import androidx.lifecycle.ViewModel
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.network.ExoplanetApiWorker
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
-import java.lang.Exception
 import java.lang.RuntimeException
 import javax.inject.Inject
-
-
 
 
 @HiltViewModel
@@ -46,8 +40,6 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl,
     fun crash(): Exception {
         throw RuntimeException("Test Crash")
     }
-
-
 
 
     fun doSomeWork(){

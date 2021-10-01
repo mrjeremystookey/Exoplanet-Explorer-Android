@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.ui.details
+package r.stookey.exoplanetexplorer.ui.search.details
 
 import android.util.Log
 import android.util.Patterns

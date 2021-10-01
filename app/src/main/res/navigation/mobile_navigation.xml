@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/navigation_details"
-        android:name="r.stookey.exoplanetexplorer.ui.details.DetailsFragment"
+        android:name="r.stookey.exoplanetexplorer.ui.search.details.DetailsFragment"
         android:label="DetailsFragment">
         <argument
             android:name="planetName"
@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/navigation_reference"
-        android:name="r.stookey.exoplanetexplorer.ui.details.WebViewReferenceFragment"
+        android:name="r.stookey.exoplanetexplorer.ui.search.details.WebViewReferenceFragment"
         android:label="ReferenceFragment" >
         <argument
             android:name = "referenceUrl"

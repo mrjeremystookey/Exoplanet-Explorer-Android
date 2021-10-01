@@ -18,6 +18,7 @@
         <entry key="../../../../layout/compose-model-1632841197002.xml" value="0.20185810810810811" />
         <entry key="../../../../layout/compose-model-1632847366556.xml" value="0.2212962962962963" />
         <entry key="../../../../layout/compose-model-1632851228215.xml" value="0.2212962962962963" />
+        <entry key="../../../../layout/compose-model-1633055080405.xml" value="0.21481481481481482" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/Exoplanet-Explorer/app/src/main/res/layout/activity_main.xml" value="0.1986111111111111" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/Exoplanet-Explorer/app/src/main/res/layout/fragment_dashboard.xml" value="0.19275582573454914" />
         <entry key="..\:/Users/jerem/AndroidStudioProjects/Exoplanet-Explorer/app/src/main/res/layout/fragment_home.xml" value="0.33061594202898553" />
@@ -41,6 +42,7 @@
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.21458333333333332" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/fragment_test.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/graph_fragment.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/graph_line.xml" value="0.1308876811594203" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.22916666666666666" />
       </map>

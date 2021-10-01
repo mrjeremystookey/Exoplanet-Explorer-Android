@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
-import r.stookey.exoplanetexplorer.ui.search.UiState
 import javax.inject.Inject
 
 sealed class GraphUIState {
@@ -24,7 +23,7 @@ sealed class GraphUIState {
 
 
 @HiltViewModel
-class GraphViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
+class GraphListViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
 
 
     private val _graphUIState = MutableLiveData<GraphUIState>()

@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.ui.details
+package r.stookey.exoplanetexplorer.ui.search.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
