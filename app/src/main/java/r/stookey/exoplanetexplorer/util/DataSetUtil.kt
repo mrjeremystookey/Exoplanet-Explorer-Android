@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.ui.graphs.plots
+package r.stookey.exoplanetexplorer.util
 
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry

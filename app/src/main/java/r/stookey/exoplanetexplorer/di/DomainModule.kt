@@ -5,9 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import r.stookey.exoplanetexplorer.ExoplanetApplication
-import r.stookey.exoplanetexplorer.domain.PlanetDto
-import r.stookey.exoplanetexplorer.domain.PlanetDtoImpl
+import r.stookey.exoplanetexplorer.util.PlanetDto
+import r.stookey.exoplanetexplorer.util.PlanetDtoImpl
 import timber.log.Timber
 import javax.inject.Singleton
 

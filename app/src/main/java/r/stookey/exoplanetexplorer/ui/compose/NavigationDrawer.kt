@@ -1,7 +1,9 @@
 package r.stookey.exoplanetexplorer.ui.compose
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +18,7 @@ fun navigationDrawer(searchViewModel: SearchViewModel){
 
 
 
-    Column() {
+    Column(Modifier.wrapContentSize()) {
         Button(
             modifier = Modifier.padding(4.dp),
             onClick = searchViewModel::networkButtonPressed
@@ -28,6 +30,9 @@ fun navigationDrawer(searchViewModel: SearchViewModel){
             onClick = searchViewModel::clearCacheButtonPressed,
         ) {
             Text("Clear Cache")
+        }
+        Row(){
+            Text("Number of planets cached: ${searchViewModel.planetsList.value.size}")
         }
     }
 }

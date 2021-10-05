@@ -17,12 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.data.BarDataSet
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
-import r.stookey.exoplanetexplorer.ui.graphs.plots.DataSetUtil
+import r.stookey.exoplanetexplorer.ui.graphs.plots.ScatterPlot
 
 
 //Fragment gets navigated to after a graph is selected, retrieves graph information from GraphViewModel
@@ -38,7 +37,7 @@ class GraphFragment : Fragment() {
                     Scaffold(
                         topBar = { TopAppBar {
                             Text(
-                                text = graphViewModel.selectedData.value.label,
+                                text = graphViewModel.graphTitle.value,
                                 modifier = Modifier.padding(16.dp)
                             )
                         }
@@ -57,8 +56,8 @@ class GraphFragment : Fragment() {
                 .padding(16.dp)
                 .background(MaterialTheme.colors.primary)
         ) {
-            //When graph is discoveryYear show this graph
-            BarChart(dataSet = graphViewModel.selectedData.value)
+            ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
+            BarChart(dataSet = graphViewModel.selectedBarData.value)
         }
     }
 

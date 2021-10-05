@@ -1,8 +1,9 @@
-package r.stookey.exoplanetexplorer.domain
+package r.stookey.exoplanetexplorer.util
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
+import r.stookey.exoplanetexplorer.domain.Planet
 import timber.log.Timber
 import javax.inject.Inject
 

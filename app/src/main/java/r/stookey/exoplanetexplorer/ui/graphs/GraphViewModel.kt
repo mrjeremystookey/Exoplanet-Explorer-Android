@@ -6,13 +6,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.ScatterDataSet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.domain.Graph
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.repository.GraphRepositoryImpl
-import r.stookey.exoplanetexplorer.ui.graphs.plots.DataSetUtil
+import r.stookey.exoplanetexplorer.util.DataSetUtil
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,8 +26,15 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     private val _graphList: MutableState<List<Graph>> = mutableStateOf(listOf())
     val graphList: State<List<Graph>> = _graphList
 
-    private var _selectedData: MutableState<BarDataSet> = mutableStateOf(BarDataSet(listOf(), ""))
-    val selectedData: State<BarDataSet> = _selectedData
+    private var _selectedBarData: MutableState<BarDataSet> = mutableStateOf(BarDataSet(listOf(), ""))
+    val selectedBarData: State<BarDataSet> = _selectedBarData
+
+    private var _selectedScatterData: MutableState<ScatterDataSet> = mutableStateOf(ScatterDataSet(listOf(), ""))
+    val selectedScatterData: State<ScatterDataSet> = _selectedScatterData
+
+    private var _graphTitle: MutableState<String> = mutableStateOf("")
+    val graphTitle: State<String> = _graphTitle
+
 
     init {
         Timber.d("GraphViewModel initialized")
@@ -42,9 +50,11 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     }
 
     private fun createGraphList(){
-        val graph = Graph("Detections Per Year")
+        val barGraph = Graph("Detections Per Year")
+        val scatterGraph = Graph("Mass - Period Distribution")
         val listOfGraphs = mutableListOf<Graph>()
-        listOfGraphs.add(graph)
+        listOfGraphs.add(barGraph)
+        listOfGraphs.add(scatterGraph)
         _graphList.value = listOfGraphs
     }
 
@@ -52,7 +62,13 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
         when(graph.title){
             "Detections Per Year" -> {
                 val discoveryYearDataSet: BarDataSet = DataSetUtil().createDiscoveryYearDataSet(_planetsList.value)
-                _selectedData.value = discoveryYearDataSet
+                _graphTitle.value = discoveryYearDataSet.label
+                _selectedBarData.value = discoveryYearDataSet
+            }
+            "Mass - Period Distribution" -> {
+                val massPeriodDataSet: ScatterDataSet = DataSetUtil().createMassPeriodDistributionDataSet(_planetsList.value)
+                _graphTitle.value = massPeriodDataSet.label
+                _selectedScatterData.value = massPeriodDataSet
             }
         }
 
