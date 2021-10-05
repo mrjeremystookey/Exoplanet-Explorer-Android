@@ -17,7 +17,7 @@ class GraphFragment : Fragment() {
         fun newInstance() = GraphFragment()
     }
 
-    private val graphListViewModel: GraphListViewModel by viewModels()
+    private val graphViewModel: GraphViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return ComposeView(requireContext()).apply {

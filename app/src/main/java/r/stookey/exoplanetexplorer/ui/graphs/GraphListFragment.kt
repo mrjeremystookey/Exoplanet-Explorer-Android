@@ -6,17 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,10 +42,10 @@ class GraphListFragment() : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                val graphUIState = graphsListViewModel.graphUIState.observeAsState().value
                 ExoplanetExplorerTheme {
                     Scaffold(
-                        content = { GraphContent(graphUIState = graphUIState) },
+                        topBar = { GraphTopBar() },
+                        content = { GraphContent() },
                         drawerContent = {}
                     )
                 }
@@ -53,45 +54,42 @@ class GraphListFragment() : Fragment() {
     }
 
     @Composable
-    fun GraphContent(graphUIState: GraphUIState?){
-        when(graphUIState){
-            GraphUIState.AllGraphs -> {
-                ListOfGraphs()
-            }
-            GraphUIState.GraphSelected -> {
-                SelectedGraph()
-            }
-            GraphUIState.Empty -> {
-
-            }
+    fun GraphTopBar(){
+        val topBarModifier = Modifier.height(72.dp)
+        TopAppBar(topBarModifier) {
+            Text("Graphs")
         }
+    }
 
+    @Composable
+    fun GraphContent(){
+        ListOfGraphs()
     }
 
     @Composable
     fun ListOfGraphs(){
-        var rowModifier = Modifier
+        val columnModifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .background(Color.Gray)
+
+        val rowModifier = Modifier
             .padding(4.dp)
+            .fillMaxWidth()
             .background(MaterialTheme.colors.primary)
-        Column {
-            Row(rowModifier.clickable {
-                //Navigate to GraphFragment and display selected graph
-            }){
-                Text("Discoveries Per Year")
-            }
-            Row(rowModifier){
-                Text("Mass-Period Distribution")
+
+        Column(columnModifier) {
+            graphsListViewModel.graphList.value.forEach { graph ->
+                Row(rowModifier.clickable {
+                    //Navigate to Fragment with graph data and display that graph
+                    graphsListViewModel.onGraphSelected(graph)
+
+                }){
+                    Text(graph.title, fontSize = 24.sp)
+                }
             }
         }
     }
-
-    @Composable
-    fun SelectedGraph(){
-        val discoveryYearDataSet = DataSetUtil().createDiscoveryYearDataSet(graphsListViewModel.planetsList.value)
-        BarChart(discoveryYearDataSet)
-    }
-
-
 }
 
 

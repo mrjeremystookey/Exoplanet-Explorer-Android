@@ -93,16 +93,16 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         Timber.d("Sort button clicked")
         val sortedList: List<Planet> = when(sort){
             SortStatus.EarthMass -> {
-                planetsList.value.sortedBy { it.planetaryMassEarth }
+                _planetsList.value.sortedBy { it.planetaryMassEarth }.filter { it.planetaryMassEarth != null }
             }
             SortStatus.Period -> {
-                _planetsList.value.sortedBy { it.planetaryOrbitPeriod }
+                _planetsList.value.sortedBy { it.planetaryOrbitPeriod }.filter { it.planetaryOrbitPeriod != null }
             }
             SortStatus.EarthRadius -> {
-                _planetsList.value.sortedBy { it.planetaryRadiusEarth }
+                _planetsList.value.sortedBy { it.planetaryRadiusEarth }.filter { it.planetaryRadiusEarth != null }
             }
             SortStatus.Density -> {
-                _planetsList.value.sortedBy { it.planetDensity }
+                _planetsList.value.sortedBy { it.planetDensity }.filter { it.planetDensity != null }
             }
         }
         _ascendingState.value = true
