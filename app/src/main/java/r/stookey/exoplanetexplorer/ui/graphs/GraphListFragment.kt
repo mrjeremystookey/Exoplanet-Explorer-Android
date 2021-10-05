@@ -20,12 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.graphs.plots.DataSetUtil
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
 
-
+//Displays list of graphs that can be selected, upon click navigates to GraphFragment which displays selected graph
+//This page gets its info from GraphListViewModel
 @AndroidEntryPoint
 class GraphListFragment() : Fragment() {
 
@@ -45,7 +47,7 @@ class GraphListFragment() : Fragment() {
                 ExoplanetExplorerTheme {
                     Scaffold(
                         topBar = { GraphTopBar() },
-                        content = { GraphContent() },
+                        content = { ListOfGraphs() },
                         drawerContent = {}
                     )
                 }
@@ -57,13 +59,8 @@ class GraphListFragment() : Fragment() {
     fun GraphTopBar(){
         val topBarModifier = Modifier.height(72.dp)
         TopAppBar(topBarModifier) {
-            Text("Graphs")
+            Text("Graphs", Modifier.padding(16.dp), fontSize = 32.sp)
         }
-    }
-
-    @Composable
-    fun GraphContent(){
-        ListOfGraphs()
     }
 
     @Composable
@@ -82,8 +79,8 @@ class GraphListFragment() : Fragment() {
             graphsListViewModel.graphList.value.forEach { graph ->
                 Row(rowModifier.clickable {
                     //Navigate to Fragment with graph data and display that graph
-                    graphsListViewModel.onGraphSelected(graph)
-
+                    val action = GraphListFragmentDirections.viewGraph()
+                    findNavController().navigate(action)
                 }){
                     Text(graph.title, fontSize = 24.sp)
                 }

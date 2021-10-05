@@ -14,6 +14,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -38,7 +39,8 @@ fun PlanetSearchBar(modifier: Modifier,
                 onQueryChanged(newQuery)
             },
             label = {
-                Text("Search", color = MaterialTheme.colors.secondary, fontSize = 18.sp)
+                Text("Search",
+                    color = MaterialTheme.colors.secondary, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,

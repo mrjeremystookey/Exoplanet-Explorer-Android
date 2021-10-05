@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class GraphListViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
+class GraphListViewModel @Inject constructor() : ViewModel() {
 
     private val _graphList: MutableState<List<Graph>> = mutableStateOf(listOf())
     val graphList: State<List<Graph>> = _graphList
@@ -27,9 +27,6 @@ class GraphListViewModel @Inject constructor(private val repo: RepositoryImpl) :
         createGraphList()
     }
 
-    fun onGraphSelected(graph: Graph){
-
-    }
 
     private fun createGraphList(){
         val graph = Graph("Detections Per Year")

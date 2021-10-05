@@ -52,7 +52,17 @@
         android:id="@+id/navigation_graphs"
         android:name="r.stookey.exoplanetexplorer.ui.graphs.GraphListFragment"
         android:label="@string/title_graphs"
-        tools:layout="@layout/fragment_graphs" />
+        tools:layout="@layout/fragment_graphs" >
+        <action
+            android:id="@+id/viewGraph"
+            app:destination="@id/navigation_graph_details" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_graph_details"
+        android:name="r.stookey.exoplanetexplorer.ui.graphs.detail.GraphFragment"/>
+
 
 
 </navigation>
