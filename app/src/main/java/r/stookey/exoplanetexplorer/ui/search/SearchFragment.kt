@@ -164,11 +164,11 @@ class SearchFragment : Fragment() {
             .padding(4.dp)
         val textModifier = Modifier.padding(8.dp)
         Row(rowModifier.clickable {
-            Timber.d("Sort by ${sort.label}")
+            Timber.d("Sort by ${sort.units}")
             searchViewModel.onSortClicked(sort)
             expanded.value = false
         }) {
-            Text(modifier = textModifier, text = sort.label)
+            Text(modifier = textModifier, text = sort.units)
         }
         Divider(dividerModifier, color = MaterialTheme.colors.secondaryVariant, thickness = 1.dp)
     }

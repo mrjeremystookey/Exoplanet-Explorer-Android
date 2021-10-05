@@ -22,7 +22,7 @@ sealed class UiState {
 }
 
 
-sealed class SortStatus(var label: String) {
+sealed class SortStatus(var units: String) {
     object EarthMass: SortStatus("Mass, Earth")
     object EarthRadius: SortStatus("Radius, Earth")
     object Period: SortStatus("Period, Days")
