@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -12,6 +13,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -63,12 +65,15 @@ class GraphListFragment() : Fragment() {
     fun ListOfGraphs(){
         val columnModifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth()
             .background(Color.Gray)
+            .fillMaxWidth()
+
 
         val rowModifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
+            .height(48.dp)
+            .border(2.dp, MaterialTheme.colors.secondary)
             .background(MaterialTheme.colors.primary)
 
         Column(columnModifier) {
@@ -79,7 +84,9 @@ class GraphListFragment() : Fragment() {
                     val action = GraphListFragmentDirections.viewGraph()
                     findNavController().navigate(action)
                 }){
-                    Text(graph.title, fontSize = 24.sp)
+                    Text(graph.title, Modifier
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .align(Alignment.CenterVertically), fontSize = 24.sp)
                 }
             }
         }

@@ -35,6 +35,10 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     private var _graphTitle: MutableState<String> = mutableStateOf("")
     val graphTitle: State<String> = _graphTitle
 
+    //True for Scatter Plots, false for Bar Charts, probably a better solution
+    private var _graphType: MutableState<Boolean> = mutableStateOf(true)
+    val graphType: State<Boolean> = _graphType
+
 
     init {
         Timber.d("GraphViewModel initialized")
@@ -64,15 +68,15 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
                 val discoveryYearDataSet: BarDataSet = DataSetUtil().createDiscoveryYearDataSet(_planetsList.value)
                 _graphTitle.value = discoveryYearDataSet.label
                 _selectedBarData.value = discoveryYearDataSet
+                _graphType.value = false
             }
             "Mass - Period Distribution" -> {
                 val massPeriodDataSet: ScatterDataSet = DataSetUtil().createMassPeriodDistributionDataSet(_planetsList.value)
                 _graphTitle.value = massPeriodDataSet.label
                 _selectedScatterData.value = massPeriodDataSet
+                _graphType.value = true
             }
         }
 
     }
-
-
 }

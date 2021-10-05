@@ -56,9 +56,12 @@ class GraphFragment : Fragment() {
                 .padding(16.dp)
                 .background(MaterialTheme.colors.primary)
         ) {
-            ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
-            BarChart(dataSet = graphViewModel.selectedBarData.value)
+            //Boolean for Scatter vs Bar seems like a bad idea
+            if(graphViewModel.graphType.value){
+                ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
+            } else {
+                BarChart(dataSet = graphViewModel.selectedBarData.value)
+            }
         }
     }
-
 }
