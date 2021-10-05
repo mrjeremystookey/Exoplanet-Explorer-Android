@@ -12,22 +12,20 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
-import r.stookey.exoplanetexplorer.ui.graphs.plots.DataSetUtil
-import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
 
 //Displays list of graphs that can be selected, upon click navigates to GraphFragment which displays selected graph
-//This page gets its info from GraphListViewModel
+//This page gets its info from GraphViewModel
 @AndroidEntryPoint
 class GraphListFragment() : Fragment() {
 
@@ -35,12 +33,9 @@ class GraphListFragment() : Fragment() {
         fun newInstance() = GraphListFragment()
     }
 
-    private val graphsListViewModel: GraphListViewModel by viewModels()
+    private val graphsListViewModel: GraphViewModel by activityViewModels()
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -63,6 +58,7 @@ class GraphListFragment() : Fragment() {
         }
     }
 
+
     @Composable
     fun ListOfGraphs(){
         val columnModifier = Modifier
@@ -79,6 +75,7 @@ class GraphListFragment() : Fragment() {
             graphsListViewModel.graphList.value.forEach { graph ->
                 Row(rowModifier.clickable {
                     //Navigate to Fragment with graph data and display that graph
+                    graphsListViewModel.onGraphSelected(graph)
                     val action = GraphListFragmentDirections.viewGraph()
                     findNavController().navigate(action)
                 }){

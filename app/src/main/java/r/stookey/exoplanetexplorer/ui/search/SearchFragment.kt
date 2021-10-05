@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.R
@@ -37,8 +37,8 @@ import timber.log.Timber
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private val searchViewModel: SearchViewModel by viewModels()
-    private var _binding: FragmentSearchBinding? = null
+    private val searchViewModel: SearchViewModel by activityViewModels()
+    private var binding: FragmentSearchBinding? = null
     private lateinit var scaffoldState: ScaffoldState
     private lateinit var query: State<String>
     private val expanded = mutableStateOf(false)
@@ -47,7 +47,7 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.i("onDestroyView called")
-        _binding = null
+        binding = null
     }
     override fun onStart() {
         super.onStart()

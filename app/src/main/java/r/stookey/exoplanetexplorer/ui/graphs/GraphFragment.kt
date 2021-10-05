@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.ui.graphs.detail
+package r.stookey.exoplanetexplorer.ui.graphs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.data.BarDataSet
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,26 +29,26 @@ import r.stookey.exoplanetexplorer.ui.graphs.plots.DataSetUtil
 @AndroidEntryPoint
 class GraphFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = GraphFragment()
-    }
-
-    private val graphViewModel: GraphViewModel by viewModels()
+    private val graphViewModel: GraphViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return ComposeView(requireContext()).apply {
             setContent {
                 ExoplanetExplorerTheme {
                     Scaffold(
-                        topBar = {},
+                        topBar = { TopAppBar {
+                            Text(
+                                text = graphViewModel.selectedData.value.label,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+                                 },
                         content = { Graph() }
                     )
                 }
             }
         }
     }
-
-
 
     @Composable
     fun Graph(){
@@ -56,9 +57,8 @@ class GraphFragment : Fragment() {
                 .padding(16.dp)
                 .background(MaterialTheme.colors.primary)
         ) {
-            val discoveryYearDataSet: BarDataSet = DataSetUtil()
-                .createDiscoveryYearDataSet(graphViewModel.planetsList.value)
-            BarChart(discoveryYearDataSet)
+            //When graph is discoveryYear show this graph
+            BarChart(dataSet = graphViewModel.selectedData.value)
         }
     }
 

@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.ui.search.details
+package r.stookey.exoplanetexplorer.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,16 +15,17 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
+import r.stookey.exoplanetexplorer.ui.search.details.PlanetDetails
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
-    private val detailsViewModel: DetailsViewModel by viewModels()
+    private val detailsViewModel: SearchViewModel by activityViewModels()
     private val args: DetailsFragmentArgs by navArgs()
 
 

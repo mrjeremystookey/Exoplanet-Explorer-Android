@@ -51,6 +51,9 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     private val _ascendingState = MutableLiveData<Boolean>()
     val ascendingState: LiveData<Boolean> = _ascendingState
 
+    var selectedPlanet: MutableState<Planet> = mutableStateOf(Planet())
+
+
 
 
     init {
@@ -85,6 +88,15 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
                     Timber.d("number of planets found: ${listOfPlanets.size}")
                     _planetsList.value = listOfPlanets
                 }
+            }
+        }
+    }
+
+    fun newSearchByPlanetName(planetName: String){
+        viewModelScope.launch {
+            repo.searchPlanetsFromCache(planetName).collect { planet ->
+                Timber.d("Planet name returned: $planet")
+                selectedPlanet.value = planet[0]
             }
         }
     }
