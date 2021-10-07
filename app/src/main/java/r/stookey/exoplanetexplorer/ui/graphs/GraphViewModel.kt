@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.domain.Graph
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.repository.GraphRepositoryImpl
-import r.stookey.exoplanetexplorer.util.DataSetUtil
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,8 +22,8 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
     private val _planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
 
-    private val _graphList: MutableState<List<Graph>> = mutableStateOf(listOf())
-    val graphList: State<List<Graph>> = _graphList
+    private val _graphList: MutableState<List<String>> = mutableStateOf(listOf())
+    val graphList: State<List<String>> = _graphList
 
     private var _selectedBarData: MutableState<BarDataSet> = mutableStateOf(BarDataSet(listOf(), ""))
     val selectedBarData: State<BarDataSet> = _selectedBarData
@@ -38,75 +37,48 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
 
     //True for Scatter Plots, false for Bar Charts, probably a better solution
-    private var _graphType: MutableState<Boolean> = mutableStateOf(true)
-    val graphType: State<Boolean> = _graphType
+    private var _isScatter: MutableState<Boolean> = mutableStateOf(true)
+    val isScatter: State<Boolean> = _isScatter
 
 
     init {
         Timber.d("GraphViewModel initialized")
         initializeListOfPlanets()
         createGraphList()
+
     }
 
     private fun initializeListOfPlanets() {
         viewModelScope.launch {
             repo.getAllPlanetsFromCache.collect { planets ->
-                _planetsList.value = planets }
-        }
+                _planetsList.value = planets
 
+            }
+        }
+        if(_planetsList.value.isNotEmpty()){
+            createGraphList()
+        }
     }
 
 
     private fun createGraphList(){
-        val listOfGraphs = mutableListOf<Graph>()
-
-        val barGraph = Graph("Detections Per Year")
-        val scatterGraph = Graph("Mass - Period Distribution")
-        val radiusPeriodGraph = Graph("Radius - Period Distribution")
-        val eccentricityPeriodGraph = Graph("Eccentricity - Period Distribution")
-        val densityRadiusGraph = Graph("Density - Radius Distribution")
-
-        listOfGraphs.add(barGraph)
-        listOfGraphs.add(scatterGraph)
-        listOfGraphs.add(radiusPeriodGraph)
-        listOfGraphs.add(eccentricityPeriodGraph)
-        listOfGraphs.add(densityRadiusGraph)
-
+        val listOfGraphs = mutableListOf<String>()
+        //Bar
+        listOfGraphs.add("Detections Per Year")
+        //Scatter
+        listOfGraphs.add("Density - Mass Distribution")
+        listOfGraphs.add("Density - Radius Distribution")
+        listOfGraphs.add("Mass - Period Distribution")
+        listOfGraphs.add("Radius - Period Distribution")
+        listOfGraphs.add("Eccentricity - Period Distribution")
         _graphList.value = listOfGraphs
     }
 
-    fun onGraphSelected(graph: Graph){
-        when(graph.title){
-            "Detections Per Year" -> {
-                val discoveryYearDataSet: BarDataSet = DataSetUtil().createDiscoveryYearDataSet(_planetsList.value)
-                _graphTitle.value = graph.title
-                _selectedBarData.value = discoveryYearDataSet
-                _graphType.value = false
-            }
-            "Mass - Period Distribution" -> {
-                val massPeriodDataSet: ScatterDataSet = DataSetUtil().createMassPeriodDistributionDataSet(_planetsList.value)
-                _graphTitle.value = massPeriodDataSet.label
-                _selectedScatterData.value = massPeriodDataSet
-                _graphType.value = true
-            }
-            "Radius - Period Distribution" -> {
-                val radiusPeriodDataSet: ScatterDataSet = DataSetUtil().createPeriodRadiusDistributionDataSet(_planetsList.value)
-                _graphTitle.value = radiusPeriodDataSet.label
-                _selectedScatterData.value = radiusPeriodDataSet
-                _graphType.value = true
-            }
-            "Eccentricity - Period Distribution" -> {
-                val eccentricityPeriodDataSet: ScatterDataSet = DataSetUtil().createEccentricityPeriodDistributionDataSet(_planetsList.value)
-                _graphTitle.value = eccentricityPeriodDataSet.label
-                _selectedScatterData.value = eccentricityPeriodDataSet
-                _graphType.value = true
-            }
-            "Density - Radius Distribution" -> {
-                val densityRadiusDataSet: ScatterDataSet = DataSetUtil().createDensityRadiusDistributionDataSet(_planetsList.value)
-                _graphTitle.value = densityRadiusDataSet.label
-                _selectedScatterData.value = densityRadiusDataSet
-                _graphType.value = true
-            }
-        }
+    fun onGraphSelected(graphTitle: String){
+        val graph = Graph(graphTitle, _planetsList.value)
+        _graphTitle.value = graph.title
+        _selectedScatterData.value = graph.data
+        _isScatter.value = graph.isScatter
+
     }
 }

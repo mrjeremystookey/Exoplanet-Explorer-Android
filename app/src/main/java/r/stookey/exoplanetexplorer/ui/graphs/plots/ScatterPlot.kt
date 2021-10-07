@@ -37,8 +37,13 @@ fun ScatterPlot(dataset: ScatterDataSet) {
         xAxis.labelRotationAngle = 90f
         xAxis.setDrawAxisLine(true)
         xAxis.setDrawGridLines(true)
-        xAxis.valueFormatter = MyValueFormatter()
 
+        if (dataset.xMax > 1000) {
+            xAxis.valueFormatter = MyValueFormatter()
+        }
+        if(dataset.yMax > 1000){
+            scatterChart.axisLeft.valueFormatter = MyValueFormatter()
+        }
         //scatterChart.axisLeft.axisMaximum = 60f
         //xAxis.axisMaximum = 15000f
 
@@ -48,9 +53,3 @@ fun ScatterPlot(dataset: ScatterDataSet) {
     }
 }
 
-@Preview()
-@Composable
-fun PreviewScatterPlot(){
-    val massPeriodDataSet: ScatterDataSet = DataSetUtil().createMassPeriodDistributionDataSet(emptyList())
-    ScatterPlot(massPeriodDataSet)
-}

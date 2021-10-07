@@ -30,6 +30,7 @@ fun BarChart(dataSet: BarDataSet) {
         xAxis.setDrawGridLines(true)
 
 
+
         barChart.data = barData
         barChart.invalidate()
     }

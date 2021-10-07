@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
-import com.github.mikephil.charting.data.BarDataSet
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
@@ -57,7 +56,7 @@ class GraphFragment : Fragment() {
                 .background(MaterialTheme.colors.primary)
         ) {
             //Boolean for Scatter vs Bar seems like a bad idea
-            if(graphViewModel.graphType.value){
+            if(graphViewModel.isScatter.value){
                 ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
             } else {
                 BarChart(dataSet = graphViewModel.selectedBarData.value)

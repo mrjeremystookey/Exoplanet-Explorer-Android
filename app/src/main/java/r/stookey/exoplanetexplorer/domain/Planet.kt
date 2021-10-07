@@ -222,5 +222,7 @@ data class Planet(
     @Json(name = "pl_tranmid_reflink")
     val planetaryTransitMidpointReference: String? = null,
 
+
+
     )
 

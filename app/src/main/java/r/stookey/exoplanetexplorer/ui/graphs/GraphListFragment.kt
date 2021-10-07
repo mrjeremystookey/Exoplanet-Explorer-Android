@@ -83,7 +83,7 @@ class GraphListFragment() : Fragment() {
                     val action = GraphListFragmentDirections.viewGraph()
                     findNavController().navigate(action)
                 }){
-                    Text(graph.title, Modifier
+                    Text(graph, Modifier
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                         .align(Alignment.CenterVertically), fontSize = 24.sp)
                 }
