@@ -1,8 +1,12 @@
 package r.stookey.exoplanetexplorer.domain
 
-import com.github.mikephil.charting.data.DataSet
-import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.ScatterDataSet
 
-class Graph constructor(var title: String) {
+
+class Graph (var title: String,
+             var scatterDataSet: ScatterDataSet? = null,
+             var barDataSet: BarDataSet? = null) {
 
 }

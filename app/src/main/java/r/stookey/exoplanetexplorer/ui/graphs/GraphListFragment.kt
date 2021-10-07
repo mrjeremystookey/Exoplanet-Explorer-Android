@@ -60,7 +60,6 @@ class GraphListFragment() : Fragment() {
         }
     }
 
-
     @Composable
     fun ListOfGraphs(){
         val columnModifier = Modifier
