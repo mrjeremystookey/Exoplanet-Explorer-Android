@@ -9,8 +9,9 @@ import timber.log.Timber
 class Graph (var title: String,
              private var listOfPlanets: List<Planet>) {
 
-   lateinit var data: ScatterDataSet
-   lateinit var barData: BarDataSet
+
+   var data = ScatterDataSet(emptyList(), "")
+   var barData = BarDataSet(emptyList(), "")
 
    var isScatter = true
 

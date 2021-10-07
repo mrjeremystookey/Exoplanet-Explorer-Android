@@ -34,9 +34,6 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     private var _graphTitle: MutableState<String> = mutableStateOf("")
     val graphTitle: State<String> = _graphTitle
 
-
-
-    //True for Scatter Plots, false for Bar Charts, probably a better solution
     private var _isScatter: MutableState<Boolean> = mutableStateOf(true)
     val isScatter: State<Boolean> = _isScatter
 
@@ -52,7 +49,6 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
         viewModelScope.launch {
             repo.getAllPlanetsFromCache.collect { planets ->
                 _planetsList.value = planets
-
             }
         }
         if(_planetsList.value.isNotEmpty()){
@@ -77,8 +73,9 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     fun onGraphSelected(graphTitle: String){
         val graph = Graph(graphTitle, _planetsList.value)
         _graphTitle.value = graph.title
-        _selectedScatterData.value = graph.data
         _isScatter.value = graph.isScatter
-
+        if(graph.isScatter)
+            _selectedScatterData.value = graph.data
+        _selectedBarData.value = graph.barData
     }
 }
