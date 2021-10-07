@@ -3,7 +3,6 @@ package r.stookey.exoplanetexplorer.network
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.Data
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.android.volley.Request

@@ -2,13 +2,17 @@ package r.stookey.exoplanetexplorer.ui.compose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import r.stookey.exoplanetexplorer.domain.Planet
 
 
@@ -32,16 +36,33 @@ fun PlanetCard(
             .clickable(onClick = navigateToPlanet),
         elevation = 8.dp
     ){
-        Row(){
-            Column(modifier = Modifier
-                .padding(4.dp)
-                .align(Alignment.CenterVertically),
+        Row(Modifier.fillMaxWidth()){
+            Column(
+                Modifier
+                    .fillMaxWidth(.9f)
+                    .padding(start = 8.dp)
+                    .align(Alignment.CenterVertically),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("Planet Name: " + planet.planetName)
-                Divider(thickness = 4.dp)
-                Text("Hostname: " + planet.hostname)
+                horizontalAlignment = Alignment.Start) {
+                Row(Modifier){
+                    Text("Name: " + planet.planetName, fontSize = 16.sp)
+                }
+                Row(Modifier.padding(top = 4.dp)){
+                    Text("Hostname: " + planet.hostname, fontSize = 12.sp)
+                }
             }
+            Column(
+                Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(.8f),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.End) {
+                Text(modifier = Modifier,
+                    text = "${planet.discoveryYear}",
+                    fontSize = 12.sp,
+                )
+            }
+
         }
     }
 }

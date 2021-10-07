@@ -9,47 +9,52 @@ import timber.log.Timber
 class Graph (var title: String,
              private var listOfPlanets: List<Planet>) {
 
-
-   var data = ScatterDataSet(emptyList(), "")
+   var scatterData = ScatterDataSet(emptyList(), "")
    var barData = BarDataSet(emptyList(), "")
 
    var isScatter = true
 
    init {
        Timber.d("new Graph created: ${title}, number of planets in graph: ${listOfPlanets.size}")
-       creatingDataSetForGraph()
+       createDataSetForGraph()
    }
 
-   private fun creatingDataSetForGraph(){
+
+   private fun createDataSetForGraph(){
        //Should be injected
        val dataUtil = DataSetUtil()
 
        when(title){
             "Density - Mass Distribution" -> {
                 val densityMassDataSet = dataUtil.createDensityMassDistributionDataSet(listOfPlanets, title)
-                data = densityMassDataSet
+                scatterData = densityMassDataSet
             }
            "Density - Radius Distribution" -> {
                val radiusPeriodDataSSet = dataUtil.createDensityRadiusDistributionDataSet(listOfPlanets, title)
-               data = radiusPeriodDataSSet
+               scatterData = radiusPeriodDataSSet
            }
            "Mass - Period Distribution" -> {
                val massPeriodDataSet = dataUtil.createMassPeriodDistributionDataSet(listOfPlanets, title)
-               data = massPeriodDataSet
+               scatterData = massPeriodDataSet
            }
            "Radius - Period Distribution" -> {
                val radiusPeriodDataSSet = dataUtil.radiusPeriodDistributionDataSet(listOfPlanets, title)
-               data = radiusPeriodDataSSet
+               scatterData = radiusPeriodDataSSet
            }
            "Eccentricity - Period Distribution" -> {
                val radiusPeriodDataSSet = dataUtil.createEccentricityPeriodDistributionDataSet(listOfPlanets, title)
-               data = radiusPeriodDataSSet
+               scatterData = radiusPeriodDataSSet
            }
            "Detections Per Year" -> {
                val detectionsPerYearDataSet = dataUtil.createDiscoveryYearDataSet(listOfPlanets, title)
                barData = detectionsPerYearDataSet
                isScatter = false
            }
+           /*"Custom Distribution" -> {
+               val customDataSet = dataUtil.createCustomDistribution(listOfPlanets, title, )
+               scatterData = customDataSet
+           }*/
+
         }
    }
 }

@@ -1,6 +1,5 @@
 package r.stookey.exoplanetexplorer.util
 
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
@@ -11,11 +10,10 @@ import r.stookey.exoplanetexplorer.domain.Planet
 import timber.log.Timber
 import java.text.DecimalFormat
 import kotlin.math.log10
-import kotlin.math.pow
 
 class DataSetUtil {
 
-
+    //Used for scaling values to Logarithmic
     private fun scaleValues(number: Double): Float {
         return log10(number).toFloat()
     }
@@ -88,6 +86,22 @@ class DataSetUtil {
                 val planetEntry = Entry(
                     scaleValues(planet.planetDensity),
                     scaleValues(planet.planetaryMassJupiter)
+                )
+                planetEntryList.add(planetEntry)
+            }
+        }
+        Timber.d(label+ " " + planetEntryList.size)
+        return ScatterDataSet(planetEntryList, label)
+    }
+
+
+    fun createCustomDistribution(listOfPlanets: List<Planet>, label: String, xValue: Double, yValue: Double): ScatterDataSet{
+        val planetEntryList = mutableListOf<Entry>()
+        listOfPlanets.forEach { planet ->
+            if (xValue != null && yValue != null) {
+                val planetEntry = Entry(
+                    scaleValues(xValue),
+                    scaleValues(yValue)
                 )
                 planetEntryList.add(planetEntry)
             }

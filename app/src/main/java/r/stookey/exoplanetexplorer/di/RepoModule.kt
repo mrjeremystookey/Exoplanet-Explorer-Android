@@ -7,10 +7,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import r.stookey.exoplanetexplorer.cache.PlanetDatabase
-import r.stookey.exoplanetexplorer.util.PlanetDtoImpl
 import r.stookey.exoplanetexplorer.network.ExoplanetApiService
 import r.stookey.exoplanetexplorer.repository.Repository
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
+import r.stookey.exoplanetexplorer.util.PlanetDtoImpl
 import timber.log.Timber
 import javax.inject.Singleton
 

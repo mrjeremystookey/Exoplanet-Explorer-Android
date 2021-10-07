@@ -14,7 +14,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import r.stookey.exoplanetexplorer.network.ExoplanetApiWorker
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
-import java.lang.RuntimeException
 import javax.inject.Inject
 
 

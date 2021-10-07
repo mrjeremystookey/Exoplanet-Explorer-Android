@@ -1,7 +1,6 @@
 package r.stookey.exoplanetexplorer.ui.graphs
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
@@ -55,12 +55,10 @@ class GraphFragment : Fragment() {
                 .padding(16.dp)
                 .background(MaterialTheme.colors.primary)
         ) {
-            //Boolean for Scatter vs Bar seems like a bad idea
-            if(graphViewModel.isScatter.value){
+            if(graphViewModel.isScatter.value)
                 ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
-            } else {
+            else
                 BarChart(dataSet = graphViewModel.selectedBarData.value)
-            }
         }
     }
 }
