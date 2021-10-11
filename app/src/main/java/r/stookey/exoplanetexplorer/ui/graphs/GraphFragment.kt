@@ -25,7 +25,7 @@ import r.stookey.exoplanetexplorer.ui.graphs.plots.ScatterPlot
 
 //Fragment gets navigated to after a graph is selected, retrieves graph information from GraphViewModel
 @AndroidEntryPoint
-class GraphFragment : Fragment() {
+class  GraphFragment : Fragment() {
 
     private val graphViewModel: GraphViewModel by activityViewModels()
 
@@ -94,7 +94,10 @@ class GraphFragment : Fragment() {
             Column {
                 OutlinedTextField(
                     value = text.value,
-                    onValueChange = { text.value = it },
+                    onValueChange = {
+                        text.value = it
+                        graphViewModel.onAttributeXChanged(text.value)
+                                    },
                     label = { Text(text = "Choose X axis value") },
                     modifier = Modifier.wrapContentSize()
                 )
@@ -137,7 +140,10 @@ class GraphFragment : Fragment() {
             Column {
                 OutlinedTextField(
                     value = text.value,
-                    onValueChange = { text.value = it },
+                    onValueChange = {
+                        text.value = it
+                        graphViewModel.onAttributeYChanged(text.value)
+                    },
                     label = { Text(text = "Choose Y axis value") },
                     modifier = Modifier.wrapContentSize()
                 )

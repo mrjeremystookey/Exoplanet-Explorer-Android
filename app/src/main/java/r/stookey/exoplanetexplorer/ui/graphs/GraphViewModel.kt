@@ -42,11 +42,8 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
     //Used for Custom Distributions
     //Updated via dropdown menus on Custom Distribution Graph page
-    private var _selectedXData: MutableState<Double> = mutableStateOf(0.0)
-    var selectedXData: State<Double> = _selectedXData
-
-    private var _selectedYData: MutableState<Double> = mutableStateOf(0.0)
-    var selectedYData: State<Double> = _selectedYData
+    private var _selectedXData: MutableState<String> = mutableStateOf("")
+    private var _selectedYData: MutableState<String> = mutableStateOf("")
 
     private var _isCustom: MutableState<Boolean> = mutableStateOf(false)
     val isCustom: State<Boolean> = _isCustom
@@ -90,11 +87,11 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
 
     //Updated when new dropdown values are selected
-    fun onAttributeXChanged(xValue: Double){
+    fun onAttributeXChanged(xValue: String){
         _selectedXData.value = xValue
     }
 
-    fun onAttributeYChanged(yValue: Double){
+    fun onAttributeYChanged(yValue: String){
         _selectedYData.value = yValue
     }
 
