@@ -24,7 +24,6 @@ fun DropDownList(
                 onClick = {
                     request(false)
                     selectedString(it)
-                    Timber.d("$it")
                 }
             ) {
                 Text(it, modifier = Modifier.wrapContentWidth())

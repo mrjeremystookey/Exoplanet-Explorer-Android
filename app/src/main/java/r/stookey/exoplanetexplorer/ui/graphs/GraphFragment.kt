@@ -89,8 +89,8 @@ class  GraphFragment : Fragment() {
         }
         val userSelectedString: (String) -> Unit = {
             text.value = it
+            graphViewModel.onXAxisChanged(text.value)
         }
-        graphViewModel.onXAxisChanged(text.value)
         Box(modifier.padding(start = 4.dp)) {
             Column {
                 OutlinedTextField(
@@ -135,8 +135,8 @@ class  GraphFragment : Fragment() {
         }
         val userSelectedString: (String) -> Unit = {
             text.value = it
+            graphViewModel.onYAxisChanged(text.value)
         }
-        graphViewModel.onYAxisChanged(text.value)
         Box(modifier.padding(end = 4.dp)) {
             Column {
                 OutlinedTextField(

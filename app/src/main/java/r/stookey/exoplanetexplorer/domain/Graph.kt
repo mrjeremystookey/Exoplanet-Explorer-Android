@@ -8,8 +8,8 @@ import timber.log.Timber
 
 class Graph (var title: String,
              private var listOfPlanets: List<Planet>,
-             private var xValue: String?,
-             private var yValue: String? ) {
+             xValue: String?,
+             yValue: String? ) {
 
 
 
@@ -24,13 +24,15 @@ class Graph (var title: String,
    init {
        Timber.d("new Graph created: ${title}, number of planets in graph: ${listOfPlanets.size}")
        createDataSetForGraph()
-
        //Could probably be moved to a factory that when a graph with x and y values is created
        if (xValue != null && yValue != null){
            Timber.d("creating custom dataset")
-           scatterData = dataUtil.createCustomDistribution(listOfPlanets, "Custom", xValue!!, yValue!!)
+           scatterData = dataUtil.createCustomDistribution(listOfPlanets, "$xValue - $yValue Distribution", xValue!!, yValue!!)
+           title = scatterData.label
        }
    }
+
+
 
 
    private fun createDataSetForGraph(){

@@ -98,7 +98,8 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
             planetsList.value,
             _selectedXData.value,
             _selectedYData.value)
-        Timber.d("graph updated, ${myCustomGraph}")
+        _graphTitle.value = myCustomGraph.value.scatterData.label
+        //Timber.d("graph updated, ${myCustomGraph.value.scatterData.label}")
     }
 
     fun onYAxisChanged(yValue: String){
@@ -108,7 +109,8 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
             planetsList.value,
             _selectedXData.value,
             _selectedYData.value)
-        Timber.d("graph updated, ${myCustomGraph}")
+        _graphTitle.value = myCustomGraph.value.scatterData.label
+        //Timber.d("graph updated, ${myCustomGraph.value.scatterData.label}")
     }
 
     fun onCustomGraphSelected(){
