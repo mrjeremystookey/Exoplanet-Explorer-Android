@@ -1,8 +1,10 @@
 package r.stookey.exoplanetexplorer.ui.graphs
 
+import androidx.compose.material.Divider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarDataSet
@@ -62,22 +64,24 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
     private fun createGraphList(){
         val listOfGraphs = mutableListOf<String>()
+        //Custom
+        listOfGraphs.add("Custom Distribution")
         //Bar
         listOfGraphs.add("Detections Per Year")
         //Scatter
-        listOfGraphs.add("Density - Mass Distribution")
-        listOfGraphs.add("Density - Radius Distribution")
-        listOfGraphs.add("Mass - Period Distribution")
-        listOfGraphs.add("Radius - Period Distribution")
-        listOfGraphs.add("Eccentricity - Period Distribution")
+        listOfGraphs.add("Mass - Period")
+        listOfGraphs.add("Radius - Period")
+        listOfGraphs.add("Density - Radius")
+        listOfGraphs.add("Eccentricity - Period")
+        listOfGraphs.add("Density - Mass")
+        listOfGraphs.add("EarthMass - EarthRadius")
         //When clicked navigate to graph with dropdowns showing attributes radius, mass, etc
-        listOfGraphs.add("Custom Distribution")
         _graphList.value = listOfGraphs
 
     }
 
     fun onGraphSelected(graphTitle: String){
-        val graph = Graph(graphTitle, _planetsList.value)
+        val graph = Graph(graphTitle, _planetsList.value, null, null)
         _graphTitle.value = graph.title
         _isScatter.value = graph.isScatter
         if(graph.isScatter)

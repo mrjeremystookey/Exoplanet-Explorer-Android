@@ -120,7 +120,7 @@ data class Planet(
     //Amount by which the orbit of the planet deviates from a perfect circle
     @ColumnInfo(name = "pl_orbeccen")
     @Json(name = "pl_orbeccen")
-    val planetaryOrbitalEccentricity: String? = null,
+    val planetaryOrbitalEccentricity: Double? = null,
 
     //Angle of the plane of the orbit relative to the plane perpendicular to the line-of-sight from Earth to the object
     @ColumnInfo(name = "pl_orbincl")

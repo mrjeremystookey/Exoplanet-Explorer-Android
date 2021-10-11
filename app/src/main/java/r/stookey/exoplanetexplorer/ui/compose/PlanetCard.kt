@@ -48,7 +48,7 @@ fun PlanetCard(
                     Text("Name: " + planet.planetName, fontSize = 16.sp)
                 }
                 Row(Modifier.padding(top = 4.dp)){
-                    Text("Hostname: " + planet.hostname, fontSize = 12.sp)
+                    Text("Host: " + planet.hostname, fontSize = 12.sp)
                 }
             }
             Column(

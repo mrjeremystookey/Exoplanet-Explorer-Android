@@ -62,13 +62,12 @@ class GraphListFragment() : Fragment() {
     @Composable
     fun ListOfGraphs(){
         val columnModifier = Modifier
-            .padding(16.dp)
-            .background(Color.Gray)
+            .padding(8.dp)
             .fillMaxWidth()
 
 
         val rowModifier = Modifier
-            .padding(4.dp)
+            .padding(top = 8.dp, bottom = 8.dp)
             .fillMaxWidth()
             .height(48.dp)
             .border(2.dp, MaterialTheme.colors.secondary)

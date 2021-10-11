@@ -8,16 +8,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.charts.ScatterChart
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.ScatterData
 import com.github.mikephil.charting.data.ScatterDataSet
-import r.stookey.exoplanetexplorer.util.MyValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
+import r.stookey.exoplanetexplorer.util.unscaleValues
 
 
 @Composable
 fun ScatterPlot(dataset: ScatterDataSet) {
     var scatterDataSet = ScatterData(dataset)
+
+
 
     AndroidView(
     modifier = Modifier
@@ -27,24 +29,36 @@ fun ScatterPlot(dataset: ScatterDataSet) {
         ScatterChart(context)
     }
     ){ scatterChart ->
-        val xAxis: XAxis = scatterChart.xAxis
+        val xAxis = scatterChart.xAxis
         xAxis.position = XAxisPosition.BOTTOM
         xAxis.textSize = 10f
         xAxis.textColor = Color.BLACK
-        xAxis.labelRotationAngle = 90f
+        xAxis.labelRotationAngle = 0f
         xAxis.setDrawAxisLine(true)
-        xAxis.setDrawGridLines(true)
+        xAxis.setDrawGridLines(false)
+        scatterChart.axisRight.isEnabled = false
+        scatterChart.axisLeft.setDrawGridLines(false)
+        scatterChart.axisLeft.setDrawAxisLine(true)
+        scatterChart.axisLeft.axisMinimum = dataset.yMin
+        xAxis.axisMinimum = dataset.xMin
+        scatterChart.setScaleEnabled(true)
 
-        if (dataset.xMax > 1000) {
-            xAxis.valueFormatter = MyValueFormatter()
+
+        scatterChart.axisLeft.valueFormatter = object: ValueFormatter(){
+            override fun getFormattedValue(value: Float): String {
+                return super.getFormattedValue(unscaleValues(value.toDouble()))
+            }
         }
-        if(dataset.yMax > 1000){
-            scatterChart.axisLeft.valueFormatter = MyValueFormatter()
+        xAxis.valueFormatter = object: ValueFormatter(){
+            override fun getFormattedValue(value: Float): String {
+                return super.getFormattedValue(unscaleValues(value.toDouble()))
+            }
         }
-        //scatterChart.axisLeft.axisMaximum = 60f
-        //xAxis.axisMaximum = 15000f
 
 
+
+        dataset.scatterShapeSize = 3f
+        dataset.color = Color.YELLOW
         scatterChart.data = scatterDataSet
         scatterChart.invalidate()
     }

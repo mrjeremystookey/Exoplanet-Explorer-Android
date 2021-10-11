@@ -3,6 +3,7 @@ package r.stookey.exoplanetexplorer
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.github.mikephil.charting.utils.Utils
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,6 +18,7 @@ class ExoplanetApplication: Application(), Configuration.Provider {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         Timber.d("Timber tree planted")
+        Utils.init(applicationContext)
     }
 
 
