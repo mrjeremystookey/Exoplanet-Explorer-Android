@@ -1,10 +1,8 @@
 package r.stookey.exoplanetexplorer.ui.graphs
 
-import androidx.compose.material.Divider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarDataSet
@@ -38,8 +36,8 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     private var _graphTitle: MutableState<String> = mutableStateOf("")
     val graphTitle: State<String> = _graphTitle
 
-    private var _isScatter: MutableState<Boolean> = mutableStateOf(true)
-    val isScatter: State<Boolean> = _isScatter
+    private var _isBar: MutableState<Boolean> = mutableStateOf(true)
+    val isBar: State<Boolean> = _isBar
 
 
     //Used for Custom Distributions
@@ -111,11 +109,12 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
         _isCustom.value = false
         val graph = Graph(graphTitle, _planetsList.value, null, null)
             _graphTitle.value = graph.title
-            _isScatter.value = graph.isScatter
-            if(graph.isScatter)
-                _selectedScatterData.value = graph.scatterData
-            else
+            _isBar.value = graph.isBar
+            if(graph.isBar)
                 _selectedBarData.value = graph.barData
+            else
+                _selectedScatterData.value = graph.scatterData
+
 
     }
 }

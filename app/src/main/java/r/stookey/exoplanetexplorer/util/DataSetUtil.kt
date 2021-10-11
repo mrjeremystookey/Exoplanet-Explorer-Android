@@ -41,7 +41,7 @@ class DataSetUtil {
             }
         }
         Timber.d(label+ " " + planetEntryList.size)
-        var dataSet = ScatterDataSet(planetEntryList, label)
+        val dataSet = ScatterDataSet(planetEntryList, label)
         return dataSet
     }
 
@@ -57,8 +57,7 @@ class DataSetUtil {
             }
         }
         Timber.d(label+ " " + planetEntryList.size)
-        var dataset = ScatterDataSet(planetEntryList, label)
-
+        val dataset = ScatterDataSet(planetEntryList, label)
         return dataset
     }
 
@@ -139,15 +138,17 @@ class DataSetUtil {
     }
 
 
-    fun createCustomDistribution(listOfPlanets: List<Planet>, label: String, xValue: Double, yValue: Double): ScatterDataSet{
+    //Custom Scatter Plot
+    fun createCustomDistribution(listOfPlanets: List<Planet>, label: String, xValue: String, yValue: String): ScatterDataSet{
         val planetEntryList = mutableListOf<Entry>()
         listOfPlanets.forEach { planet ->
-            if (xValue != null && yValue != null) {
-                val planetEntry = Entry(
-                    scaleValues(xValue),
-                    scaleValues(yValue)
-                )
-                planetEntryList.add(planetEntry)
+            //planet.xValue and planet.yValue are formed into an Entry and added to list
+            val x = "planet.${xValue}"
+            val y = "planet.${yValue}"
+            if (planet.planetaryMassEarth != null && planet.planetaryRadiusEarth != null) {
+                planetEntryList.add(Entry(
+                    scaleValues(planet.planetaryMassEarth),
+                    scaleValues(planet.planetaryRadiusEarth)))
             }
         }
         Timber.d(label + " " + planetEntryList.size)

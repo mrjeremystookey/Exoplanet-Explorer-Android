@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -51,81 +52,138 @@ class GraphFragment : Fragment() {
     fun Graph(){
         Column(
             Modifier
-                .padding(16.dp)
+                .padding(4.dp)
                 .background(MaterialTheme.colors.primary)
         ) {
             when {
                 graphViewModel.isCustom.value -> {
-                    Text("Chose values")
-                    //Show Dropdowns
+                    Row {
+                        XAttributeSpinner(Modifier.weight(.5f))
+                        Spacer(Modifier.padding(horizontal = 4.dp))
+                        YAttributeSpinner(Modifier.weight(.5f))
+                    }
                     ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
                 }
-                graphViewModel.isScatter.value -> {
-                    ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
+                graphViewModel.isBar.value -> {
+                    BarChart(dataSet = graphViewModel.selectedBarData.value)
                 }
-                else -> BarChart(dataSet = graphViewModel.selectedBarData.value)
+                else -> ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
+
             }
 
         }
     }
 
     @Composable
-    fun PlanetAttributeDropdowns(colorSelected: Color = MaterialTheme.colors.primary,
-                                 colorBackground: Color = MaterialTheme.colors.onSurface,
-                                 expanded: Boolean,
-                                 selectedIndex: Int,
-                                 items: List<String>,
-                                 onSelect: (Int) -> Unit,
-                                 onDismissRequest: () -> Unit,
-                                 content: @Composable () -> Unit){
-        Box {
-            content()
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = onDismissRequest,
+    fun XAttributeSpinner (modifier: Modifier) {
+        val countryList = listOf(
+            "Mass",
+            "Radius",
+            "Density",
+            "Period",
+        )
+        val text = remember { mutableStateOf("") } // initial value
+        val isOpen = remember { mutableStateOf(false) } // initial value
+        val openCloseOfDropDownList: (Boolean) -> Unit = {
+            isOpen.value = it
+        }
+        val userSelectedString: (String) -> Unit = {
+            text.value = it
+        }
+        Box(modifier.padding(start = 4.dp)) {
+            Column {
+                OutlinedTextField(
+                    value = text.value,
+                    onValueChange = { text.value = it },
+                    label = { Text(text = "Choose X axis value") },
+                    modifier = Modifier.wrapContentSize()
+                )
+                DropDownList(
+                    requestToOpen = isOpen.value,
+                    list = countryList,
+                    openCloseOfDropDownList,
+                    userSelectedString
+                )
+            }
+            Spacer(
                 modifier = Modifier
-                    .height(300.dp)
-                    .fillMaxWidth()
-                    .background(
-                        color = colorBackground,
-                        shape = RoundedCornerShape(16.dp)
+                    .matchParentSize()
+                    .background(Color.Transparent)
+                    .padding(10.dp)
+                    .clickable(
+                        onClick = { isOpen.value = true }
                     )
-            ) {
-                items.forEachIndexed { index, s ->
-                    if (selectedIndex == index) {
-                        DropdownMenuItem(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(
-                                    color = colorSelected,
-                                    shape = RoundedCornerShape(16.dp)
-                                ),
-                            onClick = { onSelect(index) }
-                        ) {
-                            Text(
-                                text = s,
-                                color = Color.Black,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                    } else {
-                        DropdownMenuItem(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { onSelect(index) }
-                        ) {
-                            Text(
-                                text = s,
-                                color = Color.DarkGray,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
+            )
+        }
+    }
+
+    @Composable
+    fun YAttributeSpinner (modifier: Modifier) {
+        val countryList = listOf(
+            "Mass",
+            "Radius",
+            "Density",
+            "Period",
+        )
+        val text = remember { mutableStateOf("") } // initial value
+        val isOpen = remember { mutableStateOf(false) } // initial value
+        val openCloseOfDropDownList: (Boolean) -> Unit = {
+            isOpen.value = it
+        }
+        val userSelectedString: (String) -> Unit = {
+            text.value = it
+        }
+        Box(modifier.padding(end = 4.dp)) {
+            Column {
+                OutlinedTextField(
+                    value = text.value,
+                    onValueChange = { text.value = it },
+                    label = { Text(text = "Choose Y axis value") },
+                    modifier = Modifier.wrapContentSize()
+                )
+                DropDownList(
+                    requestToOpen = isOpen.value,
+                    list = countryList,
+                    openCloseOfDropDownList,
+                    userSelectedString
+                )
+            }
+            Spacer(
+                modifier = Modifier
+                    .matchParentSize()
+                    .background(Color.Transparent)
+                    .padding(10.dp)
+                    .clickable(
+                        onClick = { isOpen.value = true }
+                    )
+            )
+        }
+    }
+
+    @Composable
+    fun DropDownList(
+        requestToOpen: Boolean = false,
+        list: List<String>, request: (Boolean) -> Unit,
+        selectedString: (String) -> Unit) {
+        DropdownMenu(
+            expanded = requestToOpen,
+            onDismissRequest = { request(false) },
+        ) {
+            list.forEach {
+                DropdownMenuItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        request(false)
+                        selectedString(it)
                     }
+                ) {
+                    Text(it, modifier = Modifier.wrapContentWidth())
                 }
             }
         }
     }
+
+
 }
 
 

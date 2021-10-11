@@ -8,8 +8,8 @@ import timber.log.Timber
 
 class Graph (var title: String,
              private var listOfPlanets: List<Planet>,
-             private var xValue: Double?,
-             private var yValue: Double? ) {
+             private var xValue: String?,
+             private var yValue: String? ) {
 
 
 
@@ -17,7 +17,7 @@ class Graph (var title: String,
    var barData = BarDataSet(emptyList(), "")
 
 
-    var isScatter = true
+    var isBar = false
 
     private val dataUtil = DataSetUtil()
 
@@ -25,6 +25,7 @@ class Graph (var title: String,
        Timber.d("new Graph created: ${title}, number of planets in graph: ${listOfPlanets.size}")
        createDataSetForGraph()
        if (xValue != null && yValue != null){
+           Timber.d("creating custom dataset")
            scatterData = dataUtil.createCustomDistribution(listOfPlanets, "Custom", xValue!!, yValue!!)
        }
    }
@@ -61,7 +62,7 @@ class Graph (var title: String,
            "Detections Per Year" -> {
                val detectionsPerYearDataSet = dataUtil.createDiscoveryYearDataSet(listOfPlanets, title)
                barData = detectionsPerYearDataSet
-               isScatter = false
+               isBar = true
            }
         }
    }
