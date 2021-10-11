@@ -45,6 +45,8 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     private var _selectedXData: MutableState<String> = mutableStateOf("")
     private var _selectedYData: MutableState<String> = mutableStateOf("")
 
+    private var myCustomGraph: MutableState<Graph> = mutableStateOf(Graph("null", emptyList(), null, null))
+
     private var _isCustom: MutableState<Boolean> = mutableStateOf(false)
     val isCustom: State<Boolean> = _isCustom
 
@@ -88,12 +90,18 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     //Updated when new dropdown values are selected
     fun onAttributeXChanged(xValue: String){
         _selectedXData.value = xValue
-        Timber.d(xValue)
+        myCustomGraph.value = Graph("Custom Graph",
+            _planetsList.value,
+            _selectedXData.value,
+            _selectedYData.value)
     }
 
     fun onAttributeYChanged(yValue: String){
         _selectedYData.value = yValue
-        Timber.d(yValue)
+        myCustomGraph.value = Graph("Custom Graph",
+            _planetsList.value,
+            _selectedXData.value,
+            _selectedYData.value)
     }
 
     fun onCustomGraphSelected(){
@@ -110,7 +118,5 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
                 _selectedBarData.value = graph.barData
             else
                 _selectedScatterData.value = graph.scatterData
-
-
     }
 }

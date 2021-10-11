@@ -145,6 +145,8 @@ class DataSetUtil {
             //planet.xValue and planet.yValue are formed into an Entry and added to list
             val x = "planet.${xValue}"
             val y = "planet.${yValue}"
+            Timber.d("x value: $x")
+            Timber.d("y value: $y")
             if (planet.planetaryMassEarth != null && planet.planetaryRadiusEarth != null) {
                 planetEntryList.add(Entry(
                     scaleValues(planet.planetaryMassEarth),

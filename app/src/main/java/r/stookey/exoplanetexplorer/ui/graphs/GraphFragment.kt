@@ -69,9 +69,7 @@ class  GraphFragment : Fragment() {
                     BarChart(dataSet = graphViewModel.selectedBarData.value)
                 }
                 else -> ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
-
             }
-
         }
     }
 
