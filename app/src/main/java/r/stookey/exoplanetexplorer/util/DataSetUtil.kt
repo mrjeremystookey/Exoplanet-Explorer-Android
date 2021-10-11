@@ -142,7 +142,7 @@ class DataSetUtil {
     fun createCustomDistribution(listOfPlanets: List<Planet>, label: String, xValue: String, yValue: String): ScatterDataSet{
         val planetEntryList = mutableListOf<Entry>()
         Timber.d("x value: $xValue")
-        Timber.d("x value: $yValue")
+        Timber.d("y value: $yValue")
         listOfPlanets.forEach { planet ->
             //How to add x and y value to planet.xValue and planet.yValue
         }
