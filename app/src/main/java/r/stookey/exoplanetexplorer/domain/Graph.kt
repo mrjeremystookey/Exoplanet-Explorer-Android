@@ -11,20 +11,27 @@ class Graph (var title: String,
              private var xValue: Double?,
              private var yValue: Double? ) {
 
+
+
    var scatterData = ScatterDataSet(emptyList(), "")
    var barData = BarDataSet(emptyList(), "")
 
-   var isScatter = true
+
+    var isScatter = true
+
+    private val dataUtil = DataSetUtil()
 
    init {
        Timber.d("new Graph created: ${title}, number of planets in graph: ${listOfPlanets.size}")
        createDataSetForGraph()
+       if (xValue != null && yValue != null){
+           scatterData = dataUtil.createCustomDistribution(listOfPlanets, "Custom", xValue!!, yValue!!)
+       }
    }
 
 
    private fun createDataSetForGraph(){
        //Should be injected
-       val dataUtil = DataSetUtil()
 
        when(title){
             "Density - Mass" -> {
@@ -56,10 +63,6 @@ class Graph (var title: String,
                barData = detectionsPerYearDataSet
                isScatter = false
            }
-           /*"Custom Distribution" -> {
-               val customDataSet = dataUtil.createCustomDistribution(listOfPlanets, title, )
-               scatterData = customDataSet
-           }*/
         }
    }
 }
