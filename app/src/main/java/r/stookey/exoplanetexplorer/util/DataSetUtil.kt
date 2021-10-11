@@ -141,17 +141,10 @@ class DataSetUtil {
     //Custom Scatter Plot
     fun createCustomDistribution(listOfPlanets: List<Planet>, label: String, xValue: String, yValue: String): ScatterDataSet{
         val planetEntryList = mutableListOf<Entry>()
+        Timber.d("x value: $xValue")
+        Timber.d("x value: $yValue")
         listOfPlanets.forEach { planet ->
-            //planet.xValue and planet.yValue are formed into an Entry and added to list
-            val x = "planet.${xValue}"
-            val y = "planet.${yValue}"
-            Timber.d("x value: $x")
-            Timber.d("y value: $y")
-            if (planet.planetaryMassEarth != null && planet.planetaryRadiusEarth != null) {
-                planetEntryList.add(Entry(
-                    scaleValues(planet.planetaryMassEarth),
-                    scaleValues(planet.planetaryRadiusEarth)))
-            }
+            //How to add x and y value to planet.xValue and planet.yValue
         }
         Timber.d(label + " " + planetEntryList.size)
         return ScatterDataSet(planetEntryList, label)

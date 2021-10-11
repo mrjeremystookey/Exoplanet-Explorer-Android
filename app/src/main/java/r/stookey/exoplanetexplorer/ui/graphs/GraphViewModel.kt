@@ -32,7 +32,7 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     private var _selectedScatterData: MutableState<ScatterDataSet> = mutableStateOf(ScatterDataSet(listOf(), ""))
     val selectedScatterData: State<ScatterDataSet> = _selectedScatterData
 
-    //Graph Attributes, title and scatter or bar chart
+    //Graph Attributes - title,  scatter/bar chart, and custom
     private var _graphTitle: MutableState<String> = mutableStateOf("")
     val graphTitle: State<String> = _graphTitle
 
@@ -50,8 +50,6 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     var selectedXData: State<String> = _selectedXData
     private var _selectedYData: MutableState<String> = mutableStateOf("")
     var selectedYData: State<String> = _selectedYData
-
-
 
     private var myCustomGraph: MutableState<Graph> = mutableStateOf(Graph("null", emptyList(), null, null))
 
@@ -75,7 +73,7 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
         }
     }
 
-
+    //List of Pre-Generated Plots
     private fun createGraphList(){
         val listOfGraphs = mutableListOf<String>()
         //Bar
@@ -87,27 +85,30 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
         listOfGraphs.add("Eccentricity - Period")
         listOfGraphs.add("Density - Mass")
         listOfGraphs.add("EarthMass - EarthRadius")
-        //When clicked navigate to graph with dropdowns showing attributes radius, mass, etc
         _graphList.value = listOfGraphs
-
     }
 
 
     //Updated when new dropdown values are selected
-    fun onAttributeXChanged(xValue: String){
+    //Updates a mutable state of object Graph
+    fun onXAxisChanged(xValue: String){
+        Timber.d("x axis value changed to $xValue")
         _selectedXData.value = xValue
-        /*myCustomGraph.value = Graph("Custom Graph",
-            _planetsList.value,
+        myCustomGraph.value = Graph("Custom Graph",
+            planetsList.value,
             _selectedXData.value,
-            _selectedYData.value)*/
+            _selectedYData.value)
+        Timber.d("graph updated, ${myCustomGraph}")
     }
 
-    fun onAttributeYChanged(yValue: String){
+    fun onYAxisChanged(yValue: String){
+        Timber.d("y axis value changed to $yValue")
         _selectedYData.value = yValue
-        /*myCustomGraph.value = Graph("Custom Graph",
-            _planetsList.value,
+        myCustomGraph.value = Graph("Custom Graph",
+            planetsList.value,
             _selectedXData.value,
-            _selectedYData.value)*/
+            _selectedYData.value)
+        Timber.d("graph updated, ${myCustomGraph}")
     }
 
     fun onCustomGraphSelected(){

@@ -7,6 +7,7 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import timber.log.Timber
 
 @Composable
 fun DropDownList(
@@ -23,6 +24,7 @@ fun DropDownList(
                 onClick = {
                     request(false)
                     selectedString(it)
+                    Timber.d("$it")
                 }
             ) {
                 Text(it, modifier = Modifier.wrapContentWidth())

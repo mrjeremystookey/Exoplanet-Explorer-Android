@@ -22,6 +22,7 @@ import r.stookey.exoplanetexplorer.ui.DropDownList
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
 import r.stookey.exoplanetexplorer.ui.graphs.plots.ScatterPlot
+import timber.log.Timber
 
 
 //Fragment gets navigated to after a graph is selected, retrieves graph information from GraphViewModel
@@ -89,13 +90,13 @@ class  GraphFragment : Fragment() {
         val userSelectedString: (String) -> Unit = {
             text.value = it
         }
+        graphViewModel.onXAxisChanged(text.value)
         Box(modifier.padding(start = 4.dp)) {
             Column {
                 OutlinedTextField(
                     value = text.value,
                     onValueChange = {
                         text.value = it
-                        graphViewModel.onAttributeXChanged(it)
                                     },
                     label = { Text(text = "Choose X axis value") },
                     modifier = Modifier.wrapContentSize()
@@ -135,13 +136,13 @@ class  GraphFragment : Fragment() {
         val userSelectedString: (String) -> Unit = {
             text.value = it
         }
+        graphViewModel.onYAxisChanged(text.value)
         Box(modifier.padding(end = 4.dp)) {
             Column {
                 OutlinedTextField(
                     value = text.value,
                     onValueChange = {
                         text.value = it
-                        graphViewModel.onAttributeYChanged(it)
                     },
                     label = { Text(text = "Choose Y axis value") },
                     modifier = Modifier.wrapContentSize()
