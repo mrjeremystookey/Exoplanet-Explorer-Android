@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) : ViewModel() {
 
-    private val _planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
+    private val planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
 
     private val _graphList: MutableState<List<String>> = mutableStateOf(listOf())
     val graphList: State<List<String>> = _graphList
@@ -39,32 +39,38 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     private var _isBar: MutableState<Boolean> = mutableStateOf(true)
     val isBar: State<Boolean> = _isBar
 
+    private var _isCustom: MutableState<Boolean> = mutableStateOf(false)
+    val isCustom: State<Boolean> = _isCustom
+
+
 
     //Used for Custom Distributions
     //Updated via dropdown menus on Custom Distribution Graph page
     private var _selectedXData: MutableState<String> = mutableStateOf("")
+    var selectedXData: State<String> = _selectedXData
     private var _selectedYData: MutableState<String> = mutableStateOf("")
+    var selectedYData: State<String> = _selectedYData
+
+
 
     private var myCustomGraph: MutableState<Graph> = mutableStateOf(Graph("null", emptyList(), null, null))
 
-    private var _isCustom: MutableState<Boolean> = mutableStateOf(false)
-    val isCustom: State<Boolean> = _isCustom
+
 
 
     init {
         Timber.d("GraphViewModel initialized")
         initializeListOfPlanets()
         createGraphList()
-
     }
 
     private fun initializeListOfPlanets() {
         viewModelScope.launch {
             repo.getAllPlanetsFromCache.collect { planets ->
-                _planetsList.value = planets
+                planetsList.value = planets
             }
         }
-        if(_planetsList.value.isNotEmpty()){
+        if(planetsList.value.isNotEmpty()){
             createGraphList()
         }
     }
@@ -90,18 +96,18 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     //Updated when new dropdown values are selected
     fun onAttributeXChanged(xValue: String){
         _selectedXData.value = xValue
-        myCustomGraph.value = Graph("Custom Graph",
+        /*myCustomGraph.value = Graph("Custom Graph",
             _planetsList.value,
             _selectedXData.value,
-            _selectedYData.value)
+            _selectedYData.value)*/
     }
 
     fun onAttributeYChanged(yValue: String){
         _selectedYData.value = yValue
-        myCustomGraph.value = Graph("Custom Graph",
+        /*myCustomGraph.value = Graph("Custom Graph",
             _planetsList.value,
             _selectedXData.value,
-            _selectedYData.value)
+            _selectedYData.value)*/
     }
 
     fun onCustomGraphSelected(){
@@ -111,7 +117,7 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
     fun onGraphSelected(graphTitle: String){
         _isCustom.value = false
-        val graph = Graph(graphTitle, _planetsList.value, null, null)
+        val graph = Graph(graphTitle, planetsList.value, null, null)
             _graphTitle.value = graph.title
             _isBar.value = graph.isBar
             if(graph.isBar)

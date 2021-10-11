@@ -59,9 +59,9 @@ class  GraphFragment : Fragment() {
             when {
                 graphViewModel.isCustom.value -> {
                     Row {
-                        XAttributeSpinner(Modifier.weight(.5f))
+                        XAxisSpinner(Modifier.weight(.5f))
                         Spacer(Modifier.padding(horizontal = 4.dp))
-                        YAttributeSpinner(Modifier.weight(.5f))
+                        YAxisSpinner(Modifier.weight(.5f))
                     }
                     ScatterPlot(dataset = graphViewModel.selectedScatterData.value)
                 }
@@ -74,7 +74,7 @@ class  GraphFragment : Fragment() {
     }
 
     @Composable
-    fun XAttributeSpinner (modifier: Modifier) {
+    fun XAxisSpinner (modifier: Modifier) {
         val attributeList = listOf(
             "Mass",
             "Radius",
@@ -120,7 +120,7 @@ class  GraphFragment : Fragment() {
     }
 
     @Composable
-    fun YAttributeSpinner (modifier: Modifier) {
+    fun YAxisSpinner (modifier: Modifier) {
         val attributeList = listOf(
             "Mass",
             "Radius",
@@ -164,8 +164,6 @@ class  GraphFragment : Fragment() {
             )
         }
     }
-
-
 
 
 }
