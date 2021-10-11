@@ -65,7 +65,6 @@ class GraphListFragment() : Fragment() {
             .padding(8.dp)
             .fillMaxWidth()
 
-
         val rowModifier = Modifier
             .padding(top = 8.dp, bottom = 8.dp)
             .fillMaxWidth()
@@ -74,6 +73,17 @@ class GraphListFragment() : Fragment() {
             .background(MaterialTheme.colors.primary)
 
         Column(columnModifier) {
+            //Option for Custom Distributions
+            Row(rowModifier.clickable {
+                graphsListViewModel.onCustomGraphSelected()
+                val action = GraphListFragmentDirections.viewGraph()
+                findNavController().navigate(action)
+            }){
+                Text("Custom Distribution", Modifier
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                    .align(Alignment.CenterVertically), fontSize = 24.sp)
+            }
+            //Options for Pre-Generated Plots
             graphsListViewModel.graphList.value.forEach { graph ->
                 Row(rowModifier.clickable {
                     //Navigate to Fragment with graph data and display that graph

@@ -42,6 +42,18 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     val isScatter: State<Boolean> = _isScatter
 
 
+    //Used for Custom Distributions
+    //Updated via dropdown menus on Custom Distribution Graph page
+    private var _selectedXData: MutableState<Double> = mutableStateOf(0.0)
+    var selectedXData: State<Double> = _selectedXData
+
+    private var _selectedYData: MutableState<Double> = mutableStateOf(0.0)
+    var selectedYData: State<Double> = _selectedYData
+
+    private var _isCustom: MutableState<Boolean> = mutableStateOf(false)
+    val isCustom: State<Boolean> = _isCustom
+
+
     init {
         Timber.d("GraphViewModel initialized")
         initializeListOfPlanets()
@@ -64,8 +76,6 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
     private fun createGraphList(){
         val listOfGraphs = mutableListOf<String>()
-        //Custom
-        listOfGraphs.add("Custom Distribution")
         //Bar
         listOfGraphs.add("Detections Per Year")
         //Scatter
@@ -80,13 +90,32 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
     }
 
+
+    //Updated when new dropdown values are selected
+    fun onAttributeXChanged(xValue: Double){
+        _selectedXData.value = xValue
+    }
+
+    fun onAttributeYChanged(yValue: Double){
+        _selectedYData.value = yValue
+    }
+
+    fun onCustomGraphSelected(){
+        _isCustom.value = true
+        //val myCustomGraph = Graph(graphTitle, _planetsList.value, _selectedXData.value, _selectedYData.value)
+        //_selectedScatterData.value = myCustomGraph.scatterData
+    }
+
+
     fun onGraphSelected(graphTitle: String){
+        _isCustom.value = false
         val graph = Graph(graphTitle, _planetsList.value, null, null)
-        _graphTitle.value = graph.title
-        _isScatter.value = graph.isScatter
-        if(graph.isScatter)
-            _selectedScatterData.value = graph.scatterData
-        else
-            _selectedBarData.value = graph.barData
+            _graphTitle.value = graph.title
+            _isScatter.value = graph.isScatter
+            if(graph.isScatter)
+                _selectedScatterData.value = graph.scatterData
+            else
+                _selectedBarData.value = graph.barData
+
     }
 }
