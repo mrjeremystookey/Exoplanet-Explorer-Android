@@ -68,7 +68,6 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     }
 
 
-
     private fun createGraphList(){
         val listOfGraphs = mutableListOf<String>()
         //Bar
@@ -89,16 +88,16 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     //Updated when new dropdown values are selected
     fun onAttributeXChanged(xValue: String){
         _selectedXData.value = xValue
+        Timber.d(xValue)
     }
 
     fun onAttributeYChanged(yValue: String){
         _selectedYData.value = yValue
+        Timber.d(yValue)
     }
 
     fun onCustomGraphSelected(){
         _isCustom.value = true
-        //val myCustomGraph = Graph(graphTitle, _planetsList.value, _selectedXData.value, _selectedYData.value)
-        //_selectedScatterData.value = myCustomGraph.scatterData
     }
 
 

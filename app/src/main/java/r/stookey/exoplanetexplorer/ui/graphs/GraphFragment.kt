@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import r.stookey.exoplanetexplorer.ui.DropDownList
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
 import r.stookey.exoplanetexplorer.ui.graphs.plots.ScatterPlot
@@ -76,7 +77,7 @@ class  GraphFragment : Fragment() {
 
     @Composable
     fun XAttributeSpinner (modifier: Modifier) {
-        val countryList = listOf(
+        val attributeList = listOf(
             "Mass",
             "Radius",
             "Density",
@@ -96,23 +97,23 @@ class  GraphFragment : Fragment() {
                     value = text.value,
                     onValueChange = {
                         text.value = it
-                        graphViewModel.onAttributeXChanged(text.value)
+                        graphViewModel.onAttributeXChanged(it)
                                     },
                     label = { Text(text = "Choose X axis value") },
                     modifier = Modifier.wrapContentSize()
                 )
                 DropDownList(
                     requestToOpen = isOpen.value,
-                    list = countryList,
+                    list = attributeList,
                     openCloseOfDropDownList,
                     userSelectedString
                 )
             }
             Spacer(
                 modifier = Modifier
+                    .padding(top = 8.dp)
                     .matchParentSize()
                     .background(Color.Transparent)
-                    .padding(10.dp)
                     .clickable(
                         onClick = { isOpen.value = true }
                     )
@@ -122,7 +123,7 @@ class  GraphFragment : Fragment() {
 
     @Composable
     fun YAttributeSpinner (modifier: Modifier) {
-        val countryList = listOf(
+        val attributeList = listOf(
             "Mass",
             "Radius",
             "Density",
@@ -142,23 +143,23 @@ class  GraphFragment : Fragment() {
                     value = text.value,
                     onValueChange = {
                         text.value = it
-                        graphViewModel.onAttributeYChanged(text.value)
+                        graphViewModel.onAttributeYChanged(it)
                     },
                     label = { Text(text = "Choose Y axis value") },
                     modifier = Modifier.wrapContentSize()
                 )
                 DropDownList(
                     requestToOpen = isOpen.value,
-                    list = countryList,
+                    list = attributeList,
                     openCloseOfDropDownList,
                     userSelectedString
                 )
             }
             Spacer(
                 modifier = Modifier
+                    .padding(top = 8.dp)
                     .matchParentSize()
                     .background(Color.Transparent)
-                    .padding(10.dp)
                     .clickable(
                         onClick = { isOpen.value = true }
                     )
@@ -166,28 +167,7 @@ class  GraphFragment : Fragment() {
         }
     }
 
-    @Composable
-    fun DropDownList(
-        requestToOpen: Boolean = false,
-        list: List<String>, request: (Boolean) -> Unit,
-        selectedString: (String) -> Unit) {
-        DropdownMenu(
-            expanded = requestToOpen,
-            onDismissRequest = { request(false) },
-        ) {
-            list.forEach {
-                DropdownMenuItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        request(false)
-                        selectedString(it)
-                    }
-                ) {
-                    Text(it, modifier = Modifier.wrapContentWidth())
-                }
-            }
-        }
-    }
+
 
 
 }
