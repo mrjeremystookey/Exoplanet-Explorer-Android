@@ -26,8 +26,14 @@ class Graph (var title: String,
        createDataSetForGraph()
        //Could probably be moved to a factory that when a graph with x and y values is created
        if (xValue != null && yValue != null){
-           Timber.d("creating custom dataset")
-           scatterData = dataUtil.createCustomDistribution(listOfPlanets, "$xValue - $yValue Distribution", xValue!!, yValue!!)
+           Timber.d("creating custom graph and dataset")
+           val dataset = dataUtil.createCustomDistribution(listOfPlanets, "$xValue - $yValue Distribution",
+               xValue, yValue)
+           Timber.d("highest x value: ${dataset.xMax}")
+           Timber.d("highest y value: ${dataset.yMax}")
+           Timber.d("lowest x value: ${dataset.xMin}")
+           Timber.d("lowest y value: ${dataset.yMin}")
+           scatterData = dataset
            title = scatterData.label
        }
    }
@@ -36,8 +42,6 @@ class Graph (var title: String,
 
 
    private fun createDataSetForGraph(){
-       //Should be injected
-
        when(title){
             "Density - Mass" -> {
                 val densityMassDataSet = dataUtil.densityMassDistributionDataSet(listOfPlanets, title)

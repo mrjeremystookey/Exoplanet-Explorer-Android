@@ -30,6 +30,13 @@ import timber.log.Timber
 class  GraphFragment : Fragment() {
 
     private val graphViewModel: GraphViewModel by activityViewModels()
+    private val attributeList = listOf(
+        "EarthMass",
+        "EarthRadius",
+        "Density",
+        "JupiterMass",
+        "Period",
+    )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return ComposeView(requireContext()).apply {
@@ -76,12 +83,7 @@ class  GraphFragment : Fragment() {
 
     @Composable
     fun XAxisSpinner (modifier: Modifier) {
-        val attributeList = listOf(
-            "Mass",
-            "Radius",
-            "Density",
-            "Period",
-        )
+
         val text = remember { mutableStateOf("") } // initial value
         val isOpen = remember { mutableStateOf(false) } // initial value
         val openCloseOfDropDownList: (Boolean) -> Unit = {
@@ -122,12 +124,6 @@ class  GraphFragment : Fragment() {
 
     @Composable
     fun YAxisSpinner (modifier: Modifier) {
-        val attributeList = listOf(
-            "Mass",
-            "Radius",
-            "Density",
-            "Period",
-        )
         val text = remember { mutableStateOf("") } // initial value
         val isOpen = remember { mutableStateOf(false) } // initial value
         val openCloseOfDropDownList: (Boolean) -> Unit = {

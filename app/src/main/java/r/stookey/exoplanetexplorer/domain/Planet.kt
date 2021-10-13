@@ -223,6 +223,5 @@ data class Planet(
     val planetaryTransitMidpointReference: String? = null,
 
 
-
     )
 

@@ -144,11 +144,29 @@ class DataSetUtil {
         Timber.d("x value: $xValue")
         Timber.d("y value: $yValue")
         listOfPlanets.forEach { planet ->
+            val customEntry = Entry()
             //How to add x and y value to planet.xValue and planet.yValue
+            when(xValue){
+                "EarthMass" -> {if (planet.planetaryMassEarth!= null) customEntry.x = scaleValues(planet.planetaryMassEarth)}
+                "EarthRadius" -> {if (planet.planetaryRadiusEarth!= null) customEntry.x = scaleValues(planet.planetaryRadiusEarth)}
+                "Density" -> {if (planet.planetDensity!= null) customEntry.x = scaleValues(planet.planetDensity)}
+                "JupiterMass" -> {if (planet.planetaryMassJupiter!= null) customEntry.x = scaleValues(planet.planetaryMassJupiter)}
+                "Period" -> {if (planet.planetaryOrbitPeriod!= null) customEntry.x = scaleValues(planet.planetaryOrbitPeriod)}
+            }
+            when(yValue){
+                "EarthMass" -> {if (planet.planetaryMassEarth!= null) customEntry.y = scaleValues(planet.planetaryMassEarth)}
+                "EarthRadius" -> {if (planet.planetaryRadiusEarth!= null) customEntry.y = scaleValues(planet.planetaryRadiusEarth)}
+                "Density" -> {if (planet.planetDensity!= null) customEntry.y = scaleValues(planet.planetDensity)}
+                "JupiterMass" -> {if (planet.planetaryMassJupiter!= null) customEntry.y = scaleValues(planet.planetaryMassJupiter)}
+                "Period" -> {if (planet.planetaryOrbitPeriod!= null) customEntry.y = scaleValues(planet.planetaryOrbitPeriod)}
+            }
+            planetEntryList.add(customEntry)
         }
         Timber.d(label + " " + planetEntryList.size)
         return ScatterDataSet(planetEntryList, label)
     }
+
+
 
 }
 
