@@ -27,16 +27,8 @@ fun BarChart(dataSet: BarDataSet) {
         xAxis.textColor = Color.BLACK
         xAxis.setDrawAxisLine(true)
         xAxis.setDrawGridLines(true)
-
-
-
         barChart.data = barData
         barChart.invalidate()
     }
 }
 
-/*@Preview
-@Composable
-fun PreviewBarChart(){
-    BarChart()
-}*/

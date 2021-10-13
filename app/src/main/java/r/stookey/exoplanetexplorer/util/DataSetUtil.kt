@@ -1,20 +1,14 @@
 package r.stookey.exoplanetexplorer.util
 
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.ScatterDataSet
-import com.github.mikephil.charting.formatter.ValueFormatter
 import r.stookey.exoplanetexplorer.domain.Planet
 import timber.log.Timber
-import java.text.DecimalFormat
 import kotlin.math.log10
 import kotlin.math.pow
 
-
-val scientificFormat = DecimalFormat("0.0E0")
 
 fun unscaleValues(cbr: Double): Float {
     val calcVal = 10.0.pow(cbr)
@@ -40,12 +34,14 @@ class DataSetUtil {
                 planetEntryList.add(planetEntry)
             }
         }
-        Timber.d(label+ " " + planetEntryList.size)
-        val dataSet = ScatterDataSet(planetEntryList, label)
-        return dataSet
+        Timber.d(label + " " + planetEntryList.size)
+        return ScatterDataSet(planetEntryList, label)
     }
 
-    fun radiusPeriodDistributionDataSet(listOfPlanets: List<Planet>, label: String): ScatterDataSet {
+    fun radiusPeriodDistributionDataSet(
+        listOfPlanets: List<Planet>,
+        label: String
+    ): ScatterDataSet {
         val planetEntryList = mutableListOf<Entry>()
         listOfPlanets.forEach { planet ->
             if (planet.planetaryRadiusEarth != null && planet.planetaryOrbitPeriod != null) {
@@ -56,27 +52,32 @@ class DataSetUtil {
                 planetEntryList.add(planetEntry)
             }
         }
-        Timber.d(label+ " " + planetEntryList.size)
-        val dataset = ScatterDataSet(planetEntryList, label)
-        return dataset
+        Timber.d(label + " " + planetEntryList.size)
+        return ScatterDataSet(planetEntryList, label)
     }
 
-    fun densityRadiusDistributionDataSet(listOfPlanets: List<Planet>, label: String): ScatterDataSet {
+    fun densityRadiusDistributionDataSet(
+        listOfPlanets: List<Planet>,
+        label: String
+    ): ScatterDataSet {
         val planetEntryList = mutableListOf<Entry>()
         listOfPlanets.forEach { planet ->
             if (planet.planetDensity != null && planet.planetaryRadiusEarth != null) {
                 val planetEntry = Entry(
                     scaleValues(planet.planetaryRadiusEarth),
-                    scaleValues(planet.planetDensity))
+                    scaleValues(planet.planetDensity)
+                )
                 planetEntryList.add(planetEntry)
             }
         }
-        Timber.d(label+ " " + planetEntryList.size)
-        var dataset = ScatterDataSet(planetEntryList, label)
-        return dataset
+        Timber.d(label + " " + planetEntryList.size)
+        return ScatterDataSet(planetEntryList, label)
     }
 
-    fun eccentricityPeriodDistributionDataSet(listOfPlanets: List<Planet>, label: String): ScatterDataSet{
+    fun eccentricityPeriodDistributionDataSet(
+        listOfPlanets: List<Planet>,
+        label: String
+    ): ScatterDataSet {
         val planetEntryList = mutableListOf<Entry>()
         listOfPlanets.forEach { planet ->
             if (planet.planetaryOrbitPeriod != null && planet.planetaryOrbitalEccentricity != null) {
@@ -87,37 +88,43 @@ class DataSetUtil {
                 planetEntryList.add(planetEntry)
             }
         }
-        Timber.d(label+ " " + planetEntryList.size)
-        val dataSet = ScatterDataSet(planetEntryList, label)
-        return dataSet
+        Timber.d(label + " " + planetEntryList.size)
+        return ScatterDataSet(planetEntryList, label)
     }
 
-    fun densityMassDistributionDataSet(listOfPlanets: List<Planet>, label: String): ScatterDataSet{
+    fun densityMassDistributionDataSet(listOfPlanets: List<Planet>, label: String): ScatterDataSet {
         val planetEntryList = mutableListOf<Entry>()
         listOfPlanets.forEach { planet ->
             if (planet.planetDensity != null && planet.planetaryMassJupiter != null) {
-                planetEntryList.add(Entry(
-                    scaleValues(planet.planetaryMassJupiter),
-                    scaleValues(planet.planetDensity)))
+                planetEntryList.add(
+                    Entry(
+                        scaleValues(planet.planetaryMassJupiter),
+                        scaleValues(planet.planetDensity)
+                    )
+                )
             }
         }
-        Timber.d(label+ " " + planetEntryList.size)
-        val dataset = ScatterDataSet(planetEntryList, label)
-        return dataset
+        Timber.d(label + " " + planetEntryList.size)
+        return ScatterDataSet(planetEntryList, label)
     }
 
-    fun earthMassRadiusDistributionDataSet(listOfPlanets: List<Planet>, label: String): ScatterDataSet{
+    fun earthMassRadiusDistributionDataSet(
+        listOfPlanets: List<Planet>,
+        label: String
+    ): ScatterDataSet {
         val planetEntryList = mutableListOf<Entry>()
         listOfPlanets.forEach { planet ->
             if (planet.planetaryMassEarth != null && planet.planetaryRadiusEarth != null) {
-                planetEntryList.add(Entry(
-                    scaleValues(planet.planetaryMassEarth),
-                    scaleValues(planet.planetaryRadiusEarth)))
+                planetEntryList.add(
+                    Entry(
+                        scaleValues(planet.planetaryMassEarth),
+                        scaleValues(planet.planetaryRadiusEarth)
+                    )
+                )
             }
         }
-        Timber.d(label+ " " + planetEntryList.size)
-        val dataset = ScatterDataSet(planetEntryList, label)
-        return dataset
+        Timber.d(label + " " + planetEntryList.size)
+        return ScatterDataSet(planetEntryList, label)
     }
 
 

@@ -22,7 +22,6 @@ import r.stookey.exoplanetexplorer.ui.DropDownList
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
 import r.stookey.exoplanetexplorer.ui.graphs.plots.ScatterPlot
-import timber.log.Timber
 
 
 //Fragment gets navigated to after a graph is selected, retrieves graph information from GraphViewModel

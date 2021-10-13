@@ -15,30 +15,26 @@ class Graph (var title: String,
 
    var scatterData = ScatterDataSet(emptyList(), "")
    var barData = BarDataSet(emptyList(), "")
+   var isBar = false
 
+   private val dataUtil = DataSetUtil()
 
-    var isBar = false
-
-    private val dataUtil = DataSetUtil()
 
    init {
        Timber.d("new Graph created: ${title}, number of planets in graph: ${listOfPlanets.size}")
        createDataSetForGraph()
-       //Could probably be moved to a factory that when a graph with x and y values is created
        if (xValue != null && yValue != null){
            Timber.d("creating custom graph and dataset")
-           val dataset = dataUtil.createCustomDistribution(listOfPlanets, "$xValue - $yValue Distribution",
+           val customDataSet = dataUtil.createCustomDistribution(listOfPlanets, "$xValue - $yValue Distribution",
                xValue, yValue)
-           Timber.d("highest x value: ${dataset.xMax}")
-           Timber.d("highest y value: ${dataset.yMax}")
-           Timber.d("lowest x value: ${dataset.xMin}")
-           Timber.d("lowest y value: ${dataset.yMin}")
-           scatterData = dataset
+           Timber.d("highest x value: ${customDataSet.xMax}")
+           Timber.d("lowest x value: ${customDataSet.xMin}")
+           Timber.d("highest y value: ${customDataSet.yMax}")
+           Timber.d("lowest y value: ${customDataSet.yMin}")
+           scatterData = customDataSet
            title = scatterData.label
        }
    }
-
-
 
 
    private fun createDataSetForGraph(){

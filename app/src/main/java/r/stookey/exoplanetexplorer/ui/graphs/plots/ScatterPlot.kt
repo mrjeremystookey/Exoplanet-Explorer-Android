@@ -17,9 +17,7 @@ import r.stookey.exoplanetexplorer.util.unscaleValues
 
 @Composable
 fun ScatterPlot(dataset: ScatterDataSet) {
-    var scatterDataSet = ScatterData(dataset)
-
-
+    val scatterDataSet = ScatterData(dataset)
 
     AndroidView(
     modifier = Modifier

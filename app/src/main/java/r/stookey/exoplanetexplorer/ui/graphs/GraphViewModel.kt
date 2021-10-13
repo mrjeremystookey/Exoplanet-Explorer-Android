@@ -25,7 +25,7 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     private val _graphList: MutableState<List<String>> = mutableStateOf(listOf())
     val graphList: State<List<String>> = _graphList
 
-    //Data to be sent to Fragment, Scatter or Bar Data, could these be combined?
+    //Data to be sent to Fragment, Scatter or Bar Data
     private var _selectedBarData: MutableState<BarDataSet> = mutableStateOf(BarDataSet(listOf(), ""))
     val selectedBarData: State<BarDataSet> = _selectedBarData
 
@@ -47,13 +47,8 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     //Used for Custom Distributions
     //Updated via dropdown menus on Custom Distribution Graph page
     private var _selectedXData: MutableState<String> = mutableStateOf("")
-    var selectedXData: State<String> = _selectedXData
     private var _selectedYData: MutableState<String> = mutableStateOf("")
-    var selectedYData: State<String> = _selectedYData
-
     private var myCustomGraph: MutableState<Graph> = mutableStateOf(Graph("null", emptyList(), null, null))
-
-
 
 
     init {
@@ -99,7 +94,7 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
             _selectedXData.value,
             _selectedYData.value)
         _graphTitle.value = myCustomGraph.value.scatterData.label
-        //Timber.d("graph updated, ${myCustomGraph.value.scatterData.label}")
+        _selectedScatterData.value = myCustomGraph.value.scatterData
     }
 
     fun onYAxisChanged(yValue: String){
@@ -110,7 +105,7 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
             _selectedXData.value,
             _selectedYData.value)
         _graphTitle.value = myCustomGraph.value.scatterData.label
-        //Timber.d("graph updated, ${myCustomGraph.value.scatterData.label}")
+        _selectedScatterData.value = myCustomGraph.value.scatterData
     }
 
     fun onCustomGraphSelected(){

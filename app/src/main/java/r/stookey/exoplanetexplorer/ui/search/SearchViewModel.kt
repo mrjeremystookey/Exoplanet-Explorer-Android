@@ -49,7 +49,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     val cacheState: LiveData<Boolean> =_cacheState
 
     private val _ascendingState = MutableLiveData<Boolean>()
-    val ascendingState: LiveData<Boolean> = _ascendingState
 
     var selectedPlanet: MutableState<Planet> = mutableStateOf(Planet())
 
