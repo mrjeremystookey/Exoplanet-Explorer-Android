@@ -19,7 +19,7 @@ class PlanetDtoImpl @Inject constructor(moshi: Moshi): PlanetDto {
     //Converts jsonArray returned from ExoplanetApiService to a list of Planet objects
     override fun convertJsonToPlanets(allPlanetsJson: JSONArray): List<Planet> {
         Timber.d("converting json to list of Planets")
-        var planetList = mutableListOf<Planet>()
+        val planetList = mutableListOf<Planet>()
         for (i in 0 until allPlanetsJson.length()){
             var planet = adapter.fromJson(allPlanetsJson[i].toString())
             planetList.add(planet!!)

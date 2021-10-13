@@ -19,7 +19,10 @@ class ExoplanetApplication: Application(), Configuration.Provider {
         Timber.plant(Timber.DebugTree())
         Timber.d("Timber tree planted")
         Utils.init(applicationContext)
+
+
     }
+
 
 
     override fun getWorkManagerConfiguration() = Configuration.Builder()

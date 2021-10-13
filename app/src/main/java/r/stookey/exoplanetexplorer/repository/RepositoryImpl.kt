@@ -15,7 +15,7 @@ import r.stookey.exoplanetexplorer.di.IoDispatcher
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetFts
 import r.stookey.exoplanetexplorer.network.ExoplanetApiService
-import r.stookey.exoplanetexplorer.network.ExoplanetApiWorker
+import r.stookey.exoplanetexplorer.cache.ExoplanetCacheUpdateWorker
 import r.stookey.exoplanetexplorer.util.PlanetDtoImpl
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -43,7 +43,7 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     override suspend fun getPlanetsFromNetwork() {
         val jsonArray = exoplanetApiService.getPlanets()  //gets JsonArray of Planets from ApiService
         val planetList = planetMapper.convertJsonToPlanets(jsonArray)  //Converts JsonArray into List of domain model, Planet objects
-         checkAndInsertPlanetIntoCache(planetList)  //Adds the Planet object into Room database
+        checkAndInsertPlanetIntoCache(planetList)  //Adds the Planet object into Room database
     }
 
 
@@ -51,7 +51,7 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     private fun queryNetworkForNewPlanetsAndCache(){
         //Sync every week work request
         val planetSyncWorkRequest: WorkRequest =
-        PeriodicWorkRequestBuilder<ExoplanetApiWorker>(7, TimeUnit.DAYS).build()
+        PeriodicWorkRequestBuilder<ExoplanetCacheUpdateWorker>(7, TimeUnit.DAYS).build()
         workManager.enqueue(planetSyncWorkRequest)
         Timber.d("periodic work request created ${planetSyncWorkRequest.id}")
 

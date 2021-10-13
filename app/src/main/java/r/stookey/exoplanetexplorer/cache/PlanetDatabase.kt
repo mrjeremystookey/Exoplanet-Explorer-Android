@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetFts
 import timber.log.Timber
@@ -13,6 +15,8 @@ import timber.log.Timber
 abstract class PlanetDatabase: RoomDatabase() {
 
     abstract fun planetDao(): PlanetDao
+
+
 
     companion object{
         @Volatile private var instance: PlanetDatabase? = null
@@ -30,6 +34,10 @@ abstract class PlanetDatabase: RoomDatabase() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
                         Timber.i("planets-db created")
+                        Timber.d("Starting background planet check")
+                        WorkManager.getInstance(context)
+                            .beginWith(OneTimeWorkRequestBuilder<ExoplanetCacheUpdateWorker>().build())
+                            .enqueue()
                     }
                 }
             ).fallbackToDestructiveMigration()
