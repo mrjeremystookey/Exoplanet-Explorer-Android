@@ -34,10 +34,10 @@ abstract class PlanetDatabase: RoomDatabase() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
                         Timber.i("planets-db created")
-                        Timber.d("Starting background planet check")
-                        WorkManager.getInstance(context)
+                        //Pre-Populate the database on create
+                        /*WorkManager.getInstance(context)
                             .beginWith(OneTimeWorkRequestBuilder<ExoplanetCacheUpdateWorker>().build())
-                            .enqueue()
+                            .enqueue()*/
                     }
                 }
             ).fallbackToDestructiveMigration()

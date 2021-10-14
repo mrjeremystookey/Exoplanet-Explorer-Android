@@ -192,7 +192,8 @@ class SearchFragment : Fragment() {
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Planets not found", color = MaterialTheme.colors.onPrimary)
+                    Text("loading planets...", color = MaterialTheme.colors.onPrimary)
+                    CircularIndeterminateProgressBar()
                 }
             }
             UiState.Loading -> {

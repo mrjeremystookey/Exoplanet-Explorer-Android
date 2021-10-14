@@ -24,8 +24,10 @@ class ExoplanetApplication: Application(), Configuration.Provider {
         Timber.plant(Timber.DebugTree())
         Timber.d("Timber tree planted")
         Utils.init(applicationContext)
+        //Run on startup and then every 7 days to check for new planets
         periodicBackgroundWork()
     }
+
 
     //Syncs planet list on startup and then every week
     private fun periodicBackgroundWork(){

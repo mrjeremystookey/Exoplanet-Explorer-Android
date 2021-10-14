@@ -37,15 +37,14 @@ class ExoplanetCacheUpdateWorker @AssistedInject constructor(
                 val newPlanetJSONArray = future.get()
                 val planetList = mapper.convertJsonToPlanets(newPlanetJSONArray)
                 planetList.forEach { planet ->
-                    if (dao.isPlanetCached(planet.planetName)) {
-                        Timber.d("Planet is already cached")
-                    } else {
+                    if (!dao.isPlanetCached(planet.planetName)) {
                         Timber.d("adding planet, " + planet.planetName + " to local Planet Database")
                         dao.insert(planet)
+                    } else {
+                        Timber.d("Planet is already cached")
                     }
                 }
                 Timber.d("done adding Planets to local cache")
-                Timber.d("Planets found in background: ${newPlanetJSONArray.length()}")
                 Result.success()
             }
         } catch (throwable: Throwable){
