@@ -28,6 +28,6 @@ object RepoModule {
                           ioDispatcher: CoroutineDispatcher
     ): Repository {
         Timber.i("RepositoryImpl injected")
-        return RepositoryImpl(exoplanetApiService, planetMapper, planetDatabase, workManager, ioDispatcher)
+        return RepositoryImpl(exoplanetApiService, planetMapper, planetDatabase, workManager ,ioDispatcher)
     }
 }

@@ -2,6 +2,7 @@ package r.stookey.exoplanetexplorer
 
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
+import androidx.lifecycle.Observer
 import androidx.work.Configuration
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -33,6 +34,7 @@ class ExoplanetApplication: Application(), Configuration.Provider {
     private fun periodicBackgroundWork(){
         Timber.d("Starting background planet sync")
         val planetSyncWorkRequest = PeriodicWorkRequestBuilder<ExoplanetCacheUpdateWorker>(7, TimeUnit.DAYS)
+            .addTag("STARTUP_PLANET_SYNC")
             .build()
         workManager.enqueue(planetSyncWorkRequest)
     }

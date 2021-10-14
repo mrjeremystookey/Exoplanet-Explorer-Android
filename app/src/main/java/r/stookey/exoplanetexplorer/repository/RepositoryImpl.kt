@@ -25,14 +25,17 @@ import javax.inject.Inject
 class RepositoryImpl @Inject constructor(private var exoplanetApiService: ExoplanetApiService,
                                          private var planetMapper: PlanetDtoImpl,
                                          private var db: PlanetDatabase,
-                                         private val workManager: WorkManager,
+                                         var workManager: WorkManager,
                                          @IoDispatcher private val ioDispatcher: CoroutineDispatcher): Repository {
+
+
 
 
     //Used to tell ViewModel when Cache is up to date
     private val _doneAdding: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val doneAdding: LiveData<Boolean>
         get() = _doneAdding
+
 
 
     init {
@@ -47,32 +50,15 @@ class RepositoryImpl @Inject constructor(private var exoplanetApiService: Exopla
     }
 
 
-    //queries API to see if Exoplanet list has been updated, checks every week as new planets are added on a weekly basis
-    private fun queryNetworkForNewPlanetsAndCache(){
-        //Sync every week work request
-        val planetSyncWorkRequest: WorkRequest =
-        PeriodicWorkRequestBuilder<ExoplanetCacheUpdateWorker>(7, TimeUnit.DAYS).build()
-        workManager.enqueue(planetSyncWorkRequest)
-        Timber.d("periodic work request created ${planetSyncWorkRequest.id}")
-
-
-        //Chain work requests together to check network for new planets and compare to cached data
-
-
-    }
-
-
     //Checks if Planets have already been cached, if not, adds them to cache
     override suspend fun checkAndInsertPlanetIntoCache(planetList: List<Planet>) {
         _doneAdding.value = false
         Timber.d("doneAdding value: ${_doneAdding.value}")
         withContext(ioDispatcher) {
             planetList.forEach { planet ->
-                if (db.planetDao().isPlanetCached(planet.planetName)) {
-                    Timber.d("Planet is already cached")
-                } else {
-                    Timber.d("adding planet, " + planet.planetName + " to local Planet Database")
+                if (!db.planetDao().isPlanetCached(planet.planetName)) {
                     db.planetDao().insert(planet)
+                    Timber.d("adding planet, " + planet.planetName + " to local Planet Database")
                 }
             }
             Timber.d("done adding Planets to local cache")

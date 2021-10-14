@@ -49,10 +49,11 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
     val cacheState: LiveData<Boolean> =_cacheState
 
     private val _ascendingState = MutableLiveData<Boolean>()
-
     var selectedPlanet: MutableState<Planet> = mutableStateOf(Planet())
 
-
+    private val _numberAdded: MutableLiveData<Int> = MutableLiveData<Int>()
+    val numberAdded: LiveData<Int>
+        get() = _numberAdded
 
 
     init {
@@ -70,6 +71,16 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
             }
             Timber.d("number of Planets from cache: " + _planetsList.value.size)
         }
+
+
+        //Keeps track of number of planets added by background cache process
+        repo.workManager.getWorkInfosByTagLiveData("STARTUP_PLANET_SYNC").observeForever { info ->
+            if (info[0] != null){
+                val number = info[0].outputData.getInt("NUMBER_ADDED", 0)
+                Timber.d("number of planets added: $number")
+            }
+        }
+
 
         //Should be removed when viewModel is shut otherwise leaks
         //Lets ViewModel know when Repo is done caching planets so that Snackbar composable can be shown

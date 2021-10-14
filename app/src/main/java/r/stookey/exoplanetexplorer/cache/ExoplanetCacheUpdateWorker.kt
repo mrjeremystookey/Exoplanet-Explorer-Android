@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
@@ -36,16 +37,16 @@ class ExoplanetCacheUpdateWorker @AssistedInject constructor(
                 queue.add(request)
                 val newPlanetJSONArray = future.get()
                 val planetList = mapper.convertJsonToPlanets(newPlanetJSONArray)
+                var numberOfPlanetsAdded = 0
                 planetList.forEach { planet ->
                     if (!dao.isPlanetCached(planet.planetName)) {
                         Timber.d("adding planet, " + planet.planetName + " to local Planet Database")
                         dao.insert(planet)
-                    } else {
-                        Timber.d("Planet is already cached")
+                        numberOfPlanetsAdded++
                     }
                 }
-                Timber.d("done adding Planets to local cache")
-                Result.success()
+                Timber.d("added $numberOfPlanetsAdded to cache")
+                Result.success(workDataOf("NUMBER_ADDED" to numberOfPlanetsAdded))
             }
         } catch (throwable: Throwable){
             Timber.e("${throwable.printStackTrace()}")
