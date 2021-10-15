@@ -23,9 +23,9 @@ import timber.log.Timber
 class ExoplanetCacheUpdateWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    var queue: RequestQueue,
-    var mapper: PlanetDtoImpl,
-    var dao: PlanetDao): CoroutineWorker(appContext, workerParams)
+    private var queue: RequestQueue,
+    private var mapper: PlanetDtoImpl,
+    private var dao: PlanetDao): CoroutineWorker(appContext, workerParams)
 {
     override suspend fun doWork(): Result {
         return try {

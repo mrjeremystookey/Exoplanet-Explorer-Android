@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ sealed class SortStatus(var units: String) {
 
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
+class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, private val workManager: WorkManager) : ViewModel() {
 
 
 
@@ -71,8 +72,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
             }
             Timber.d("number of Planets from cache: " + _planetsList.value.size)
         }
-
-
 
         //Should be removed when viewModel is shut otherwise leaks
         //Lets ViewModel know when Repo is done caching planets so that SnackBar composable can be shown

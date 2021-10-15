@@ -192,7 +192,7 @@ class SearchFragment : Fragment() {
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("loading planets...", color = MaterialTheme.colors.onPrimary)
+                    Text("fetching planets...", color = MaterialTheme.colors.onPrimary)
                     CircularIndeterminateProgressBar()
                 }
             }
