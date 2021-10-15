@@ -50,18 +50,17 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
     val numberAdded: LiveData<Int>
         get() = _numberAdded
 
-    var list = listOf(
+    private val _sortList: MutableState<List<SortStatus>> = mutableStateOf(listOf(
         SortStatus.EarthMass,
         SortStatus.EarthRadius,
         SortStatus.JupiterMass,
         SortStatus.JupiterRadius,
         SortStatus.Insolation,
+        SortStatus.OrbitalEccentricity,
         SortStatus.EquilibriumTemperature,
         SortStatus.SemiMajorAxis,
         SortStatus.Period,
-        SortStatus.Density,
-    )
-    private val _sortList: MutableState<List<SortStatus>> = mutableStateOf(list)
+        SortStatus.Density,))
     val sortList: State<List<SortStatus>> = _sortList
 
 
