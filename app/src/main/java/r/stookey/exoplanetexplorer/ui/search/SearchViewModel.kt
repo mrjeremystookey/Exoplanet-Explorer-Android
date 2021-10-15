@@ -43,12 +43,9 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
     private val _cacheState = MutableLiveData<Boolean>()
     val cacheState: LiveData<Boolean> =_cacheState
 
-    private val _ascendingState = MutableLiveData<Boolean>()
+    private val _ascendingState = MutableLiveData(true)
     var selectedPlanet: MutableState<Planet> = mutableStateOf(Planet())
 
-    private val _numberAdded: MutableLiveData<Int> = MutableLiveData<Int>()
-    val numberAdded: LiveData<Int>
-        get() = _numberAdded
 
     private val _sortList: MutableState<List<SortStatus>> = mutableStateOf(listOf(
         SortStatus.EarthMass,
@@ -60,7 +57,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
         SortStatus.EquilibriumTemperature,
         SortStatus.SemiMajorAxis,
         SortStatus.Period,
-        SortStatus.Density,))
+        SortStatus.Density))
     val sortList: State<List<SortStatus>> = _sortList
 
 
@@ -73,7 +70,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
             repo.getAllPlanetsFromCache.collect { allPlanets ->
                 _planetsList.value = allPlanets
                 _uiState.value = UiState.Loaded
-                _ascendingState.value = true
+
 
                 if(allPlanets.isEmpty())
                     _uiState.value = UiState.Empty
@@ -91,8 +88,8 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
         }
     }
 
+    //Used when updating list of planets displayed
     fun onQueryChanged(query: String) {
-        Timber.d("query is changing: $query")
         _query.value = query
         viewModelScope.launch {
             repo.searchPlanetsFromCache(query).collect { listOfPlanets ->
@@ -104,6 +101,7 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
         }
     }
 
+    //Used when pulling details for a planet
     fun newSearchByPlanetName(planetName: String){
         viewModelScope.launch {
             repo.searchPlanetsFromCache(planetName).collect { planet ->
@@ -152,7 +150,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
         _planetsList.value = sortedList
     }
 
-    //Flips planet list ascending or descending order
     fun changeAscendingDescending(){
         Timber.d("Flipping sort order")
         if(_ascendingState.value.let { true }){
@@ -164,7 +161,16 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        Timber.d("onCleared called, removing observers")
+        repo.doneAdding.removeObserver {}
+    }
 
+
+
+
+    //Could be moved to a global ViewModel so that they always appear in the navigation drawer
     fun networkButtonPressed() {
         Timber.i("launching network service for new planets")
         viewModelScope.launch {
@@ -179,8 +185,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
             _uiState.value = UiState.Loaded
         }
     }
-
-
     fun clearCacheButtonPressed() {
         Timber.i("clearing local cache")
         viewModelScope.launch {
@@ -188,9 +192,4 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Timber.d("onCleared called, removing observers")
-        repo.doneAdding.removeObserver {}
-    }
 }

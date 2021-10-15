@@ -39,7 +39,10 @@ fun PlanetDetails(planet: Planet, navigateToReference: (url: String) -> Unit) {
             Column {
                 Text("Planet Parameters:", color = textColor, fontSize = 24.sp)
                 Text("Planet orbit period: ${planet.planetaryOrbitPeriod} days", color = textColor)
-                Text("Mass of planet: ${planet.planetaryMassEarth} Earth mass", color = textColor)
+                Text("Mass, Earth: ${planet.planetaryMassEarth}", color = textColor)
+                Text("Radius, Earth: ${planet.planetaryRadiusEarth}", color = textColor)
+                Text("Radius, Jupiter: ${planet.planetaryRadiusJupiter}", color = textColor)
+                Text("Mass, Jupiter: ${planet.planetaryMassJupiter}", color = textColor)
                 Text("Planet density: ${planet.planetDensity} g/cm**3", color = textColor)
                 Text("Planet transit midpoint: ${planet.planetaryTransitMidpoint} days",
                     color = textColor)
@@ -48,6 +51,8 @@ fun PlanetDetails(planet: Planet, navigateToReference: (url: String) -> Unit) {
                 Text("Orbital eccentricity: ${planet.planetaryOrbitalEccentricity}",
                     color = textColor)
                 Text("Orbit semi-major axis: ${planet.orbitSemiMajorAxis} AU", color = textColor)
+                Text("Insolation Flux: ${planet.planetaryInsolationFlux}", color = textColor)
+                Text("Equilibrium Temperature: ${planet.planetaryEquilibriumTemperature} K", color = textColor)
             }
             Divider(thickness = dividerThickness, modifier = dividerModifier)
             Column {
@@ -85,12 +90,22 @@ fun PlanetDetails(planet: Planet, navigateToReference: (url: String) -> Unit) {
                     planet.discoveryReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
                 AnnotatedClickableText("Orbit semi-major axis reference",
                     planet.orbitSemiMajorAxisReference?.let { extractUrl(it) },
-                    planet.orbitSemiMajorAxisReference?.let { extractStr(it) }, navigateToReference = navigateToReference
-                )
+                    planet.orbitSemiMajorAxisReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
                 AnnotatedClickableText("Planetary Insolation Flux reference",
                     planet.planetaryInsolationFluxReference?.let { extractUrl(it) },
-                    planet.planetaryInsolationFluxReference?.let { extractStr(it) }, navigateToReference = navigateToReference
-                )
+                    planet.planetaryInsolationFluxReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
+                AnnotatedClickableText("Planetary Mass Jupiter reference",
+                    planet.planetaryMassJupiterReference?.let { extractUrl(it) },
+                    planet.planetaryMassJupiterReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
+                AnnotatedClickableText("Planetary Radius Jupiter reference",
+                    planet.planetaryRadiusJupiterReference?.let { extractUrl(it) },
+                    planet.planetaryRadiusJupiterReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
+                AnnotatedClickableText("Planetary Density reference",
+                    planet.planetDensityReference?.let { extractUrl(it) },
+                    planet.planetDensityReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
+                AnnotatedClickableText("Planetary Orbital Eccentricity reference",
+                    planet.planetaryOrbitalEccentricityReference?.let { extractUrl(it) },
+                    planet.planetaryOrbitalEccentricityReference?.let { extractStr(it) }, navigateToReference = navigateToReference)
             }
         }
     }
