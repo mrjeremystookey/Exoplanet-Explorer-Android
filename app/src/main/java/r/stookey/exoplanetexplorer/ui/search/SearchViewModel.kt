@@ -60,26 +60,26 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         Timber.d("SearchViewModel initialized")
         //Gets planets and populates list
         viewModelScope.launch {
-            repo.getAllPlanetsFromCache.collect { planets ->
-                _planetsList.value = planets
+            repo.getAllPlanetsFromCache.collect { allPlanets ->
+                _planetsList.value = allPlanets
                 _uiState.value = UiState.Loaded
                 _ascendingState.value = true
 
-                if(planets.isEmpty()){
+                if(allPlanets.isEmpty())
                     _uiState.value = UiState.Empty
-                }
+
             }
             Timber.d("number of Planets from cache: " + _planetsList.value.size)
         }
 
 
         //Keeps track of number of planets added by background cache process
-        repo.workManager.getWorkInfosByTagLiveData("STARTUP_PLANET_SYNC").observeForever { info ->
-            if (info[0] != null){
-                val number = info[0].outputData.getInt("NUMBER_ADDED", 0)
-                Timber.d("number of planets added: $number")
+        /*repo.workManager.getWorkInfosByTagLiveData("STARTUP_PLANET_SYNC").observeForever { info ->
+            if(info[0] != null){
+                val number =  info[0].outputData.keyValueMap.getValue("NUMBER_ADDED")
+                Timber.d("$number")
             }
-        }
+        }*/
 
 
         //Should be removed when viewModel is shut otherwise leaks
@@ -158,7 +158,6 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
             _uiState.value = UiState.Loaded
         }
     }
-
 
 
     fun clearCacheButtonPressed() {

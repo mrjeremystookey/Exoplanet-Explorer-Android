@@ -33,11 +33,14 @@ abstract class PlanetDatabase: RoomDatabase() {
                 object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        Timber.i("planets-db created")
+                        Timber.i("planets-db created and pre-populating the database")
                         //Pre-Populate the database on create
-                        /*WorkManager.getInstance(context)
-                            .beginWith(OneTimeWorkRequestBuilder<ExoplanetCacheUpdateWorker>().build())
-                            .enqueue()*/
+                        WorkManager.getInstance(context)
+                            .enqueue(
+                                OneTimeWorkRequestBuilder<ExoplanetCacheUpdateWorker>()
+                                    .addTag("DB_CREATE_SYNC")
+                                .build()
+                            )
                     }
                 }
             ).fallbackToDestructiveMigration()

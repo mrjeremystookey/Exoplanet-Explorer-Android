@@ -12,6 +12,7 @@ import com.android.volley.toolbox.RequestFuture
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import r.stookey.exoplanetexplorer.network.Urls
@@ -36,8 +37,8 @@ class ExoplanetCacheUpdateWorker @AssistedInject constructor(
                     Urls.ALL_PLANETS_URL, null, future, future)
                 queue.add(request)
                 val newPlanetJSONArray = future.get()
-                val planetList = mapper.convertJsonToPlanets(newPlanetJSONArray)
                 var numberOfPlanetsAdded = 0
+                val planetList = mapper.convertJsonToPlanets(newPlanetJSONArray)
                 planetList.forEach { planet ->
                     if (!dao.isPlanetCached(planet.planetName)) {
                         Timber.d("adding planet, " + planet.planetName + " to local Planet Database")

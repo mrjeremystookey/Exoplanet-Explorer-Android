@@ -32,18 +32,17 @@ class ExoplanetApplication: Application(), Configuration.Provider {
 
     //Syncs planet list on startup and then every week
     private fun periodicBackgroundWork(){
-        Timber.d("Starting background planet sync")
+        Timber.d("startup planet sync")
         val planetSyncWorkRequest = PeriodicWorkRequestBuilder<ExoplanetCacheUpdateWorker>(7, TimeUnit.DAYS)
             .addTag("STARTUP_PLANET_SYNC")
+            .setInitialDelay(90, TimeUnit.SECONDS)
             .build()
         workManager.enqueue(planetSyncWorkRequest)
     }
-
 
 
     override fun getWorkManagerConfiguration() = Configuration.Builder()
         .setWorkerFactory(workerFactory)
         .setMinimumLoggingLevel(android.util.Log.INFO)
         .build()
-
 }
