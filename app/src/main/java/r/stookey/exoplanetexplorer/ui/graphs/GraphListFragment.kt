@@ -23,6 +23,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
+import r.stookey.exoplanetexplorer.viewmodels.GraphViewModel
 
 //Displays list of graphs that can be selected, upon click navigates to GraphFragment which displays selected graph
 //This page gets its info from GraphViewModel

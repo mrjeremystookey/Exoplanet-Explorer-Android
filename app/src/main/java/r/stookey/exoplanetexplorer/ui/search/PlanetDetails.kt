@@ -38,21 +38,21 @@ fun PlanetDetails(planet: Planet, navigateToReference: (url: String) -> Unit) {
         item {
             Column {
                 Text("Planet Parameters:", color = textColor, fontSize = 24.sp)
-                Text("Planet orbit period: ${planet.planetaryOrbitPeriod} days", color = textColor)
+                Text("Planet orbit period, days: ${planet.planetaryOrbitPeriod}", color = textColor)
                 Text("Mass, Earth: ${planet.planetaryMassEarth}", color = textColor)
                 Text("Radius, Earth: ${planet.planetaryRadiusEarth}", color = textColor)
                 Text("Radius, Jupiter: ${planet.planetaryRadiusJupiter}", color = textColor)
                 Text("Mass, Jupiter: ${planet.planetaryMassJupiter}", color = textColor)
-                Text("Planet density: ${planet.planetDensity} g/cm**3", color = textColor)
-                Text("Planet transit midpoint: ${planet.planetaryTransitMidpoint} days",
+                Text("Planet density,  g/cm**3: ${planet.planetDensity}", color = textColor)
+                Text("Planet transit midpoint, days: ${planet.planetaryTransitMidpoint}",
                     color = textColor)
                 Text("Orbital inclination: ${planet.planetaryOrbitalInclination}",
                     color = textColor)
                 Text("Orbital eccentricity: ${planet.planetaryOrbitalEccentricity}",
                     color = textColor)
-                Text("Orbit semi-major axis: ${planet.orbitSemiMajorAxis} AU", color = textColor)
-                Text("Insolation Flux: ${planet.planetaryInsolationFlux}", color = textColor)
-                Text("Equilibrium Temperature: ${planet.planetaryEquilibriumTemperature} K", color = textColor)
+                Text("Orbit semi-major axis, AU: ${planet.orbitSemiMajorAxis}", color = textColor)
+                Text("Insolation Flux, Earth Flux: ${planet.planetaryInsolationFlux}", color = textColor)
+                Text("Equilibrium Temperature, Kelvin: ${planet.planetaryEquilibriumTemperature}", color = textColor)
             }
             Divider(thickness = dividerThickness, modifier = dividerModifier)
             Column {

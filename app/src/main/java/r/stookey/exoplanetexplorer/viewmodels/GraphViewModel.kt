@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.ui.graphs
+package r.stookey.exoplanetexplorer.viewmodels
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State

@@ -18,11 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
-import r.stookey.exoplanetexplorer.domain.SortStatus
 import r.stookey.exoplanetexplorer.ui.DropDownList
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
 import r.stookey.exoplanetexplorer.ui.graphs.plots.ScatterPlot
+import r.stookey.exoplanetexplorer.viewmodels.GraphViewModel
 import timber.log.Timber
 
 
