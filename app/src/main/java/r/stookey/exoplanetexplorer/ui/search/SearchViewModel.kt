@@ -57,7 +57,8 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
         SortStatus.EquilibriumTemperature,
         SortStatus.SemiMajorAxis,
         SortStatus.Period,
-        SortStatus.Density))
+        SortStatus.Density)
+    )
     val sortList: State<List<SortStatus>> = _sortList
 
 

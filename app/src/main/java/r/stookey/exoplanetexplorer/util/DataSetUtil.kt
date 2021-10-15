@@ -154,18 +154,28 @@ class DataSetUtil {
             val customEntry = Entry()
             //How to add x and y value to planet.xValue and planet.yValue
             when(xValue){
-                "EarthMass" -> {if (planet.planetaryMassEarth!= null) customEntry.x = scaleValues(planet.planetaryMassEarth)}
-                "EarthRadius" -> {if (planet.planetaryRadiusEarth!= null) customEntry.x = scaleValues(planet.planetaryRadiusEarth)}
-                "Density" -> {if (planet.planetDensity!= null) customEntry.x = scaleValues(planet.planetDensity)}
-                "JupiterMass" -> {if (planet.planetaryMassJupiter!= null) customEntry.x = scaleValues(planet.planetaryMassJupiter)}
-                "Period" -> {if (planet.planetaryOrbitPeriod!= null) customEntry.x = scaleValues(planet.planetaryOrbitPeriod)}
+                "Mass, Earth" -> {if (planet.planetaryMassEarth!= null) customEntry.x = scaleValues(planet.planetaryMassEarth)}
+                "Radius, Earth" -> {if (planet.planetaryRadiusEarth!= null) customEntry.x = scaleValues(planet.planetaryRadiusEarth)}
+                "Mass, Jupiter" -> {if (planet.planetaryMassJupiter!= null) customEntry.x = scaleValues(planet.planetaryMassJupiter)}
+                "Radius, Jupiter" -> {if (planet.planetaryRadiusJupiter!= null) customEntry.x = scaleValues(planet.planetaryRadiusJupiter)}
+                "Insolation, Earth Flux" -> {if (planet.planetaryInsolationFlux!= null) customEntry.x = scaleValues(planet.planetaryInsolationFlux)}
+                "Eccentricity" -> {if (planet.planetaryOrbitalEccentricity!= null) customEntry.x = scaleValues(planet.planetaryOrbitalEccentricity)}
+                "Equilibrium Temperature, K" -> {if (planet.planetaryEquilibriumTemperature!= null) customEntry.x = scaleValues(planet.planetaryEquilibriumTemperature)}
+                "Semi-Major Axis, AU" -> {if (planet.orbitSemiMajorAxis!= null) customEntry.x = scaleValues(planet.orbitSemiMajorAxis)}
+                "Period, Days" -> {if (planet.planetaryOrbitPeriod!= null) customEntry.x = scaleValues(planet.planetaryOrbitPeriod)}
+                "Density, g/cm**3" -> {if (planet.planetDensity!= null) customEntry.x = scaleValues(planet.planetDensity)}
             }
             when(yValue){
-                "EarthMass" -> {if (planet.planetaryMassEarth!= null) customEntry.y = scaleValues(planet.planetaryMassEarth)}
-                "EarthRadius" -> {if (planet.planetaryRadiusEarth!= null) customEntry.y = scaleValues(planet.planetaryRadiusEarth)}
-                "Density" -> {if (planet.planetDensity!= null) customEntry.y = scaleValues(planet.planetDensity)}
-                "JupiterMass" -> {if (planet.planetaryMassJupiter!= null) customEntry.y = scaleValues(planet.planetaryMassJupiter)}
-                "Period" -> {if (planet.planetaryOrbitPeriod!= null) customEntry.y = scaleValues(planet.planetaryOrbitPeriod)}
+                "Mass, Earth" -> {if (planet.planetaryMassEarth!= null) customEntry.y = scaleValues(planet.planetaryMassEarth)}
+                "Radius, Earth" -> {if (planet.planetaryRadiusEarth!= null) customEntry.y = scaleValues(planet.planetaryRadiusEarth)}
+                "Mass, Jupiter" -> {if (planet.planetaryMassJupiter!= null) customEntry.y = scaleValues(planet.planetaryMassJupiter)}
+                "Radius, Jupiter" -> {if (planet.planetaryRadiusJupiter!= null) customEntry.y = scaleValues(planet.planetaryRadiusJupiter)}
+                "Insolation, Earth Flux" -> {if (planet.planetaryInsolationFlux!= null) customEntry.y = scaleValues(planet.planetaryInsolationFlux)}
+                "Eccentricity" -> {if (planet.planetaryOrbitalEccentricity!= null) customEntry.y = scaleValues(planet.planetaryOrbitalEccentricity)}
+                "Equilibrium Temperature, K" -> {if (planet.planetaryEquilibriumTemperature!= null) customEntry.y = scaleValues(planet.planetaryEquilibriumTemperature)}
+                "Semi-Major Axis, AU" -> {if (planet.orbitSemiMajorAxis!= null) customEntry.y = scaleValues(planet.orbitSemiMajorAxis)}
+                "Period, Days" -> {if (planet.planetaryOrbitPeriod!= null) customEntry.y = scaleValues(planet.planetaryOrbitPeriod)}
+                "Density, g/cm**3" -> {if (planet.planetDensity!= null) customEntry.y = scaleValues(planet.planetDensity)}
             }
             planetEntryList.add(customEntry)
         }

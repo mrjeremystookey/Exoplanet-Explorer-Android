@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.domain.Graph
 import r.stookey.exoplanetexplorer.domain.Planet
+import r.stookey.exoplanetexplorer.domain.SortStatus
 import r.stookey.exoplanetexplorer.repository.GraphRepositoryImpl
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,7 +23,15 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
     private val planetsList: MutableState<List<Planet>> = mutableStateOf(listOf())
 
-    private val _graphList: MutableState<List<String>> = mutableStateOf(listOf())
+    private val _graphList: MutableState<List<String>> = mutableStateOf(listOf(
+        "Detections Per Year",
+        "Mass - Period",
+        "Radius - Period",
+        "Density - Radius",
+        "Eccentricity - Period",
+        "Density - Mass",
+        "EarthMass - EarthRadius")
+    )
     val graphList: State<List<String>> = _graphList
 
     //Data to be sent to Fragment, Scatter or Bar Data
@@ -47,13 +56,19 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     val isCustom: State<Boolean> = _isCustom
     private var _selectedXData: MutableState<String> = mutableStateOf("")
     private var _selectedYData: MutableState<String> = mutableStateOf("")
-    private var myCustomGraph: MutableState<Graph> = mutableStateOf(Graph("null", emptyList(), null, null))
+    private var myCustomGraph: MutableState<Graph> = mutableStateOf(Graph("null", emptyList(),
+        null, null))
     private val _attributeList: MutableState<List<String>> = mutableStateOf(listOf(
-        "EarthMass",
-        "EarthRadius",
-        "Density",
-        "JupiterMass",
-        "Period")
+        SortStatus.EarthMass.units,
+        SortStatus.EarthRadius.units,
+        SortStatus.JupiterMass.units,
+        SortStatus.JupiterRadius.units,
+        SortStatus.Insolation.units,
+        SortStatus.OrbitalEccentricity.units,
+        SortStatus.EquilibriumTemperature.units,
+        SortStatus.SemiMajorAxis.units,
+        SortStatus.Period.units,
+        SortStatus.Density.units)
     )
     val attributeList: State<List<String>> = _attributeList
 
@@ -62,34 +77,11 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
     init {
         Timber.d("GraphViewModel initialized")
-        initializeListOfPlanets()
-        createGraphList()
-    }
-
-    private fun initializeListOfPlanets() {
         viewModelScope.launch {
             repo.getAllPlanetsFromCache.collect { planets ->
                 planetsList.value = planets
             }
         }
-        if(planetsList.value.isNotEmpty()){
-            createGraphList()
-        }
-    }
-
-    //List of Pre-Generated Plots
-    private fun createGraphList(){
-        val listOfGraphs = mutableListOf<String>()
-        //Bar
-        listOfGraphs.add("Detections Per Year")
-        //Scatter
-        listOfGraphs.add("Mass - Period")
-        listOfGraphs.add("Radius - Period")
-        listOfGraphs.add("Density - Radius")
-        listOfGraphs.add("Eccentricity - Period")
-        listOfGraphs.add("Density - Mass")
-        listOfGraphs.add("EarthMass - EarthRadius")
-        _graphList.value = listOfGraphs
     }
 
 
