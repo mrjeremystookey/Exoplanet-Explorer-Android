@@ -39,16 +39,25 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
     private var _isBar: MutableState<Boolean> = mutableStateOf(true)
     val isBar: State<Boolean> = _isBar
 
-    private var _isCustom: MutableState<Boolean> = mutableStateOf(false)
-    val isCustom: State<Boolean> = _isCustom
-
 
 
     //Used for Custom Distributions
     //Updated via dropdown menus on Custom Distribution Graph page
+    private var _isCustom: MutableState<Boolean> = mutableStateOf(false)
+    val isCustom: State<Boolean> = _isCustom
     private var _selectedXData: MutableState<String> = mutableStateOf("")
     private var _selectedYData: MutableState<String> = mutableStateOf("")
     private var myCustomGraph: MutableState<Graph> = mutableStateOf(Graph("null", emptyList(), null, null))
+    private val _attributeList: MutableState<List<String>> = mutableStateOf(listOf(
+        "EarthMass",
+        "EarthRadius",
+        "Density",
+        "JupiterMass",
+        "Period")
+    )
+    val attributeList: State<List<String>> = _attributeList
+
+
 
 
     init {

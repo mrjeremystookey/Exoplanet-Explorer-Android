@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import r.stookey.exoplanetexplorer.domain.SortStatus
 import r.stookey.exoplanetexplorer.ui.DropDownList
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.graphs.plots.BarChart
@@ -30,13 +31,7 @@ import timber.log.Timber
 class  GraphFragment : Fragment() {
 
     private val graphViewModel: GraphViewModel by activityViewModels()
-    private val attributeList = listOf(
-        "EarthMass",
-        "EarthRadius",
-        "Density",
-        "JupiterMass",
-        "Period",
-    )
+
 
     override fun onStart() {
         super.onStart()
@@ -115,7 +110,7 @@ class  GraphFragment : Fragment() {
                 )
                 DropDownList(
                     requestToOpen = isOpen.value,
-                    list = attributeList,
+                    list = graphViewModel.attributeList.value,
                     openCloseOfDropDownList,
                     userSelectedString
                 )
@@ -155,7 +150,7 @@ class  GraphFragment : Fragment() {
                 )
                 DropDownList(
                     requestToOpen = isOpen.value,
-                    list = attributeList,
+                    list = graphViewModel.attributeList.value,
                     openCloseOfDropDownList,
                     userSelectedString
                 )

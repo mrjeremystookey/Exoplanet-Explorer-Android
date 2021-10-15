@@ -120,9 +120,9 @@ class SearchFragment : Fragment() {
                             Timber.d("expanded value changed")
                         })
                     {
-                        Text(text = "Sort By",
+                        Text(text = "Sort",
                             color = MaterialTheme.colors.secondary,
-                            fontSize = 14.sp)
+                            fontSize = 16.sp)
                         IconButton(
                             modifier = Modifier
                                 .fillMaxSize()
