@@ -2,9 +2,7 @@ package r.stookey.exoplanetexplorer.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
@@ -15,10 +13,8 @@ import r.stookey.exoplanetexplorer.di.IoDispatcher
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetFts
 import r.stookey.exoplanetexplorer.network.ExoplanetApiService
-import r.stookey.exoplanetexplorer.cache.ExoplanetCacheUpdateWorker
 import r.stookey.exoplanetexplorer.util.PlanetDtoImpl
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 

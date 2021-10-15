@@ -3,15 +3,12 @@ package r.stookey.exoplanetexplorer.ui.test
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import r.stookey.exoplanetexplorer.cache.ExoplanetCacheUpdateWorker
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
 import javax.inject.Inject
@@ -41,13 +38,6 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl,
     }
 
 
-    fun doSomeWork(){
-        val testPlanetSyncWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<ExoplanetCacheUpdateWorker>()
-            .addTag("CHECK_NEW_PLANETS")
-            .build()
-        Timber.d("one time work request created ${testPlanetSyncWorkRequest.id}")
-        Timber.d("status of one time work request: ${workManager.getWorkInfoById(testPlanetSyncWorkRequest.id)}")
-    }
 
 
 

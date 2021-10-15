@@ -2,7 +2,6 @@ package r.stookey.exoplanetexplorer
 
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
-import androidx.lifecycle.Observer
 import androidx.work.Configuration
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -38,6 +37,20 @@ class ExoplanetApplication: Application(), Configuration.Provider {
             .setInitialDelay(90, TimeUnit.SECONDS)
             .build()
         workManager.enqueue(planetSyncWorkRequest)
+        //Keeps track of number of planets added by background cache process
+        /*workManager.getWorkInfosByTagLiveData("STARTUP_PLANET_SYNC").observeForever { info ->
+            Timber.d("info size: ${info.size}")
+            info.forEach {
+                Timber.d("workInfo: ${it.outputData}")
+            }
+            *//*if(info[0] != null){
+                val number =  info[0].outputData.keyValueMap.getValue("NUMBER_ADDED")
+                Timber.d("Number added: $number")
+            }*//*
+        }*/
+        /*workManager.getWorkInfosByTagLiveData("STARTUP_PLANET_SYNC").value?.forEach {
+            Timber.d("work info: ${it.outputData}")
+        }*/
     }
 
 

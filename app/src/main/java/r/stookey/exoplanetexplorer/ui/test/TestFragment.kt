@@ -42,12 +42,6 @@ class TestFragment : Fragment() {
                     backgroundColor = MaterialTheme.colors.background,
                     content = {
                         Column {
-                            Button(
-                                modifier = Modifier.padding(16.dp),
-                                onClick = { testViewModel.doSomeWork() },
-                            ) {
-                                Text("Do some work")
-                            }
                             Divider(thickness = dividerThickness, modifier = dividerModifier)
                             Button(
                                 modifier = Modifier.padding(16.dp),

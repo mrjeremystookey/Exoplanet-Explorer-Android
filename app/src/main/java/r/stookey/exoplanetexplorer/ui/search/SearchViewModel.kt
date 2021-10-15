@@ -73,17 +73,9 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : Vi
         }
 
 
-        //Keeps track of number of planets added by background cache process
-        /*repo.workManager.getWorkInfosByTagLiveData("STARTUP_PLANET_SYNC").observeForever { info ->
-            if(info[0] != null){
-                val number =  info[0].outputData.keyValueMap.getValue("NUMBER_ADDED")
-                Timber.d("$number")
-            }
-        }*/
-
 
         //Should be removed when viewModel is shut otherwise leaks
-        //Lets ViewModel know when Repo is done caching planets so that Snackbar composable can be shown
+        //Lets ViewModel know when Repo is done caching planets so that SnackBar composable can be shown
         repo.doneAdding.observeForever {
             _cacheState.value = it == true
         }

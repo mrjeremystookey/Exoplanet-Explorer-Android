@@ -12,7 +12,6 @@ import com.android.volley.toolbox.RequestFuture
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import r.stookey.exoplanetexplorer.network.Urls
@@ -46,8 +45,9 @@ class ExoplanetCacheUpdateWorker @AssistedInject constructor(
                         numberOfPlanetsAdded++
                     }
                 }
-                Timber.d("added $numberOfPlanetsAdded to cache")
-                Result.success(workDataOf("NUMBER_ADDED" to numberOfPlanetsAdded))
+                val data = workDataOf("NUMBER_ADDED" to numberOfPlanetsAdded)
+                Timber.d("added ${data.keyValueMap} to cache")
+                Result.success(data)
             }
         } catch (throwable: Throwable){
             Timber.e("${throwable.printStackTrace()}")
