@@ -36,6 +36,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.R
 import r.stookey.exoplanetexplorer.databinding.FragmentSearchBinding
+import r.stookey.exoplanetexplorer.domain.SortStatus
 import r.stookey.exoplanetexplorer.ui.compose.*
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import timber.log.Timber
@@ -139,7 +140,7 @@ class SearchFragment : Fragment() {
                         modifier = Modifier
                             .wrapContentSize()
                             .background(MaterialTheme.colors.primaryVariant),
-                        content = { SortMenu() },
+                        content = { searchViewModel.sortList.value.forEach { SortItem(sort = it) } },
                         offset = DpOffset(10.dp, 8.dp),
                         expanded = expanded.value,
                         onDismissRequest = { expanded.value = false },
@@ -148,17 +149,6 @@ class SearchFragment : Fragment() {
             }
         }
     }
-
-    //Shown when Sort button in Sort menu is clicked
-    @Composable
-    fun SortMenu(){
-            Column(Modifier.fillMaxSize()) {
-                SortItem(sort = SortStatus.EarthMass)
-                SortItem(sort = SortStatus.EarthRadius)
-                SortItem(sort = SortStatus.Period)
-                SortItem(sort = SortStatus.Density)
-            }
-        }
 
     //Items shown when sort menu is clicked
     @Composable

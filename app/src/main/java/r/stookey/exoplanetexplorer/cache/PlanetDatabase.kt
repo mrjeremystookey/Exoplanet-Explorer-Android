@@ -10,16 +10,18 @@ import androidx.work.WorkManager
 import r.stookey.exoplanetexplorer.domain.Planet
 import r.stookey.exoplanetexplorer.domain.PlanetFts
 import timber.log.Timber
+import javax.inject.Inject
 
 @Database(entities = [Planet::class, PlanetFts::class], version = 4, exportSchema = false)
-abstract class PlanetDatabase: RoomDatabase() {
+abstract class PlanetDatabase(): RoomDatabase() {
 
     abstract fun planetDao(): PlanetDao
 
 
-
     companion object{
         @Volatile private var instance: PlanetDatabase? = null
+
+
 
         fun getInstance(context: Context): PlanetDatabase {
             return instance ?: synchronized(this) {
@@ -28,6 +30,7 @@ abstract class PlanetDatabase: RoomDatabase() {
         }
 
     private fun buildDatabase(context: Context): PlanetDatabase {
+
         return Room.databaseBuilder(context, PlanetDatabase::class.java, "planets-db")
             .addCallback(
                 object : RoomDatabase.Callback() {
@@ -35,12 +38,14 @@ abstract class PlanetDatabase: RoomDatabase() {
                         super.onCreate(db)
                         Timber.i("planets-db created and pre-populating the database")
                         //Pre-Populate the database on create
+                        //Should be injected
                         WorkManager.getInstance(context)
                             .enqueue(
-                                OneTimeWorkRequestBuilder<ExoplanetCacheUpdateWorker>()
+                                OneTimeWorkRequestBuilder<CacheUpdateWorker>()
                                     .addTag("DB_CREATE_SYNC")
                                 .build()
                             )
+
                     }
                 }
             ).fallbackToDestructiveMigration()

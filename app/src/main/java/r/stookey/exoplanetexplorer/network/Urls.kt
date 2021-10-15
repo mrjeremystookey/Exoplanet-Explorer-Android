@@ -12,7 +12,10 @@ object Urls {
             "micro_flag,etv_flag,ima_flag,dkin_flag,"+
             "pl_orbper_reflink, pl_orbsmax, pl_orbsmax_reflink," +
             "pl_dens, pl_dens_reflink,pl_bmasse_reflink," +
-            "pl_tranmid, pl_tranmid_reflink"
+            "pl_tranmid, pl_tranmid_reflink," +
+            "pl_radj, pl_radj_reflink, pl_bmassj_reflink," +
+            "pl_orbeccen_reflink, pl_insol, pl_insol_reflink," +
+            "pl_eqt"
 
     const val ALL_PLANETS_URL =
         "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+distinct(pl_name),$PARAMETERS%20from+%20pscomppars+order+by+pl_name+asc+&format=json"

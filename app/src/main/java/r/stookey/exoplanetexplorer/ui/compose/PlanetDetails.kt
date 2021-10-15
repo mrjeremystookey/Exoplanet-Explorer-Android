@@ -87,6 +87,10 @@ fun PlanetDetails(planet: Planet, navigateToReference: (url: String) -> Unit) {
                     planet.orbitSemiMajorAxisReference?.let { extractUrl(it) },
                     planet.orbitSemiMajorAxisReference?.let { extractStr(it) }, navigateToReference = navigateToReference
                 )
+                AnnotatedClickableText("Planetary Insolation Flux reference",
+                    planet.planetaryInsolationFluxReference?.let { extractUrl(it) },
+                    planet.planetaryInsolationFluxReference?.let { extractStr(it) }, navigateToReference = navigateToReference
+                )
             }
         }
     }

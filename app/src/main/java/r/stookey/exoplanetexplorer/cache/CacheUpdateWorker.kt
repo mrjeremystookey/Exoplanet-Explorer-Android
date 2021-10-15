@@ -20,7 +20,7 @@ import timber.log.Timber
 
 
 @HiltWorker
-class ExoplanetCacheUpdateWorker @AssistedInject constructor(
+class CacheUpdateWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private var queue: RequestQueue,

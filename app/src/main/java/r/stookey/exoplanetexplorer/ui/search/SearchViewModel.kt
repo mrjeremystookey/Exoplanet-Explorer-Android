@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import r.stookey.exoplanetexplorer.domain.Planet
+import r.stookey.exoplanetexplorer.domain.SortStatus
 import r.stookey.exoplanetexplorer.repository.RepositoryImpl
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,13 +23,6 @@ sealed class UiState {
     object Empty: UiState()
 }
 
-
-sealed class SortStatus(var units: String) {
-    object EarthMass: SortStatus("Mass, Earth")
-    object EarthRadius: SortStatus("Radius, Earth")
-    object Period: SortStatus("Period, Days")
-    object Density: SortStatus("Density")
-}
 
 
 @HiltViewModel
@@ -56,6 +50,22 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
     val numberAdded: LiveData<Int>
         get() = _numberAdded
 
+    var list = listOf(
+        SortStatus.EarthMass,
+        SortStatus.EarthRadius,
+        SortStatus.JupiterMass,
+        SortStatus.JupiterRadius,
+        SortStatus.Insolation,
+        SortStatus.EquilibriumTemperature,
+        SortStatus.SemiMajorAxis,
+        SortStatus.Period,
+        SortStatus.Density,
+    )
+    private val _sortList: MutableState<List<SortStatus>> = mutableStateOf(list)
+    val sortList: State<List<SortStatus>> = _sortList
+
+
+
 
     init {
         Timber.d("SearchViewModel initialized")
@@ -72,6 +82,8 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
             }
             Timber.d("number of Planets from cache: " + _planetsList.value.size)
         }
+
+
 
         //Should be removed when viewModel is shut otherwise leaks
         //Lets ViewModel know when Repo is done caching planets so that SnackBar composable can be shown
@@ -117,6 +129,25 @@ class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, priv
             SortStatus.Density -> {
                 _planetsList.value.sortedBy { it.planetDensity }.filter { it.planetDensity != null }
             }
+            SortStatus.Insolation -> {
+                _planetsList.value.sortedBy { it.planetaryInsolationFlux }.filter { it.planetaryInsolationFlux != null }
+            }
+            SortStatus.JupiterMass -> {
+                _planetsList.value.sortedBy { it.planetaryMassJupiter }.filter { it.planetaryMassJupiter != null }
+            }
+            SortStatus.JupiterRadius -> {
+                _planetsList.value.sortedBy { it.planetaryRadiusJupiter }.filter { it.planetaryRadiusJupiter != null }
+            }
+            SortStatus.SemiMajorAxis -> {
+                _planetsList.value.sortedBy { it.orbitSemiMajorAxis }.filter { it.orbitSemiMajorAxis != null }
+            }
+            SortStatus.OrbitalEccentricity -> {
+                _planetsList.value.sortedBy { it.planetaryOrbitalEccentricity }.filter { it.planetaryOrbitalEccentricity != null }
+            }
+            SortStatus.EquilibriumTemperature -> {
+                _planetsList.value.sortedBy { it.planetaryEquilibriumTemperature }.filter { it.planetaryEquilibriumTemperature != null }
+            }
+
         }
         _ascendingState.value = true
         _planetsList.value = sortedList

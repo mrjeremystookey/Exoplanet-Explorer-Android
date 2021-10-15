@@ -7,7 +7,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.github.mikephil.charting.utils.Utils
 import dagger.hilt.android.HiltAndroidApp
-import r.stookey.exoplanetexplorer.cache.ExoplanetCacheUpdateWorker
+import r.stookey.exoplanetexplorer.cache.CacheUpdateWorker
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class ExoplanetApplication: Application(), Configuration.Provider {
     //Syncs planet list on startup and then every week
     private fun periodicBackgroundWork(){
         Timber.d("startup planet sync")
-        val planetSyncWorkRequest = PeriodicWorkRequestBuilder<ExoplanetCacheUpdateWorker>(7, TimeUnit.DAYS)
+        val planetSyncWorkRequest = PeriodicWorkRequestBuilder<CacheUpdateWorker>(7, TimeUnit.DAYS)
             .addTag("STARTUP_PLANET_SYNC")
             .setInitialDelay(90, TimeUnit.SECONDS)
             .build()

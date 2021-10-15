@@ -222,6 +222,39 @@ data class Planet(
     @Json(name = "pl_tranmid_reflink")
     val planetaryTransitMidpointReference: String? = null,
 
+    @ColumnInfo(name = "pl_radj")
+    @Json(name = "pl_radj")
+    val planetaryRadiusJupiter: Double? = null,
 
+    @ColumnInfo(name = "pl_radj_reflink")
+    @Json(name = "pl_radj_reflink")
+    val planetaryRadiusJupiterReference: String? = null,
+
+    @ColumnInfo(name = "pl_bmassj_reflink")
+    @Json(name = "pl_bmassj_reflink")
+    val planetaryMassJupiterReference: String? = null,
+
+    @ColumnInfo(name = "pl_orbeccen_reflink")
+    @Json(name = "pl_orbeccen_reflink")
+    val planetaryOrbitalEccentricityReference: String? = null,
+
+    //Insolation flux is another way to give the equilibrium temperature. It's given in units relative to those measured for the Earth from the Sun.
+    @ColumnInfo(name = "pl_insol")
+    @Json(name = "pl_insol")
+    val planetaryInsolationFlux: Double? = null,
+
+    @ColumnInfo(name = "pl_insol_reflink")
+    @Json(name = "pl_insol_reflink")
+    val planetaryInsolationFluxReference: String? = null,
+
+    //The equilibrium temperature of the planet as modeled by a black body heated only by its host star, or for directly imaged planets, the effective temperature of the planet required to match the measured luminosity if the planet were a black body    @ColumnInfo(name = "pl_eqt")
+    @ColumnInfo(name = "pl_eqt")
+    @Json(name = "pl_eqt")
+    val planetaryEquilibriumTemperature: Double? = null,
+
+    @ColumnInfo(name = "pl_eqt_reflink")
+    @Json(name = "pl_eqt_reflink")
+    val planetaryEquilibriumTemperatureReference: String? = null,
     )
+
 
