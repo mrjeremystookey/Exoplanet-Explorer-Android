@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.databinding.FragmentTestBinding
+import r.stookey.exoplanetexplorer.viewmodels.TestViewModel
 
 @AndroidEntryPoint
 class TestFragment : Fragment() {
