@@ -1,6 +1,7 @@
 package r.stookey.exoplanetexplorer
 
 import android.app.Application
+import androidx.fragment.app.activityViewModels
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.PeriodicWorkRequestBuilder
@@ -8,6 +9,7 @@ import androidx.work.WorkManager
 import com.github.mikephil.charting.utils.Utils
 import dagger.hilt.android.HiltAndroidApp
 import r.stookey.exoplanetexplorer.cache.CacheUpdateWorker
+import r.stookey.exoplanetexplorer.ui.search.SearchViewModel
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
