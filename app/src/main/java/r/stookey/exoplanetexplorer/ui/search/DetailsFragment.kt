@@ -21,6 +21,7 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
 import r.stookey.exoplanetexplorer.ui.search.details.PlanetDetails
+import r.stookey.exoplanetexplorer.viewmodels.SearchViewModel
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {

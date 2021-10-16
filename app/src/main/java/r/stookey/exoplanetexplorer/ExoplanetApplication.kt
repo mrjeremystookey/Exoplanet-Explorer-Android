@@ -1,7 +1,6 @@
 package r.stookey.exoplanetexplorer
 
 import android.app.Application
-import androidx.fragment.app.activityViewModels
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.PeriodicWorkRequestBuilder
@@ -9,7 +8,6 @@ import androidx.work.WorkManager
 import com.github.mikephil.charting.utils.Utils
 import dagger.hilt.android.HiltAndroidApp
 import r.stookey.exoplanetexplorer.cache.CacheUpdateWorker
-import r.stookey.exoplanetexplorer.ui.search.SearchViewModel
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -31,6 +29,7 @@ class ExoplanetApplication: Application(), Configuration.Provider {
     }
 
 
+
     //Syncs planet list on startup and then every week
     private fun periodicBackgroundWork(){
         Timber.d("startup planet sync")
@@ -44,6 +43,6 @@ class ExoplanetApplication: Application(), Configuration.Provider {
 
     override fun getWorkManagerConfiguration() = Configuration.Builder()
         .setWorkerFactory(workerFactory)
-        .setMinimumLoggingLevel(android.util.Log.INFO)
+        .setMinimumLoggingLevel(if (BuildConfig.DEBUG) android.util.Log.DEBUG else android.util.Log.ERROR)
         .build()
 }

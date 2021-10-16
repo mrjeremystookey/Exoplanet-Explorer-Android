@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.ui.search
+package r.stookey.exoplanetexplorer.viewmodels
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
@@ -26,7 +26,9 @@ sealed class UiState {
 
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(private val repo: RepositoryImpl, private val workManager: WorkManager) : ViewModel() {
+class SearchViewModel @Inject constructor(
+    private val repo: RepositoryImpl,
+    private val workManager: WorkManager) : ViewModel() {
 
 
 

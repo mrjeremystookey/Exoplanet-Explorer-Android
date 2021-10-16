@@ -39,6 +39,8 @@ import r.stookey.exoplanetexplorer.databinding.FragmentSearchBinding
 import r.stookey.exoplanetexplorer.domain.SortStatus
 import r.stookey.exoplanetexplorer.ui.compose.*
 import r.stookey.exoplanetexplorer.ui.compose.theme.ExoplanetExplorerTheme
+import r.stookey.exoplanetexplorer.viewmodels.SearchViewModel
+import r.stookey.exoplanetexplorer.viewmodels.UiState
 import timber.log.Timber
 
 @AndroidEntryPoint
