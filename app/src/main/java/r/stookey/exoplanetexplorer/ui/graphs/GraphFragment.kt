@@ -158,7 +158,7 @@ class  GraphFragment : Fragment() {
             Spacer(
                 modifier = Modifier
                     .padding(top = 8.dp)
-                    .matchParentSize()
+                    .matchParentSize()     
                     .background(Color.Transparent)
                     .clickable(
                         onClick = { isOpen.value = true }

@@ -26,6 +26,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -166,7 +167,7 @@ class SearchFragment : Fragment() {
             searchViewModel.onSortClicked(sort)
             expanded.value = false
         }) {
-            Text(modifier = textModifier, text = sort.units)
+            Text(modifier = textModifier, text = stringResource(id = sort.label!!))
         }
         Divider(dividerModifier, color = MaterialTheme.colors.secondaryVariant, thickness = 1.dp)
     }

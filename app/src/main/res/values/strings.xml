@@ -4,6 +4,19 @@
     <string name="title_search">Search</string>
     <string name="title_testing">Testing</string>
     <string name="title_graphs">Graphs</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Labels for sort units-->
+    <string name="earth_radius_label">Radius<sub>E</sub></string>
+    <string name="earth_mass_label">Mass<sub>E</sub></string>
+    <string name="jupiter_radius_label">Radius<sub>J</sub></string>
+    <string name="jupiter_mass_label">Mass<sub>J</sub></string>
+    <string name="insolation_earth_label">Flux<sub>E</sub></string>
+    <string name="density_label">g/(cm<sup>3</sup>)</string>
+    <string name="period_label">Days</string>
+    <string name="au_label">Astronomical Units</string>
+    <string name="equilibrium_temperature_label">Kelvin</string>
+    <string name="eccentricity_label">Eccentricity</string>
+
+
 </resources>

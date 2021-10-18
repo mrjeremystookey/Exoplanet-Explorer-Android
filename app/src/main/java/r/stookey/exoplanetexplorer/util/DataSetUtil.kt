@@ -1,4 +1,4 @@
-package r.stookey.exoplanetexplorer.util
+ package r.stookey.exoplanetexplorer.util
 
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.BarDataSet
@@ -11,7 +11,7 @@ import timber.log.Timber
 import kotlin.math.log10
 import kotlin.math.pow
 
-
+ 
 fun unscaleValues(cbr: Double): Float {
     val calcVal = 10.0.pow(cbr)
     return calcVal.toFloat()
