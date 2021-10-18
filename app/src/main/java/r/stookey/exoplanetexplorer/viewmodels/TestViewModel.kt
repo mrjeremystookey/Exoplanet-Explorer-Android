@@ -22,6 +22,7 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl,
     private val _query = mutableStateOf("")
     val query: State<String> = _query
 
+
     init {
         Timber.d("TestViewModel initialized")
     }
@@ -36,6 +37,11 @@ class TestViewModel @Inject constructor(private val repo: RepositoryImpl,
     fun crash(): Exception {
         throw RuntimeException("Test Crash")
     }
+
+
+
+
+
 
 
 

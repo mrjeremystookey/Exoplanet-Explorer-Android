@@ -1,9 +1,11 @@
 package r.stookey.exoplanetexplorer.util
 
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.ScatterDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import r.stookey.exoplanetexplorer.domain.Planet
 import timber.log.Timber
 import kotlin.math.log10
@@ -143,6 +145,29 @@ class DataSetUtil {
         Timber.d("${planetEntryList.size}")
         return BarDataSet(planetEntryList, label)
     }
+
+    //Doesn't currently work
+    fun createDiscoveryMethodDataSet(listOfPlanets: List<Planet>, label: String): BarDataSet{
+        val systemEntryList = mutableListOf<BarEntry>()
+        val planetarySystemList = listOfPlanets.groupBy { planet -> planet.isPlanetControversial }
+        val discoveryMethodList = listOfPlanets.groupBy { planet -> planet.discoveryMethod }
+
+        //Timber.d("grouped by hostname, showing keys: ${planetarySystemList.keys}")
+        discoveryMethodList.keys.forEach { discoveryMethod ->
+            Timber.d("discovery method: $discoveryMethod")
+            Timber.d("number of planets discovered by method: ${discoveryMethod?.length}")
+        }
+
+
+        val dataSet = BarDataSet(systemEntryList, label)
+        dataSet.valueFormatter = object: ValueFormatter(){
+            override fun getFormattedValue(value: Float, axis: AxisBase?): String {
+                return super.getFormattedValue(value, axis)
+            }
+        }
+        return dataSet
+    }
+
 
 
     //Custom Scatter Plot

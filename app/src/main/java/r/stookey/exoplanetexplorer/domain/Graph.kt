@@ -68,6 +68,11 @@ class Graph (var title: String,
                barData = detectionsPerYearDataSet
                isBar = true
            }
+           "Detections Per Discovery Method" -> {
+               val planetsPerPlanetarySystemDataSet = dataUtil.createDiscoveryMethodDataSet(listOfPlanets, title)
+               barData = planetsPerPlanetarySystemDataSet
+               isBar = true
+           }
         }
    }
 }
