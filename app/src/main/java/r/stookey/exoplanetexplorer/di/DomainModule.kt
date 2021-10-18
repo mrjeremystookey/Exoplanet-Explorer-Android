@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import r.stookey.exoplanetexplorer.util.DataSetUtil
 import r.stookey.exoplanetexplorer.util.PlanetDto
 import r.stookey.exoplanetexplorer.util.PlanetDtoImpl
 import timber.log.Timber
@@ -18,14 +19,21 @@ object DomainModule {
     @Singleton
     @Provides
     fun provideMoshi(): Moshi {
-        Timber.i("Moshi injected")
+        Timber.d("Moshi injected")
         return Moshi.Builder().build()
     }
 
     @Singleton
     @Provides
     fun providesDomainDtoImpl(): PlanetDto {
-        Timber.i("PlanetDto injected")
+        Timber.d("PlanetDto injected")
         return PlanetDtoImpl(provideMoshi())
+    }
+
+    @Singleton
+    @Provides
+    fun providesDataSetUtils(): DataSetUtil{
+        Timber.d("DataSetUtil injected")
+        return DataSetUtil()
     }
 }

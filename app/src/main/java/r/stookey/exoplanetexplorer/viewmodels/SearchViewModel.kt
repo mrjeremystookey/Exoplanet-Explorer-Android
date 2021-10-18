@@ -26,9 +26,7 @@ sealed class UiState {
 
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
-    private val repo: RepositoryImpl,
-    private val workManager: WorkManager) : ViewModel() {
+class SearchViewModel @Inject constructor(private val repo: RepositoryImpl) : ViewModel() {
 
 
 

@@ -15,7 +15,7 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun providesApplication(): ExoplanetApplication {
-        Timber.i("Exoplanet Application Created")
+        Timber.d("Exoplanet Application Created")
         return ExoplanetApplication()
     }
 }

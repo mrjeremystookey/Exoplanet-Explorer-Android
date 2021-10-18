@@ -45,7 +45,6 @@ abstract class PlanetDatabase(): RoomDatabase() {
                                     .addTag("DB_CREATE_SYNC")
                                 .build()
                             )
-
                     }
                 }
             ).fallbackToDestructiveMigration()

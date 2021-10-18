@@ -16,4 +16,5 @@ class GraphRepositoryImpl @Inject constructor(private var db: PlanetDatabase,
         get() = db.planetDao().getAllPlanets()
             .flowOn(ioDispatcher)
             .conflate()
+     
 }

@@ -27,7 +27,9 @@ object RepoModule {
                           workManager: WorkManager,
                           ioDispatcher: CoroutineDispatcher
     ): Repository {
-        Timber.i("RepositoryImpl injected")
+        Timber.d("RepositoryImpl injected")
         return RepositoryImpl(exoplanetApiService, planetMapper, planetDatabase, workManager ,ioDispatcher)
     }
+
+
 }

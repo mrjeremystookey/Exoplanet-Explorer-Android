@@ -19,14 +19,14 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideAppDatabase(@ApplicationContext context: Context): PlanetDatabase {
-        Timber.i("Planet Database injected")
+        Timber.d("Planet Database injected")
         return PlanetDatabase.getInstance(context)
     }
 
     @Singleton
     @Provides
     fun providePlanetDao(database: PlanetDatabase): PlanetDao {
-        Timber.i("Planet Dao created")
+        Timber.d("Planet Dao created")
         return database.planetDao()
     }
 

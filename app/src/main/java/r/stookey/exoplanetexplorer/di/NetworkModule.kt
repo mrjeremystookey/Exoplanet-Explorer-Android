@@ -20,20 +20,21 @@ object NetworkModule {
     @Singleton
     @Provides
     fun providesApiService(requestQueue: RequestQueue): ExoplanetApiService {
-        Timber.i("ExoplanetApiService injected")
+        Timber.d("ExoplanetApiService injected")
         return ExoplanetApiService(requestQueue)
     }
 
     @Singleton
     @Provides
     fun providesQueue(@ApplicationContext appContext: Context): RequestQueue {
-        Timber.i("RequestQueue injected")
+        Timber.d("RequestQueue injected")
         return Volley.newRequestQueue(appContext)
     }
 
     @Singleton
     @Provides
     fun providesWorkManager(@ApplicationContext appContext: Context): WorkManager {
+        Timber.d("WorkManager injected")
         return WorkManager.getInstance(appContext)
     }
 

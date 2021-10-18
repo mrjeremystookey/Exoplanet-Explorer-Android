@@ -4,13 +4,14 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.ScatterDataSet
 import r.stookey.exoplanetexplorer.util.DataSetUtil
 import timber.log.Timber
+import javax.inject.Inject
 
 
 class Graph (var title: String,
              private var listOfPlanets: List<Planet>,
              xValue: String?,
-             yValue: String? ) {
-
+             yValue: String?,
+) {
 
 
    var scatterData = ScatterDataSet(emptyList(), "")
