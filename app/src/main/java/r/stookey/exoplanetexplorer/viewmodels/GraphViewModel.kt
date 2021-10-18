@@ -25,7 +25,9 @@ class GraphViewModel @Inject constructor(private val repo: GraphRepositoryImpl) 
 
     private val _graphList: MutableState<List<String>> = mutableStateOf(listOf(
         "Detections Per Year",
+/*
         "Detections Per Discovery Method",
+*/
         "Mass - Period",
         "Radius - Period",
         "Density - Radius",

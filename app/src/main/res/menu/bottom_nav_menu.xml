@@ -12,9 +12,4 @@
         android:title="@string/title_graphs" />
 
 
-    <item
-        android:id="@+id/navigation_tester"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_testing" />
-
 </menu>
