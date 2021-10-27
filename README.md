@@ -8,12 +8,4 @@ Android app written in Kotlin and attempting to follow Clean Architecture princi
 Exoplanet Explorer is used for displaying, searching, and sorting a list of the discovered exoplanets - includes tools for displaying distributions of various planetary attributes. This list is updated periodically as new planets are added to the Caltech database. 
 
 
-#Libraries Used
-Moshi - Parsing of JSON from API
-Volley - HTTP calls to Caltech API 
-Room - Local cache and data persistence 
-Hilt / Dagger2 - Dependency Injection 
-Crashlytics - Crash Reporting in Firebase
-Firebase Analytics - used to log events inside app
-MPCharts - data visulation and plotting 
-WorkManager - background API calls and keeping local data up to date. 
+
