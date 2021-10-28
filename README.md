@@ -1,5 +1,5 @@
 ![feature_graphic](https://user-images.githubusercontent.com/10122547/139156847-182186d5-b0f2-4449-9e07-3c8faa7c1570.png)
-# Exoplanet-Explorer
+# Exoplanet Explorer
 
 
 #Overview 
