@@ -210,6 +210,7 @@ class SearchFragment : Fragment() {
                     }
                 }
             }
+            else -> {}
         }
     }
 
